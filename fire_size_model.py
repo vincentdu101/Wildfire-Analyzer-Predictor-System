@@ -61,26 +61,22 @@ sqlite_file = "./wildfires.sqlite"
 
 # connecting to the database file and saving the select
 conn = sqlite3.connect(sqlite_file)
-dataset = pd.read_sql_query("select * from Fires limit 10000;", conn)
-
+dataset = pd.read_sql_query("select * from Fires limit 100000;", conn)
 dataset = dataset.dropna()
 
+print("Remaining input after reducing none values: ", len(dataset))
+
 # split dataset into train and test lists
-X = dataset.iloc[:, [10, 11, 12, 13, 19, 20, 21, 22, 23, 24, 30, 31, 32, 34, 35, 36, 37]].values
+X = dataset.iloc[:, [34, 35, 30, 31]].values
 y = dataset.iloc[:, 29].values
 
 # encode the categorical data
-X = encodeCategoricalData(X, 1)
-X = encodeCategoricalData(X, 2)
-X = encodeCategoricalData(X, 3)
-X = encodeCategoricalData(X, 4)
-X = encodeCategoricalData(X, 9)
-X = encodeCategoricalData(X, 13)
-X = encodeCategoricalData(X, 16)
+X = encodeCategoricalData(X, 0)
+# X = encodeCategoricalData(X, 1)
 
-X = encodeHotEncoder(X, 16)
-X = encodeHotEncoder(X, 13)
-X = encodeHotEncoder(X, 9)
+X = encodeHotEncoder(X, 0)
+# X = encodeHotEncoder(X, 13)
+# X = encodeHotEncoder(X, 9)
 y = encodeOutputVariable(y)
 
 # split the dataset into the training and test set
@@ -97,7 +93,7 @@ X_test = sc.transform(X_test)
 classifier = Sequential()
 
 # adding the input layer and the first hidden layer
-classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 33))
+classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 21))
 
 # adding the second hidden layer
 classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
