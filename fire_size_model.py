@@ -57,17 +57,20 @@ def encodeHotEncoder(X, categoryIndex):
     X = X[:, 1:]
     return X
 
+def determineTotalTime(startDay, startTime, endDay, endTime):
+    minsPerDay = 24 * 60
+    totalStart = (int(startDay) * minsPerDay) + int(startTime)
+    totalEnd = (int(endDay) * minsPerDay) + int(endTime)
+    return totalEnd - totalStart
+
 sqlite_file = "./wildfires.sqlite"
 
 # connecting to the database file and saving the select
 conn = sqlite3.connect(sqlite_file)
-dataset = pd.read_sql_query("select * from Fires limit 100000;", conn)
-dataset = dataset.dropna()
-
-print("Remaining input after reducing none values: ", len(dataset))
+dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 
 # split dataset into train and test lists
-X = dataset.iloc[:, [34, 35, 30, 31]].values
+X = dataset.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]].values
 y = dataset.iloc[:, 29].values
 
 # encode the categorical data
@@ -93,7 +96,7 @@ X_test = sc.transform(X_test)
 classifier = Sequential()
 
 # adding the input layer and the first hidden layer
-classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 21))
+classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 48))
 
 # adding the second hidden layer
 classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
