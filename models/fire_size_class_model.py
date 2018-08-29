@@ -4,13 +4,14 @@
 # python3 -m pip install --user virtualenv
 # python3 -m virtualenv env
 # source env/bin/activate
-# python3 -m pip install numpy tensorflow pandas keras pysqlite3 sklearn
+# python3 -m pip install numpy tensorflow pandas keras pysqlite3 sklearn tensorflowjs
 
 import sqlite3
 import numpy as np
 import pandas as pd
 import keras
 import math
+import tensorflowjs as tfjs
 from keras.models import Sequential, model_from_yaml, load_model
 from keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
@@ -57,12 +58,6 @@ def encodeHotEncoder(X, categoryIndex):
     X = X[:, 1:]
     return X
 
-def determineTotalTime(startDay, startTime, endDay, endTime):
-    minsPerDay = 24 * 60
-    totalStart = (int(startDay) * minsPerDay) + int(startTime)
-    totalEnd = (int(endDay) * minsPerDay) + int(endTime)
-    return totalEnd - totalStart
-
 sqlite_file = "./wildfires.sqlite"
 
 # connecting to the database file and saving the select
@@ -70,16 +65,21 @@ conn = sqlite3.connect(sqlite_file)
 dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 
 # split dataset into train and test lists
-X = dataset.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]].values
+X = dataset.iloc[:, [10, 11, 12, 13, 19, 20, 21, 22, 23, 24, 30, 31, 32, 34, 35, 36, 37]].values
 y = dataset.iloc[:, 29].values
 
 # encode the categorical data
-X = encodeCategoricalData(X, 0)
-# X = encodeCategoricalData(X, 1)
+X = encodeCategoricalData(X, 1)
+X = encodeCategoricalData(X, 2)
+X = encodeCategoricalData(X, 3)
+X = encodeCategoricalData(X, 4)
+X = encodeCategoricalData(X, 9)
+X = encodeCategoricalData(X, 13)
+X = encodeCategoricalData(X, 16)
 
-X = encodeHotEncoder(X, 0)
-# X = encodeHotEncoder(X, 13)
-# X = encodeHotEncoder(X, 9)
+X = encodeHotEncoder(X, 16)
+X = encodeHotEncoder(X, 13)
+X = encodeHotEncoder(X, 9)
 y = encodeOutputVariable(y)
 
 # split the dataset into the training and test set
@@ -96,7 +96,7 @@ X_test = sc.transform(X_test)
 classifier = Sequential()
 
 # adding the input layer and the first hidden layer
-classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 48))
+classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 540))
 
 # adding the second hidden layer
 classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
@@ -127,7 +127,7 @@ print(cm)
 print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
 
 # save model
-classifier.save("model.h5")
+classifier.save("all.h5")
 
 # load model
 loaded_model = load_model("model.h5")
@@ -141,6 +141,8 @@ print("After model save")
 print(y_pred)
 print(cm)
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+
+tfjs.converters.save_keras_model(loaded_model, "./")
 
 
 
