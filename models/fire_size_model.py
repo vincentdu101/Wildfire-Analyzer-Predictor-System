@@ -1,10 +1,13 @@
 # https://hackernoon.com/what-is-one-hot-encoding-why-and-when-do-you-have-to-use-it-e3c6186d008f
 # https://medium.com/data-science-group-iitr/loss-functions-and-optimization-algorithms-demystified-bb92daff331c
+# https://www.kaggle.com/rtatman/188-million-us-wildfires
 
 # python3 -m pip install --user virtualenv
 # python3 -m virtualenv env
 # source env/bin/activate
 # python3 -m pip install numpy tensorflow pandas keras pysqlite3 sklearn
+
+
 
 import sqlite3
 import numpy as np
@@ -73,6 +76,16 @@ dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 # split dataset into train and test lists
 X = dataset.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]].values
 y = dataset.iloc[:, 29].values
+
+# 34|STATE|text(255)|0||0
+# 35|COUNTY|text(255)|0||0
+# 30|LATITUDE|float64|0||0
+# 31|LONGITUDE|float64|0||0
+# 23|STAT_CAUSE_CODE|float64|0||0
+# 21|DISCOVERY_DOY|int32|0||0
+# 22|DISCOVERY_TIME|text(4)|0||0
+# 26|CONT_DOY|int32|0||0
+# 27|CONT_TIME|text(4)|0||0
 
 # encode the categorical data
 X = encodeCategoricalData(X, 0)

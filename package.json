@@ -2,7 +2,16 @@
   "name": "wildfire_analysis_system",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.11.0",
+    "@tensorflow/tfjs-core": "^0.12.15",
+    "@tensorflow/tfjs-node": "^0.1.14",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "fetch": "^1.1.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/vincentdu101/Wildfire-Analyzer-Predictor-System.git"
   },
-  "author": "",
+  "author": "Vincent Du",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vincentdu101/Wildfire-Analyzer-Predictor-System/issues"
