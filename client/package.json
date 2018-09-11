@@ -1,0 +1,22 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.12.6",
+    "@tensorflow/tfjs-core": "^0.12.15",
+    "@tensorflow/tfjs-node": "^0.1.14",
+    "d3": "^5.7.0",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-scripts": "1.1.5",
+    "topojson": "^3.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "set-python": "npm config --global set python /usr/bin/python"
+  }
+}
