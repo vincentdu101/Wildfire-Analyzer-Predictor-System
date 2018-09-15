@@ -156,5 +156,5 @@ print(y_pred)
 print(cm)
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
-tfjs.converters.save_keras_model(loaded_model, "./")
+tfjs.converters.save_keras_model(loaded_model, "../")
 
