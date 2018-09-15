@@ -5,7 +5,7 @@
 # python3 -m pip install --user virtualenv
 # python3 -m virtualenv env
 # source env/bin/activate
-# python3 -m pip install numpy tensorflow pandas keras pysqlite3 sklearn
+# python3 -m pip install numpy tensorflow tensorflowjs pandas keras pysqlite3 sklearn 
 
 
 

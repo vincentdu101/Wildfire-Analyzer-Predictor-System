@@ -30,7 +30,7 @@ export default class MapLeaflet extends React.Component {
                 attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
                 <Marker position={position}>
-                <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
+                    <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
                 </Marker>
             </Map>
         );
