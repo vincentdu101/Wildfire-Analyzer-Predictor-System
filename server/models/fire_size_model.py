@@ -87,6 +87,13 @@ y = dataset.iloc[:, 29].values
 # 26|CONT_DOY|int32|0||0
 # 27|CONT_TIME|text(4)|0||0
 
+# select STATE, COUNTY, LATITUDE, LONGITUDE, 
+# STAT_CAUSE_CODE, DISCOVERY_DOY, DISCOVERY_TIME, CONT_DOY, CONT_TIME
+# from FIRES limit 5
+
+# curl -d "input[]=\"CA\"&input[]=63&input[]=40.03694444&input[]=-121.00583333&input[]=9.0&input[]=33&input[]=1300&input[]=33&input[]=1730" -X POST "http://localhost:5000/wildfire-size-predict"
+
+
 # encode the categorical data
 X = encodeCategoricalData(X, 0)
 # X = encodeCategoricalData(X, 1)

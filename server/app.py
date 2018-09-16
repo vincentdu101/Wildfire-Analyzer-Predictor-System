@@ -1,8 +1,9 @@
 import os
 from services.connection_service import ConnectionService
 from services.model_service import ModelService
+from services.encoder_service import EncoderService
 
-from flask import Flask, url_for, json, Response
+from flask import Flask, url_for, json, Response, request
 from flask_cors import CORS
 import pandas as pd 
 
@@ -11,6 +12,7 @@ app = Flask(__name__)
 CORS(app, resources=r'/*')
 connection_service = ConnectionService()
 model_service = ModelService()
+encoder_service = EncoderService()
 
 # FLASK_APP=hello.py flask run
 # kubernetes.io/docs/tutorials/kubernetes-basics/
@@ -36,11 +38,23 @@ def wildfire_size_model():
 
     return connection_service.setup_json_response(dump)
 
-@app.route("/wildfire-size-predict", methods=["GET", "POST"])
+@app.route("/wildfire-size-predict", methods=["POST"])
 def wildfire_size_predict(): 
-    # load model
-    model_service.load_wildfire_size()
+    data = {"success": False}
 
+    # if parameters are found, return a prediction
+    params = request.json
+    if (params == None):
+        params = request.args
+        print(params[0])
+
+    if (params != None):
+        # load model
+        model = model_service.load_wildfire_size()
+        params = encoder_service.encode_wildfire_size_categories(params)
+        data["prediction"] = model.predict(params)
+        data["success"] = True
+    return connection_service.setup_json_response(data)
 
 @app.route("/states", methods=["GET"])
 def get_states(): 
