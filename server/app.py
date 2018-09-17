@@ -43,10 +43,8 @@ def wildfire_size_predict():
     data = {"success": False}
 
     # if parameters are found, return a prediction
-    params = request.json
-    if (params == None):
-        params = request.args
-        print(params[0])
+    params = request.get_json()
+    print(params)
 
     if (params != None):
         # load model
@@ -54,7 +52,7 @@ def wildfire_size_predict():
         params = encoder_service.encode_wildfire_size_categories(params)
         data["prediction"] = model.predict(params)
         data["success"] = True
-    return connection_service.setup_json_response(data)
+    return connection_service.setup_json_response(json.dumps(data))
 
 @app.route("/states", methods=["GET"])
 def get_states(): 

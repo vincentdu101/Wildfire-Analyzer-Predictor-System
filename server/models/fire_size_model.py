@@ -91,7 +91,7 @@ y = dataset.iloc[:, 29].values
 # STAT_CAUSE_CODE, DISCOVERY_DOY, DISCOVERY_TIME, CONT_DOY, CONT_TIME
 # from FIRES limit 5
 
-# curl -d "input[]=\"CA\"&input[]=63&input[]=40.03694444&input[]=-121.00583333&input[]=9.0&input[]=33&input[]=1300&input[]=33&input[]=1730" -X POST "http://localhost:5000/wildfire-size-predict"
+# curl -X POST -H "Content-Type: application/json" -d "[\"CA\", 63, 40.03694444, -121.00583333, 9.0, 33, 1300, 33, 1730]" http://localhost:5000/wildfire-size-predict
 
 
 # encode the categorical data
