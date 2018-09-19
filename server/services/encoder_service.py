@@ -1,14 +1,25 @@
 import pandas as pd 
+import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from services.data_service import DataService
 
 class EncoderService:
 
     def __init__(self):
-        print("loading encoder service")
+        self.data_service = DataService()
 
     def encode_wildfire_size_categories(self, params):
-        params = self.standardScaleTestValues(pd.DataFrame(data=params))
-        params[0] = encodeCategoricalData(params, 0)
+        X = self.data_service.get_wildfires_independent()
+        y = self.data_service.get_wildfires_dependent()
+        X = self.encodeCategoricalData(X, 0)
+        X = self.encodeHotEncoder(X, 0)
+        y = self.encodeOutputVariable(y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+        params = pd.DataFrame(data=params).values
+        params = self.encodeCategoricalData(params, 0)
+        params = self.encodeHotEncoder(params, 0)
+        params = self.standardScaleTestValues(X_train, np.array(params))
         return params
 
     def encodeOutputVariable(self, y):
@@ -46,11 +57,12 @@ class EncoderService:
         # you only use it for one column at a time, output will be the number of columns
         # needed to represent all discrete values of column
         onehotencoder = OneHotEncoder(categorical_features = [categoryIndex])
-        X = defaultMinimumValues(X)
+        X = self.defaultMinimumValues(X)
         X = onehotencoder.fit_transform(X.astype(str)).toarray()    
         X = X[:, 1:]
         return X
 
-    def standardScaleTestValues(self, X_test):
+    def standardScaleTestValues(self, X_train, X_test):
         sc = StandardScaler()
+        sc.fit(X_train)
         return sc.transform(X_test)

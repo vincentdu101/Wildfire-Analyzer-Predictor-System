@@ -110,58 +110,58 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
-
+print(X_test)
 # create ANN
 
 # initialize the ann
-classifier = Sequential()
+# classifier = Sequential()
 
-# adding the input layer and the first hidden layer
-classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 48))
+# # adding the input layer and the first hidden layer
+# classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 48))
 
-# adding the second hidden layer
-classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
+# # adding the second hidden layer
+# classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
 
-# adding the third hidden layer
-classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
+# # adding the third hidden layer
+# classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
 
-# adding the output layer 
-classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
+# # adding the output layer 
+# classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
 
-# compiling the ANN
-classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
+# # compiling the ANN
+# classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
 
-# fitting the ANN to the training set
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+# # fitting the ANN to the training set
+# classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
 
-# making predictions and evaluating the model
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+# # making predictions and evaluating the model
+# y_pred = classifier.predict(X_test)
+# y_pred = (y_pred > 0.5)
 
-cm = confusion_matrix(y_test, y_pred)
+# cm = confusion_matrix(y_test, y_pred)
 
-score = classifier.evaluate(X_test, y_test, verbose=0)
+# score = classifier.evaluate(X_test, y_test, verbose=0)
 
-print("Before model save")
-print(y_pred)
-print(cm)
-print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
+# print("Before model save")
+# print(y_pred)
+# print(cm)
+# print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
 
-# save model
-classifier.save("model.h5")
+# # save model
+# classifier.save("model.h5")
 
-# load model
-loaded_model = load_model("model.h5")
-print("loaded model from disk")
+# # load model
+# loaded_model = load_model("model.h5")
+# print("loaded model from disk")
 
-# evaluate loaded model on test data
-loaded_model.compile(loss = "mean_squared_error", optimizer = "adam", metrics=["accuracy"])
-score = loaded_model.evaluate(X_test, y_test, verbose=0)
+# # evaluate loaded model on test data
+# loaded_model.compile(loss = "mean_squared_error", optimizer = "adam", metrics=["accuracy"])
+# score = loaded_model.evaluate(X_test, y_test, verbose=0)
 
-print("After model save")
-print(y_pred)
-print(cm)
-print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+# print("After model save")
+# print(y_pred)
+# print(cm)
+# print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
-tfjs.converters.save_keras_model(loaded_model, "../")
+# tfjs.converters.save_keras_model(loaded_model, "../")
 
