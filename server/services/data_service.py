@@ -15,7 +15,7 @@ class DataService:
         return self.wildfires
 
     def get_wildfires_independent(self):
-        return self.wildfires.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]].values
+        return self.wildfires.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]]
 
     def get_wildfires_dependent(self):
         return self.wildfires.iloc[:, 29].values

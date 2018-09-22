@@ -12,9 +12,10 @@ class EncoderService:
         self.scaler = pickle.load(open("./models/scaler.sav", "rb"))
 
     def encode_wildfire_size_categories(self, params):
-        params = pd.DataFrame(data=params).values
+        params = pd.DataFrame(data=params)
         X = self.data_service.get_wildfires_independent()
-        X = np.concatenate((X, params[:, None]), axis=1)
+        X = X.append(params)
+        X = X.values
         X = self.encodeCategoricalData(X, 0)
         X = self.encodeHotEncoder(X, 0)
         return X.pop()
