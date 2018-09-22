@@ -1,5 +1,6 @@
 import pandas as pd 
 import numpy as np
+import pickle
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from services.data_service import DataService
@@ -8,19 +9,15 @@ class EncoderService:
 
     def __init__(self):
         self.data_service = DataService()
+        self.scaler = pickle.load(open("./models/scaler.sav", "rb"))
 
     def encode_wildfire_size_categories(self, params):
+        params = pd.DataFrame(data=params).values
         X = self.data_service.get_wildfires_independent()
-        y = self.data_service.get_wildfires_dependent()
+        X = np.concatenate((X, params[:, None]), axis=1)
         X = self.encodeCategoricalData(X, 0)
         X = self.encodeHotEncoder(X, 0)
-        y = self.encodeOutputVariable(y)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-        params = pd.DataFrame(data=params).values
-        params = self.encodeCategoricalData(params, 0)
-        params = self.encodeHotEncoder(params, 0)
-        params = self.standardScaleTestValues(X_train, np.array(params))
-        return params
+        return X.pop()
 
     def encodeOutputVariable(self, y):
         labelencoder_Y_Origin = LabelEncoder()
@@ -61,6 +58,9 @@ class EncoderService:
         X = onehotencoder.fit_transform(X.astype(str)).toarray()    
         X = X[:, 1:]
         return X
+
+    def standardScaleTransform(self, params):
+        return self.scaler.transform(params)
 
     def standardScaleTestValues(self, X_train, X_test):
         sc = StandardScaler()
