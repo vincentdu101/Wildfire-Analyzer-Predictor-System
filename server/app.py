@@ -45,13 +45,14 @@ def wildfire_size_predict():
 
     # if parameters are found, return a prediction
     params = request.get_json()
-    print(params)
 
     if (params != None):
         # load model
         model = model_service.load_wildfire_size()
+        score = model.evaluate()
         params = encoder_service.encode_wildfire_size_categories(params)
-        data["prediction"] = model.predict_classes(np.array(params))
+        print("%s: %.2f%%" % (model.metric_names[1], score[1] * 100))
+        data["prediction"] = model.predict(np.array(params))
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
 

@@ -94,6 +94,17 @@ y = dataset.iloc[:, 29].values
 
 # curl -X POST -H "Content-Type: application/json" -d "[\"CA\", 63, 40.03694444, -121.00583333, 9.0, 33, 1300, 33, 1730]" http://localhost:5000/wildfire-size-predict
 
+# {
+#     "STATE": "CA",
+#     "COUNTY": 63,
+#     "LATITUDE": 40.03694444,
+#     "LONGITUDE": -121.00583333,
+#     "STAT_CAUSE_CODE": 9.0,
+#     "DISCOVERY_DOY": 33,
+#     "DISCOVERY_TIME": 1300,
+#     "CONT_DOY": 33,
+#     "CONT_TIME": 1730
+# }
 
 # encode the categorical data
 X = encodeCategoricalData(X, 0)
@@ -151,15 +162,16 @@ print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
 
 # save model
 classifier.save("model.h5")
+classifier.save("model_weights.h5")
 
 # load model
 loaded_model = load_model("model.h5")
 print("loaded model from disk")
 
 # evaluate loaded model on test data
-loaded_model.compile(loss = "mean_squared_error", optimizer = "adam", metrics=["accuracy"])
 score = loaded_model.evaluate(X_test, y_test, verbose=0)
-
+y_pred = classifier.predict(X_test)
+y_pred = (y_pred > 0.5)
 print("After model save")
 print(y_pred)
 print(cm)
