@@ -21,6 +21,15 @@ class EncoderService:
         X = self.encodeHotEncoder(X, 0)
         return X
 
+    def get_wildfires_test_data(self):
+        X = self.data_service.get_wildfires_independent().values
+        y = self.data_service.get_wildfires_dependent().values
+        X = self.encodeCategoricalData(X, 0)
+        X = self.encodeHotEncoder(X, 0)
+        y = self.encodeOutputVariable(y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+        return X_test, y_test
+
     def encodeOutputVariable(self, y):
         labelencoder_Y_Origin = LabelEncoder()
         y = labelencoder_Y_Origin.fit_transform(y.astype(str))

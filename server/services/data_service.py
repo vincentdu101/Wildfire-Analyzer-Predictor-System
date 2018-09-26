@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 class DataService:
 
@@ -18,4 +19,4 @@ class DataService:
         return self.wildfires.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]]
 
     def get_wildfires_dependent(self):
-        return self.wildfires.iloc[:, 29].values
+        return self.wildfires.iloc[:, 29]

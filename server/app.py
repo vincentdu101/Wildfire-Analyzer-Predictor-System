@@ -2,11 +2,15 @@ import os
 from services.connection_service import ConnectionService
 from services.model_service import ModelService
 from services.encoder_service import EncoderService
+from services.data_service import DataService
 
 from flask import Flask, url_for, json, Response, request
 from flask_cors import CORS
 import pandas as pd 
 import numpy as np
+import tensorflow as tf
+from keras.models import load_model
+import keras as keras
 
 
 app = Flask(__name__)
@@ -14,6 +18,7 @@ CORS(app, resources=r'/*')
 connection_service = ConnectionService()
 model_service = ModelService()
 encoder_service = EncoderService()
+data_service = DataService()
 
 # FLASK_APP=app.py flask run
 # kubernetes.io/docs/tutorials/kubernetes-basics/
@@ -48,11 +53,14 @@ def wildfire_size_predict():
 
     if (params != None):
         # load model
+        keras.backend.clear_session()
+        X_test, y_test = encoder_service.get_wildfires_test_data()
         model = model_service.load_wildfire_size()
-        score = model.evaluate()
         params = encoder_service.encode_wildfire_size_categories(params)
-        print("%s: %.2f%%" % (model.metric_names[1], score[1] * 100))
-        data["prediction"] = model.predict(np.array(params))
+        score = model.evaluate(X_test, y_test, verbose=0)
+        print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
+        predictions = model.predict(np.array(params))
+        data["prediction"] = predictions[0, :].item(0)
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
 

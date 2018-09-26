@@ -170,7 +170,7 @@ print("loaded model from disk")
 
 # evaluate loaded model on test data
 score = loaded_model.evaluate(X_test, y_test, verbose=0)
-y_pred = classifier.predict(X_test)
+y_pred = loaded_model.predict(X_test)
 y_pred = (y_pred > 0.5)
 print("After model save")
 print(y_pred)
