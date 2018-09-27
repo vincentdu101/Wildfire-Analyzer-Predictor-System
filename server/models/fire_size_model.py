@@ -78,6 +78,10 @@ dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 X = dataset.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]].values
 y = dataset.iloc[:, 29].values
 
+# sqlite3 commands
+# sqlite3 wildfires.sqlite
+# pragma table_info(Fires);
+
 # 34|STATE|text(255)|0||0
 # 35|COUNTY|text(255)|0||0
 # 30|LATITUDE|float64|0||0
@@ -88,22 +92,25 @@ y = dataset.iloc[:, 29].values
 # 26|CONT_DOY|int32|0||0
 # 27|CONT_TIME|text(4)|0||0
 
+# 29|FIRE_SIZE_CLASS 
+
 # select STATE, COUNTY, LATITUDE, LONGITUDE, 
-# STAT_CAUSE_CODE, DISCOVERY_DOY, DISCOVERY_TIME, CONT_DOY, CONT_TIME
+# STAT_CAUSE_CODE, DISCOVERY_DOY, DISCOVERY_TIME, CONT_DOY, CONT_TIME,
+# FIRE_SIZE_CLASS
 # from FIRES limit 5
 
 # curl -X POST -H "Content-Type: application/json" -d "[\"CA\", 63, 40.03694444, -121.00583333, 9.0, 33, 1300, 33, 1730]" http://localhost:5000/wildfire-size-predict
 
 # {
-#     "STATE": "CA",
-#     "COUNTY": 63,
-#     "LATITUDE": 40.03694444,
-#     "LONGITUDE": -121.00583333,
-#     "STAT_CAUSE_CODE": 9.0,
-#     "DISCOVERY_DOY": 33,
-#     "DISCOVERY_TIME": 1300,
-#     "CONT_DOY": 33,
-#     "CONT_TIME": 1730
+# 	"STATE": ["CA"],
+# 	"COUNTY": [63],
+# 	"LATITUDE": [40.03694444],
+# 	"LONGITUDE": [-121.00583333],
+# 	"STAT_CAUSE_CODE": [9.0],
+# 	"DISCOVERY_DOY": [33],
+# 	"DISCOVERY_TIME": [1300],
+# 	"CONT_DOY": [33],
+# 	"CONT_TIME": [1730]
 # }
 
 # encode the categorical data
@@ -145,7 +152,7 @@ classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
 classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
 
 # fitting the ANN to the training set
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+classifier.fit(X_train, y_train, batch_size = 10, epochs = 200)
 
 # making predictions and evaluating the model
 y_pred = classifier.predict(X_test)

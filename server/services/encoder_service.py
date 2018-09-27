@@ -31,9 +31,12 @@ class EncoderService:
         return X_test, y_test
 
     def encodeOutputVariable(self, y):
-        labelencoder_Y_Origin = LabelEncoder()
-        y = labelencoder_Y_Origin.fit_transform(y.astype(str))
+        self.labelencoder_Y_Origin = LabelEncoder()
+        y = self.labelencoder_Y_Origin.fit_transform(y.astype(str))
         return y
+
+    def decodeOutputVariable(self, y):
+        return self.labelencoder_Y_Origin.inverse_transform(y)
 
     def encodeCategoricalData(self, X, index):
         # encode categorical data

@@ -59,8 +59,8 @@ def wildfire_size_predict():
         params = encoder_service.encode_wildfire_size_categories(params)
         score = model.evaluate(X_test, y_test, verbose=0)
         print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
-        predictions = model.predict(np.array(params))
-        data["prediction"] = predictions[0, :].item(0)
+        predictions = model.predict_classes(np.array(params))
+        data["prediction"] = encoder_service.decodeOutputVariable(predictions[0, :].item(0))
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
 
