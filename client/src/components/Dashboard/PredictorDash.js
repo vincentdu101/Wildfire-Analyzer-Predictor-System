@@ -1,6 +1,6 @@
 import React from "react";
 import * as tf from "@tensorflow/tfjs";
-import MapLeaflet from "../Map/MapLeaflet";
+import Map from "../Map/Map";
 
 export default class PredictorDash extends React.Component {
 
@@ -30,7 +30,7 @@ export default class PredictorDash extends React.Component {
         let height="300px";
 
         return (
-            <MapLeaflet width={width} height={height} />
+            <Map />
         );
     }
     
