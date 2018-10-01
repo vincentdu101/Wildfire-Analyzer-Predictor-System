@@ -1,6 +1,7 @@
 import React from "react";
 import * as tf from "@tensorflow/tfjs";
 import Map from "../Map/Map";
+import { MapService } from "../../services/MapService/MapService";
 
 export default class PredictorDash extends React.Component {
 
@@ -8,7 +9,8 @@ export default class PredictorDash extends React.Component {
         super();
 
         this.state = {
-            data: null
+            data: null,
+            maps: null
         };
     }
 
@@ -18,6 +20,10 @@ export default class PredictorDash extends React.Component {
             console.log(model);
         }
 
+        MapService.getMapData().then((mapData) => {
+            this.setState({maps: mapData.data});
+        });
+
         modelPromise();
     }
 
@@ -26,11 +32,10 @@ export default class PredictorDash extends React.Component {
     }
 
     render() {
-        let width="500px";
-        let height="300px";
-
         return (
-            <Map />
+            <section className="predictor-dash">
+                <Map maps={this.state.maps} />
+            </section>
         );
     }
     
