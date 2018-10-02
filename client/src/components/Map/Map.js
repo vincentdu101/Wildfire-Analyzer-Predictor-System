@@ -28,7 +28,7 @@ export default class Map extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.maps) {
-            this.state.maps = nextProps.maps;
+            this.setState({maps: nextProps.maps});
         }
     }
 
@@ -39,13 +39,13 @@ export default class Map extends React.Component {
             const data = topojson.feature(maps, maps.objects.states).features;
             return this.generatePath(d3.geoPath(), data);
         } else {
-            return <div>test</div>;
+            return (<div>test</div>);
         }
     }
 
     generateState(data, geoPath, mapType) {
         console.log(data);
-        return data.map((feature, i) => {
+        data.map((feature, i) => {
             // const breaks = this.getChoroplethBreaks();
             const fill = "#F3F7F6";
             const path = geoPath(feature);
@@ -76,7 +76,30 @@ export default class Map extends React.Component {
 
         return (
             <TransitionGroup component={null}>
-                {this.generateState(geoPath, geoPath, mapType)}
+                {data.map((feature, i) => {
+                    // const breaks = this.getChoroplethBreaks();
+                    const fill = "#F3F7F6";
+                    const path = geoPath(feature);
+
+                    return (
+                        <CSSTransition
+                            key={i}
+                            classNames={`state-transition-${i}`}
+                            appear={true}
+                            timeout={5000}
+                        >
+                            <State
+                                mapType={mapType}
+                                stateName={feature.properties.stateName}
+                                path={path}
+                                feature={feature}
+                                i={i}
+                                fill={fill}
+                                radius={20}
+                            />
+                        </CSSTransition>
+                    );
+                })}
             </TransitionGroup>
         );
     }
