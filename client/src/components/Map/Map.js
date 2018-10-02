@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { State } from "./State";
+import * as stateIds from "../../data/us-states-ids.json";
 
 export default class Map extends React.Component {
 
@@ -12,7 +13,7 @@ export default class Map extends React.Component {
         this.generateMap = this.generateMap.bind(this);
         this.generateState = this.generateState.bind(this);
         this.generatePath = this.generatePath.bind(this);
-
+        console.log(stateIds);
         this.state = {
             maps: null
         };
@@ -47,7 +48,7 @@ export default class Map extends React.Component {
         console.log(data);
         data.map((feature, i) => {
             // const breaks = this.getChoroplethBreaks();
-            const fill = "#F3F7F6";
+            const fill = "#0de298";
             const path = geoPath(feature);
 
             return (

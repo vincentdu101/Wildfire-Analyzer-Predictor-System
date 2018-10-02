@@ -22,7 +22,7 @@ export class State extends React.Component {
                     className={`states state-transition-${i}`}
                     d={path}
                     fill={fill}
-                    stroke="#FFFFFF"
+                    stroke="#151616"
                     strokeWidth={0.25}
                     onMouseEnter={this.onInteractionHandler}
                     onClick={this.onInteractionHandler}

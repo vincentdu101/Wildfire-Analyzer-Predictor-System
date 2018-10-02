@@ -1,0 +1,211 @@
+{
+    "10": {
+        "name": "Delaware",
+        "population": 783600
+    },
+    "11": {
+        "name": "District of Columbia",
+        "population": 572059
+    },
+    "12": {
+        "name": "Florida",
+        "population": 15982378
+    },
+    "13": {
+        "name": "Georgia",
+        "population": 8186453
+    },
+    "15": {
+        "name": "Hawaii",
+        "population": 1211537
+    },
+    "16": {
+        "name": "Idaho",
+        "population": 1293953
+    },
+    "17": {
+        "name": "Illinois",
+        "population": 12419293
+    },
+    "18": {
+        "name": "Indiana",
+        "population": 6080485
+    },
+    "19": {
+        "name": "Iowa",
+        "population": 2926324
+    },
+    "20": {
+        "name": "Kansas",
+        "population": 2688418
+    },
+    "21": {
+        "name": "Kentucky",
+        "population": 4041769
+    },
+    "22": {
+        "name": "Louisiana",
+        "population": 4468976
+    },
+    "23": {
+        "name": "Maine",
+        "population": 1274923
+    },
+    "24": {
+        "name": "Maryland",
+        "population": 5296486
+    },
+    "25": {
+        "name": "Massachusetts",
+        "population": 6349097
+    },
+    "26": {
+        "name": "Michigan",
+        "population": 9938444
+    },
+    "27": {
+        "name": "Minnesota",
+        "population": 4919479
+    },
+    "28": {
+        "name": "Mississippi",
+        "population": 2844658
+    },
+    "29": {
+        "name": "Missouri",
+        "population": 5595211
+    },
+    "30": {
+        "name": "Montana",
+        "population": 902195
+    },
+    "31": {
+        "name": "Nebraska",
+        "population": 1711263
+    },
+    "32": {
+        "name": "Nevada",
+        "population": 1998257
+    },
+    "33": {
+        "name": "New Hampshire",
+        "population": 1235786
+    },
+    "34": {
+        "name": "New Jersey",
+        "population": 8414350
+    },
+    "35": {
+        "name": "New Mexico",
+        "population": 1819046
+    },
+    "36": {
+        "name": "New York",
+        "population": 18976457
+    },
+    "37": {
+        "name": "North Carolina",
+        "population": 8049313
+    },
+    "38": {
+        "name": "North Dakota",
+        "population": 642200
+    },
+    "39": {
+        "name": "Ohio",
+        "population": 11353140
+    },
+    "40": {
+        "name": "Oklahoma",
+        "population": 3450654
+    },
+    "41": {
+        "name": "Oregon",
+        "population": 3421399
+    },
+    "42": {
+        "name": "Pennsylvania",
+        "population": 12281054
+    },
+    "44": {
+        "name": "Rhode Island",
+        "population": 1048319
+    },
+    "45": {
+        "name": "South Carolina",
+        "population": 4012012
+    },
+    "46": {
+        "name": "South Dakota",
+        "population": 754844
+    },
+    "47": {
+        "name": "Tennessee",
+        "population": 5689283
+    },
+    "48": {
+        "name": "Texas",
+        "population": 20851820
+    },
+    "49": {
+        "name": "Utah",
+        "population": 2233169
+    },
+    "50": {
+        "name": "Vermont",
+        "population": 608827
+    },
+    "51": {
+        "name": "Virginia",
+        "population": 7078515
+    },
+    "53": {
+        "name": "Washington",
+        "population": 5894121
+    },
+    "54": {
+        "name": "West Virginia",
+        "population": 1808344
+    },
+    "55": {
+        "name": "Wisconsin",
+        "population": 5363675
+    },
+    "56": {
+        "name": "Wyoming",
+        "population": 493782
+    },
+    "72": {
+        "code": "PR",
+        "name": "Puerto Rico",
+        "population": 3808610
+    },
+    "01": {
+        "name": "Alabama",
+        "population": 4447100
+    },
+    "02": {
+        "name": "Alaska",
+        "population": 626932
+    },
+    "04": {
+        "name": "Arizona",
+        "population": 5130632
+    },
+    "05": {
+        "name": "Arkansas",
+        "population": 2673400
+    },
+    "06": {
+        "name": "California",
+        "population": 33871648
+    },
+    "08": {
+        "name": "Colorado",
+        "population": 4301261
+    },
+    "09": {
+        "name": "Connecticut",
+        "population": 3405565
+    }
+}
