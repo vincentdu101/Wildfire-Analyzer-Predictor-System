@@ -13,7 +13,7 @@ export default class Map extends React.Component {
         this.generateMap = this.generateMap.bind(this);
         this.generateState = this.generateState.bind(this);
         this.generatePath = this.generatePath.bind(this);
-        console.log(stateIds);
+        
         this.state = {
             maps: null,
             circles: []
@@ -40,7 +40,6 @@ export default class Map extends React.Component {
 
     generateMap() {
         if (this.state.maps) {
-            console.log(this.state.maps);
             const maps = this.state.maps;
             const data = topojson.feature(maps, maps.objects.states).features;
             return this.generatePath(d3.geoPath(), data);
@@ -51,13 +50,13 @@ export default class Map extends React.Component {
 
     generateCircles() {
         if (this.state.maps) {
-            const maps = this.state.maps;
-            console.log(maps);
-            const data = topojson.feature(maps, maps.objects.counties).features;
+            const data = [[-122.490402, 37.786453], [-122.389809, 37.72728], [-78.917377, 39.757239], [-81.307761, 33.468848]];
+            // const data = topojson.feature(maps, maps.objects.counties).features;
+            const projection = d3.geoMercator()
+                                .scale(960)
+                                .center([-95.8, 37.9]);
             return data.map((feature, i) => {
-                const fill = "#FFFFFF";
-                const path = d3.geoPath().centroid(feature);
-
+                const fill = "steelblue";
                 return (
                     <CSSTransition
                         key={i}
@@ -68,11 +67,11 @@ export default class Map extends React.Component {
                         <g className="circle-container">
                             <circle
                                 className={`states-circle raw state-transition-circle-${i}`}
-                                r={1}
+                                r={5}
                                 fill={fill}
                                 stroke="#000000"
                                 strokeWidth={0.5}
-                                transform={'translate(' + path + ')'}
+                                transform={'translate(' + projection(feature) + ')'}
                                 opacity={0.75}
                             />
                         </g>
@@ -86,7 +85,6 @@ export default class Map extends React.Component {
     }
 
     generateState(data, geoPath, mapType) {
-        console.log(data);
         data.map((feature, i) => {
             // const breaks = this.getChoroplethBreaks();
             const fill = "#0de298";
@@ -147,6 +145,12 @@ export default class Map extends React.Component {
     }
 
     render() {
+        // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
+        const projection = d3.geoMercator()
+                            .scale(1000)
+                            .center(d3.geoCentroid());
+        const path = d3.geoPath().projection();
+
         return (
             <div className="map-container">
                 <svg

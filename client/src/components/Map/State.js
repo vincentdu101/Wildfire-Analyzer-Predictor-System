@@ -13,9 +13,7 @@ export class State extends React.Component {
 
     render() {
         const { mapType, feature, path, radius, fill, i } = this.props;
-            console.log(mapType);
-            console.log(feature);
-            console.log(radius);
+
         // if (mapType === "choropleth") {
             return (
                 <path
