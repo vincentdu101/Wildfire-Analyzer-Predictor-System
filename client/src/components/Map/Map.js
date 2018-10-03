@@ -15,7 +15,8 @@ export default class Map extends React.Component {
         this.generatePath = this.generatePath.bind(this);
         console.log(stateIds);
         this.state = {
-            maps: null
+            maps: null,
+            circles: []
         };
     }
 
@@ -31,6 +32,10 @@ export default class Map extends React.Component {
         if (nextProps.maps) {
             this.setState({maps: nextProps.maps});
         }
+
+        if (nextProps.circles) {
+            this.setState({circles: nextProps.circles});
+        }
     }
 
     generateMap() {
@@ -39,6 +44,42 @@ export default class Map extends React.Component {
             const maps = this.state.maps;
             const data = topojson.feature(maps, maps.objects.states).features;
             return this.generatePath(d3.geoPath(), data);
+        } else {
+            return (<div>test</div>);
+        }
+    }
+
+    generateCircles() {
+        if (this.state.maps) {
+            const maps = this.state.maps;
+            console.log(maps);
+            const data = topojson.feature(maps, maps.objects.counties).features;
+            return data.map((feature, i) => {
+                const fill = "#FFFFFF";
+                const path = d3.geoPath().centroid(feature);
+
+                return (
+                    <CSSTransition
+                        key={i}
+                        classNames={`state-transition-${i}`}
+                        appear={true}
+                        timeout={5000}>
+
+                        <g className="circle-container">
+                            <circle
+                                className={`states-circle raw state-transition-circle-${i}`}
+                                r={1}
+                                fill={fill}
+                                stroke="#000000"
+                                strokeWidth={0.5}
+                                transform={'translate(' + path + ')'}
+                                opacity={0.75}
+                            />
+                        </g>
+
+                    </CSSTransition>
+                );
+            });
         } else {
             return (<div>test</div>);
         }
@@ -114,6 +155,7 @@ export default class Map extends React.Component {
                     viewBox="0 0 960 600"
                 >
                     {this.generateMap()}
+                    {this.generateCircles()}
                 </svg>
             </div>
         );
