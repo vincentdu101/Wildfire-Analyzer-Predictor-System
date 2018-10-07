@@ -1,9 +1,10 @@
 import axios from "axios";
+import * as usStates from "../../data/us-states-features.json";
 
 export class MapService {
 
     static getMapData() {
-        return axios.get("https://d3js.org/us-10m.v1.json");
+        return new Promise((resolve) => {return resolve(usStates)});
     }
 
 }

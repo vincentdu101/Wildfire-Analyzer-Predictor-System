@@ -13,6 +13,7 @@ export default class Map extends React.Component {
         this.generateMap = this.generateMap.bind(this);
         this.generateState = this.generateState.bind(this);
         this.generatePath = this.generatePath.bind(this);
+        this.projection = this.projection.bind(this);
         
         this.state = {
             maps: null,
@@ -38,11 +39,12 @@ export default class Map extends React.Component {
         }
     }
 
-    generateMap() {
+    generateMap(path) {
+        console.log(this.state.maps);
         if (this.state.maps) {
-            const maps = this.state.maps;
-            const data = topojson.feature(maps, maps.objects.states).features;
-            return this.generatePath(d3.geoPath(), data);
+            // const maps = this.state.maps;
+            // const data = topojson.feature(maps, maps.features).features;
+            return this.generatePath(path, this.state.maps.features);
         } else {
             return (<div>test</div>);
         }
@@ -51,18 +53,24 @@ export default class Map extends React.Component {
     generateCircles() {
         if (this.state.maps) {
             const data = [[-122.490402, 37.786453], [-122.389809, 37.72728], [-78.917377, 39.757239], [-81.307761, 33.468848]];
+
+            // for doing county level mapping - too performant heavy for this version
             // const data = topojson.feature(maps, maps.objects.counties).features;
-            const projection = d3.geoMercator()
-                                .scale(960)
-                                .center([-95.8, 37.9]);
+
+            // projection.scale(1000).center([-95.8, 37.9]);
+
             return data.map((feature, i) => {
                 const fill = "steelblue";
+                const projection = this.projection();
+                const locations = projection(feature);
+
                 return (
                     <CSSTransition
                         key={i}
                         classNames={`state-transition-${i}`}
                         appear={true}
                         timeout={5000}>
+
 
                         <g className="circle-container">
                             <circle
@@ -71,7 +79,9 @@ export default class Map extends React.Component {
                                 fill={fill}
                                 stroke="#000000"
                                 strokeWidth={0.5}
-                                transform={'translate(' + projection(feature) + ')'}
+                                cx={locations[0]}
+                                cy={locations[1]}
+                                // transform={'translate(' + projection(feature) + ')'}
                                 opacity={0.75}
                             />
                         </g>
@@ -144,12 +154,13 @@ export default class Map extends React.Component {
         );
     }
 
+    projection() {
+        return d3.geoAlbersUsa().translate([ 960 / 2, 600 / 2 ]);
+    }
+
     render() {
         // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
-        const projection = d3.geoMercator()
-                            .scale(1000)
-                            .center(d3.geoCentroid());
-        const path = d3.geoPath().projection();
+        const path = d3.geoPath().projection(this.projection());
 
         return (
             <div className="map-container">
@@ -158,7 +169,7 @@ export default class Map extends React.Component {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 960 600"
                 >
-                    {this.generateMap()}
+                    {this.generateMap(path)}
                     {this.generateCircles()}
                 </svg>
             </div>

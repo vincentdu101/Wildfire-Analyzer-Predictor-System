@@ -21,7 +21,7 @@ export default class PredictorDash extends React.Component {
         }
 
         MapService.getMapData().then((mapData) => {
-            this.setState({maps: mapData.data});
+            this.setState({maps: mapData});
         });
 
         modelPromise();
