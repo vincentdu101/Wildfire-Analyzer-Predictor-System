@@ -4,7 +4,7 @@ from services.model_service import ModelService
 from services.encoder_service import EncoderService
 from services.data_service import DataService
 
-from flask import Flask, url_for, json, Response, request
+from flask import Flask, url_for, json, Response, request, jsonify
 from flask_cors import CORS
 import pandas as pd 
 import numpy as np
@@ -14,11 +14,12 @@ import keras as keras
 
 
 app = Flask(__name__)
+app.config.from_object("services.config.BaseConfig")
 CORS(app, resources=r'/*')
 connection_service = ConnectionService()
 model_service = ModelService()
-encoder_service = EncoderService()
-data_service = DataService()
+encoder_service = EncoderService(app)
+data_service = DataService(app)
 
 # FLASK_APP=app.py flask run
 # kubernetes.io/docs/tutorials/kubernetes-basics/
@@ -34,6 +35,12 @@ def api_articles():
 @app.route('/articles/<articleid>')
 def api_article(articleid):
     return 'You are reading ' + articleid
+
+@app.route("/fires")
+def get_past_fires():
+    data = {"success": True}
+    fires = data_service.get_all_wildfires()
+    return jsonify({"fires": [s.to_dict() for s in fires]})
 
 @app.route('/wildfire-size-model', methods = ["GET"])
 def wildfire_size_model():

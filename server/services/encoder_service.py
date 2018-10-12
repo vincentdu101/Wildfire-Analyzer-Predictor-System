@@ -7,8 +7,8 @@ from services.data_service import DataService
 
 class EncoderService:
 
-    def __init__(self):
-        self.data_service = DataService()
+    def __init__(self, app):
+        self.data_service = DataService(app)
         self.scaler = pickle.load(open("./models/scaler.sav", "rb"))
 
     def encode_wildfire_size_categories(self, params):
