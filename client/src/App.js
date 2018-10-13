@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import PredictorDash from "./components/Dashboard/PredictorDash";
+// import PredictorDash from "./components/Dashboard/PredictorDash";
+import AnalyzerDash from "./components/Dashboard/AnalyzerDash";
 
 export default class App extends Component {
     render() {
@@ -13,7 +14,7 @@ export default class App extends Component {
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
-                <PredictorDash />
+                <AnalyzerDash />
             </div>
         );
     }

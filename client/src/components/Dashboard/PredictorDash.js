@@ -15,16 +15,9 @@ export default class PredictorDash extends React.Component {
     }
 
     componentDidMount() {
-        let modelPromise = async function() {
-            const model = await tf.loadModel("http://localhost:5000/wildfire-size-model");
-            console.log(model);
-        }
-
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
         });
-
-        modelPromise();
     }
 
     componentDidUpdate() {

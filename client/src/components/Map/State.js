@@ -14,19 +14,17 @@ export class State extends React.Component {
     render() {
         const { mapType, feature, path, radius, fill, i } = this.props;
 
-        // if (mapType === "choropleth") {
-            return (
-                <path
-                    className={`states state-transition-${i}`}
-                    d={path}
-                    fill={fill}
-                    stroke="#151616"
-                    strokeWidth={0.25}
-                    onMouseEnter={this.onInteractionHandler}
-                    onClick={this.onInteractionHandler}
-                    onTouchStart={this.onInteractionHandler}
-                />
-            );
-        // }
+        return (
+            <path
+                className={`states state-transition-${i}`}
+                d={path}
+                fill={fill}
+                stroke="#151616"
+                strokeWidth={0.25}
+                onMouseEnter={this.onInteractionHandler}
+                onClick={this.onInteractionHandler}
+                onTouchStart={this.onInteractionHandler}
+            />
+        );
     }
 }

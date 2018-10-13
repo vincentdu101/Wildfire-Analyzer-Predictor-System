@@ -1,9 +1,7 @@
 import * as React from "react";
 import * as d3 from "d3";
-import * as topojson from "topojson-client";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { State } from "./State";
-import * as stateIds from "../../data/us-states-ids.json";
 
 export default class Map extends React.Component {
 
@@ -14,6 +12,7 @@ export default class Map extends React.Component {
         this.generateState = this.generateState.bind(this);
         this.generatePath = this.generatePath.bind(this);
         this.projection = this.projection.bind(this);
+        this.circleOnClick = this.circleOnClick.bind(this);
         
         this.state = {
             maps: null,
@@ -29,6 +28,11 @@ export default class Map extends React.Component {
 
     }
 
+    circleOnClick(event) {
+        let targetIndex = parseInt(event.target.dataset.index);
+        this.props.circleOnClick(this.props.circles[targetIndex]);
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.maps) {
             this.setState({maps: nextProps.maps});
@@ -40,10 +44,7 @@ export default class Map extends React.Component {
     }
 
     generateMap(path) {
-        console.log(this.state.maps);
         if (this.state.maps) {
-            // const maps = this.state.maps;
-            // const data = topojson.feature(maps, maps.features).features;
             return this.generatePath(path, this.state.maps.features);
         } else {
             return (<div>test</div>);
@@ -51,19 +52,15 @@ export default class Map extends React.Component {
     }
 
     generateCircles() {
-        if (this.state.maps) {
-            const data = [[-122.490402, 37.786453], [-122.389809, 37.72728], [-78.917377, 39.757239], [-81.307761, 33.468848]];
+        if (this.state.maps && this.props.circles) {
+            // https://d3indepth.com/geographic/
+            // use invert method to reverse convert coordinates to gps locations
 
-            // for doing county level mapping - too performant heavy for this version
-            // const data = topojson.feature(maps, maps.objects.counties).features;
-
-            // projection.scale(1000).center([-95.8, 37.9]);
-
-            return data.map((feature, i) => {
+            return this.props.circles.map((feature, i) => {
                 const fill = "steelblue";
                 const projection = this.projection();
-                const locations = projection(feature);
-
+                const locations = projection([feature.LONGITUDE, feature.LATITUDE]);
+                console.log(feature);
                 return (
                     <CSSTransition
                         key={i}
@@ -76,13 +73,15 @@ export default class Map extends React.Component {
                             <circle
                                 className={`states-circle raw state-transition-circle-${i}`}
                                 r={5}
+                                data-index={i}
+                                id={feature.FOD_ID}
                                 fill={fill}
                                 stroke="#000000"
                                 strokeWidth={0.5}
                                 cx={locations[0]}
                                 cy={locations[1]}
-                                // transform={'translate(' + projection(feature) + ')'}
                                 opacity={0.75}
+                                onClick={this.circleOnClick}
                             />
                         </g>
 
@@ -96,7 +95,6 @@ export default class Map extends React.Component {
 
     generateState(data, geoPath, mapType) {
         data.map((feature, i) => {
-            // const breaks = this.getChoroplethBreaks();
             const fill = "#0de298";
             const path = geoPath(feature);
 
@@ -127,7 +125,6 @@ export default class Map extends React.Component {
         return (
             <TransitionGroup component={null}>
                 {data.map((feature, i) => {
-                    // const breaks = this.getChoroplethBreaks();
                     const fill = "#F3F7F6";
                     const path = geoPath(feature);
 
@@ -159,7 +156,6 @@ export default class Map extends React.Component {
     }
 
     render() {
-        // https://stackoverflow.com/questions/14492284/center-a-map-in-d3-given-a-geojson-object
         const path = d3.geoPath().projection(this.projection());
 
         return (

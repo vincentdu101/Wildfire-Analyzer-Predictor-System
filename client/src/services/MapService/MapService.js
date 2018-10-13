@@ -7,4 +7,8 @@ export class MapService {
         return new Promise((resolve) => {return resolve(usStates)});
     }
 
+    static getFiresData() {
+        return axios.get("http://localhost:5000/fires");
+    }
+
 }
