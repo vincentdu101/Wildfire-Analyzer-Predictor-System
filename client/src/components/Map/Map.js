@@ -2,6 +2,7 @@ import * as React from "react";
 import * as d3 from "d3";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { State } from "./State";
+import "./Map.css";
 
 export default class Map extends React.Component {
 
@@ -159,15 +160,21 @@ export default class Map extends React.Component {
         const path = d3.geoPath().projection(this.projection());
 
         return (
-            <div className="map-container">
-                <svg
-                    className={`map US`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 960 600"
-                >
-                    {this.generateMap(path)}
-                    {this.generateCircles()}
-                </svg>
+            <div className="container">
+                <div className="row">
+                    <div className="col-xs-8">
+                        <div className="map-container">
+                            <svg
+                                className={`map US`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 960 600"
+                            >
+                                {this.generateMap(path)}
+                                {this.generateCircles()}
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
