@@ -1,0 +1,15 @@
+.circle-tooltip {
+    max-height: 100px;
+    max-width: 200px;
+    min-height: 100px;
+    min-width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: absolute;
+    display: none;
+    background: white;
+
+    &.active {
+        display: block;
+    }
+}

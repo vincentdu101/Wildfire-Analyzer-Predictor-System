@@ -6,6 +6,9 @@ import "./Map.css";
 
 export default class Map extends React.Component {
 
+    width = 960;
+    height = 500;
+
     constructor(props) {
         super(props);
 
@@ -14,6 +17,7 @@ export default class Map extends React.Component {
         this.generatePath = this.generatePath.bind(this);
         this.projection = this.projection.bind(this);
         this.circleOnClick = this.circleOnClick.bind(this);
+        this.circleOnHover = this.circleOnHover.bind(this);
         
         this.state = {
             maps: null,
@@ -32,6 +36,15 @@ export default class Map extends React.Component {
     circleOnClick(event) {
         let targetIndex = parseInt(event.target.dataset.index);
         this.props.circleOnClick(this.props.circles[targetIndex]);
+    }
+
+    circleOnHover(event) {
+        let output = {
+            x: event.pageX,
+            y: event.pageY,
+            target: event.target
+        }
+        this.props.circleOnHover(output);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -83,6 +96,7 @@ export default class Map extends React.Component {
                                 cy={locations[1]}
                                 opacity={0.75}
                                 onClick={this.circleOnClick}
+                                onMouseOver={this.circleOnHover}
                             />
                         </g>
 
@@ -168,6 +182,8 @@ export default class Map extends React.Component {
                                 className={`map US`}
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 960 600"
+                                width={this.width}
+                                height={this.height}
                             >
                                 {this.generateMap(path)}
                                 {this.generateCircles()}

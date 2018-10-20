@@ -113,6 +113,18 @@ y = dataset.iloc[:, 29].values
 # 	"CONT_TIME": [1730]
 # }
 
+# queries to consider for the UI analytics dashboard
+# top summary 
+# select distinct state from fires;
+# select distinct stat_cause_descr from Fires;
+# select * from Fires where fire_year = 2005 order by fire_size desc limit 20;
+
+# main chart and table
+# select * from Fires where fire_year = 2005 limit 20;
+
+# bottom charts
+# perhaps a chart showing the longest lasting fires
+
 # encode the categorical data
 X = encodeCategoricalData(X, 0)
 # X = encodeCategoricalData(X, 1)

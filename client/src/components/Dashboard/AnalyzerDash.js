@@ -1,5 +1,5 @@
 import React from "react";
-import * as tf from "@tensorflow/tfjs";
+import CircleTooltip from "../Tooltip/CircleTooltip";
 import Map from "../Map/Map";
 import FiresTable from "../Table/FiresTable";
 import { MapService } from "../../services/MapService/MapService";
@@ -11,11 +11,15 @@ export default class AnalyzerDash extends React.Component {
         super();
 
         this.fireSelected = this.fireSelected.bind(this);
+        this.fireHovered = this.fireHovered.bind(this);
 
         this.state = {
             data: null,
             maps: null,
-            fires: null
+            fires: null,
+            tooltipX: 0,
+            tooltipY: 0,
+            tooltipActive: true
         };
     }
 
@@ -37,6 +41,14 @@ export default class AnalyzerDash extends React.Component {
         debugger;
     }
 
+    fireHovered(fire) {
+        this.setState({
+            tooltipX: fire.x,
+            tooltipY: fire.y,
+            tooltipActive: true
+        });
+    }
+
     render() {
         return (
             <div className="no-gutters">
@@ -46,7 +58,13 @@ export default class AnalyzerDash extends React.Component {
                         <section className="map-area">
                             <Map maps={this.state.maps} 
                                 circles={this.state.fires}
-                                circleOnClick={this.fireSelected} />
+                                circleOnClick={this.fireSelected}
+                                circleOnHover={this.fireHovered} />
+
+                            <CircleTooltip  text={"test"} 
+                                            x={this.state.tooltipX}
+                                            y={this.state.tooltipY}
+                                            tooltipActive={true} />                                
                         </section>
                     </div>
                 </div>
