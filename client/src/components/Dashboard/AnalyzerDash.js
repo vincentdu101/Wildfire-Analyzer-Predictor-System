@@ -20,6 +20,9 @@ export default class AnalyzerDash extends React.Component {
             data: null,
             maps: null,
             fires: null,
+            states: null,
+            causes: null,
+            firesByYear: null,
             fireModal: false,
             selectedFire: null,
             tooltipX: 0,
@@ -36,6 +39,18 @@ export default class AnalyzerDash extends React.Component {
 
         FireDataService.getFiresData().then((fireData) => {
             this.setState({fires: fireData.data.fires});
+        });
+
+        FireDataService.getStatesCountData().then((fireData) => {
+            this.setState({states: fireData.data.states});
+        });
+
+        FireDataService.getCausesCountData().then((fireData) => {
+            this.setState({causes: fireData.data.causes});
+        });
+
+        FireDataService.getWildfireByYear().then((fireData) => {
+            this.setState({firesByYear: fireData.data.fires});
         });
     }
 
