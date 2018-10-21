@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sqlalchemy import desc, func
 from db.fire import db, Fire
 
 class DataService:
@@ -17,6 +18,15 @@ class DataService:
 
     def get_all_wildfires(self):
         return Fire.query.paginate(1, 20, False).items
+
+    def get_states_with_fire(self):
+        return Fire.query.with_entities(func.count(Fire.STATE), Fire.STATE).group_by(Fire.STATE).all()
+
+    def get_cause_of_fire(self):
+        return Fire.query.with_entities(func.count(Fire.STAT_CAUSE_DESCR), Fire.STAT_CAUSE_DESCR).group_by(Fire.STAT_CAUSE_DESCR).all()
+
+    def filter_by_year(self, year):
+        return Fire.query.filter(Fire.FIRE_YEAR == year).order_by(desc(Fire.FIRE_YEAR))
 
     def get_wildfires_independent(self):
         return self.wildfires.iloc[:, [34, 35, 30, 31, 23, 21, 22, 26, 27]]

@@ -71,9 +71,23 @@ def wildfire_size_predict():
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
 
+@app.route("/wildfire-by-year", methods=["GET"])
+def get_wildfire_by_year():
+    data = {"success": True}
+    fires = data_service.filter_by_year(2005)
+    return jsonify({"fires": [s.to_dict() for s in fires]})
+
 @app.route("/states", methods=["GET"])
 def get_states(): 
-    print("GET STATES")
+    data = {"success": True}
+    fires = data_service.get_states_with_fire()
+    return jsonify({"fires": fires})
+
+@app.route("/cause", methods=["GET"])
+def get_causes(): 
+    data = {"success": True}
+    fires = data_service.get_cause_of_fire()
+    return jsonify({"fires": fires})
 
     
 
