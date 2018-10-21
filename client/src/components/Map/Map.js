@@ -18,6 +18,7 @@ export default class Map extends React.Component {
         this.projection = this.projection.bind(this);
         this.circleOnClick = this.circleOnClick.bind(this);
         this.circleOnHover = this.circleOnHover.bind(this);
+        this.circleOnHoverExit = this.circleOnHoverExit.bind(this);
         
         this.state = {
             maps: null,
@@ -45,6 +46,10 @@ export default class Map extends React.Component {
             target: event.target
         }
         this.props.circleOnHover(output);
+    }
+
+    circleOnHoverExit() {
+        this.props.circleHoverExit();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -97,6 +102,7 @@ export default class Map extends React.Component {
                                 opacity={0.75}
                                 onClick={this.circleOnClick}
                                 onMouseOver={this.circleOnHover}
+                                onMouseOut={this.circleOnHoverExit}
                             />
                         </g>
 

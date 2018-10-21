@@ -16,7 +16,7 @@ export default class CircleTooltip extends React.Component {
             text: "tewds",
             x: 0,
             y: 0,
-            tooltipActive: false
+            active: false
         };
     } 
 
@@ -29,12 +29,12 @@ export default class CircleTooltip extends React.Component {
             x: nextProps.x, 
             y: nextProps.y, 
             text: nextProps.text,
-            tooltipActive: nextProps.tooltipActive
+            active: nextProps.active
         });
     }
 
     outputTooltipClass() {
-        return this.state.tooltipActive ? "circle-tooltip active" : "circle-tooltip";
+        return this.state.active ? "circle-tooltip active" : "circle-tooltip";
     }
 
     determinePosition() {

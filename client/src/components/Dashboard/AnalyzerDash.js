@@ -2,6 +2,7 @@ import React from "react";
 import CircleTooltip from "../Tooltip/CircleTooltip";
 import Map from "../Map/Map";
 import FiresTable from "../Table/FiresTable";
+import FireModal from "../Modal/FireModal";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 
@@ -12,14 +13,19 @@ export default class AnalyzerDash extends React.Component {
 
         this.fireSelected = this.fireSelected.bind(this);
         this.fireHovered = this.fireHovered.bind(this);
+        this.fireHoverExit = this.fireHoverExit.bind(this);
+        this.outputFireText = this.outputFireText.bind(this);
 
         this.state = {
             data: null,
             maps: null,
             fires: null,
+            fireModal: false,
+            selectedFire: null,
             tooltipX: 0,
             tooltipY: 0,
-            tooltipActive: true
+            tooltipActive: false,
+            tooltipText: ""
         };
     }
 
@@ -38,14 +44,35 @@ export default class AnalyzerDash extends React.Component {
     }
 
     fireSelected(fire) {
-        debugger;
+        this.setState({ fireModal: true, selectedFire: fire });
+    }
+
+    outputFireText(activeFire) {
+        let text = "Fire Name:         " + activeFire.FIPS_NAME + " \n";
+        text +=    "Fire Code:         " + activeFire.FIPS_CODE + " \n";
+        text +=    "Fire Size Class:   " + activeFire.FIRE_SIZE_CLASS + " \n";
+        text +=    "Fire Cause:        " + activeFire.STAT_CAUSE_DESCR + " \n";
+        text +=    "State:             " + activeFire.STATE + " \n";
+        text +=    "County:            " + activeFire.COUNTY + " \n";
+
+        return text;
     }
 
     fireHovered(fire) {
+        const activeFire = this.state.fires[fire.target.dataset.index];
+        let text = this.outputFireText(activeFire);
+
         this.setState({
             tooltipX: fire.x,
             tooltipY: fire.y,
-            tooltipActive: true
+            tooltipActive: true,
+            tooltipText: text
+        });
+    }
+
+    fireHoverExit() {
+        this.setState({
+            tooltipActive: false
         });
     }
 
@@ -59,12 +86,14 @@ export default class AnalyzerDash extends React.Component {
                             <Map maps={this.state.maps} 
                                 circles={this.state.fires}
                                 circleOnClick={this.fireSelected}
-                                circleOnHover={this.fireHovered} />
+                                circleOnHover={this.fireHovered}
+                                circleHoverExit={this.fireHoverExit} />
 
                             <CircleTooltip  text={"test"} 
                                             x={this.state.tooltipX}
                                             y={this.state.tooltipY}
-                                            tooltipActive={true} />                                
+                                            active={this.state.tooltipActive}
+                                            text={this.state.tooltipText} />                                
                         </section>
                     </div>
                 </div>
@@ -76,6 +105,10 @@ export default class AnalyzerDash extends React.Component {
                         </section>
                     </div>
                 </div>
+
+                <FireModal  active={this.state.fireModal}
+                            fire={this.state.selectedFire} />
+
             </div>
         );
     }

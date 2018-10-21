@@ -36,7 +36,6 @@ export default class FiresTable extends React.Component {
         return fires.map((row, index) => {
             // let origDateTime = DateService.printFormattedTime(row.origDateTime);
             // let destDateTime = DateService.printFormattedTime(row.destDateTime);
-            console.log(row);
             return (
                 <tr key={index + row.FIRE_CODE}>
                     <td key={this.generateColumnKey("code", index, row.FIRE_CODE)}>{row.FIRE_CODE || "No code"}</td>

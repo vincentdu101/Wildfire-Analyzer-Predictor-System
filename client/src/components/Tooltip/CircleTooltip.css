@@ -1,5 +1,4 @@
 .circle-tooltip {
-    max-height: 100px;
     max-width: 200px;
     min-height: 100px;
     min-width: 200px;
@@ -8,8 +7,12 @@
     position: absolute;
     display: none;
     background: white;
+    white-space: pre-line;
+    text-align: left;
+    padding: 5px;
 }
 
 .circle-tooltip.active {
     display: block;
 }
+
