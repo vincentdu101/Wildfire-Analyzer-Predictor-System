@@ -79,7 +79,7 @@ export default class Map extends React.Component {
                 const fill = "steelblue";
                 const projection = this.projection();
                 const locations = projection([feature.LONGITUDE, feature.LATITUDE]);
-                console.log(feature);
+                
                 return (
                     <CSSTransition
                         key={i}

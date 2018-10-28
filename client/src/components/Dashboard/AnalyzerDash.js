@@ -2,6 +2,7 @@ import React from "react";
 import CircleTooltip from "../Tooltip/CircleTooltip";
 import Map from "../Map/Map";
 import FiresTable from "../Table/FiresTable";
+import FiresByStateTable from "../Table/FiresByStateTable";
 import FireModal from "../Modal/FireModal";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
@@ -94,6 +95,14 @@ export default class AnalyzerDash extends React.Component {
     render() {
         return (
             <div className="no-gutters">
+
+                <div className="row col-xs-12">
+                
+                    <div className="card col-xs-12 col-xl-4">
+                        <FiresByStateTable states={this.state.states} />
+                    </div>
+
+                </div>
 
                 <div className="card col-xs-12">
                     <div className="card-body">

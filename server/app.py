@@ -81,13 +81,13 @@ def get_wildfire_by_year():
 def get_states(): 
     data = {"success": True}
     fires = data_service.get_states_with_fire()
-    return jsonify({"fires": fires})
+    return jsonify({"states": fires})
 
 @app.route("/cause", methods=["GET"])
 def get_causes(): 
     data = {"success": True}
     fires = data_service.get_cause_of_fire()
-    return jsonify({"fires": fires})
+    return jsonify({"causes": fires})
 
     
 
