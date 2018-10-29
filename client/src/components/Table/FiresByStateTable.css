@@ -1,0 +1,5 @@
+.fire-table {
+    max-height: 450px;
+    overflow: scroll;
+    padding: 10px;
+}

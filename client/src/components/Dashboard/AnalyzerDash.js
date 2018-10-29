@@ -4,6 +4,7 @@ import Map from "../Map/Map";
 import FiresTable from "../Table/FiresTable";
 import FiresByStateTable from "../Table/FiresByStateTable";
 import FireModal from "../Modal/FireModal";
+import PieChart from "../Charts/PieChart";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 
@@ -16,6 +17,7 @@ export default class AnalyzerDash extends React.Component {
         this.fireHovered = this.fireHovered.bind(this);
         this.fireHoverExit = this.fireHoverExit.bind(this);
         this.outputFireText = this.outputFireText.bind(this);
+        this.convertCausesData = this.convertCausesData.bind(this);
 
         this.state = {
             data: null,
@@ -47,7 +49,7 @@ export default class AnalyzerDash extends React.Component {
         });
 
         FireDataService.getCausesCountData().then((fireData) => {
-            this.setState({causes: fireData.data.causes});
+            this.setState({causes: this.convertCausesData(fireData.data.causes)});
         });
 
         FireDataService.getWildfireByYear().then((fireData) => {
@@ -61,6 +63,12 @@ export default class AnalyzerDash extends React.Component {
 
     fireSelected(fire) {
         this.setState({ fireModal: true, selectedFire: fire });
+    }
+
+    convertCausesData(causes) {
+        return causes.map((cause) => {
+            return {name: cause[1], value: cause[0]};
+        });
     }
 
     outputFireText(activeFire) {
@@ -98,8 +106,12 @@ export default class AnalyzerDash extends React.Component {
 
                 <div className="row col-xs-12">
                 
-                    <div className="card col-xs-12 col-xl-4">
+                    <div className="card col-xs-12 col-sm-6">
                         <FiresByStateTable states={this.state.states} />
+                    </div>
+
+                    <div className="card col-xs-12 col-sm-6">
+                        <PieChart arcs={this.state.causes} />
                     </div>
 
                 </div>

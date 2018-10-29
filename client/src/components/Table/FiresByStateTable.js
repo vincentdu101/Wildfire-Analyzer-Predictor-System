@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Table } from "reactstrap";
+import "./FiresByStateTable.css";
 
 export default class FiresByStateTable extends React.Component {
 
@@ -22,7 +23,6 @@ export default class FiresByStateTable extends React.Component {
     }
 
     outputStateRow(states) {
-        console.log(states);
         return states.map((row, index) => {
             // let origDateTime = DateService.printFormattedTime(row.origDateTime);
             // let destDateTime = DateService.printFormattedTime(row.destDateTime);
