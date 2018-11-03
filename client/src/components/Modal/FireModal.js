@@ -33,7 +33,6 @@ export default class FireModal extends React.Component {
     render() {
         return (
             <div>
-                <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Fire Name: {this.state.fire.FIPS_NAME}</ModalHeader>
                     <ModalBody>

@@ -5,6 +5,7 @@ import FiresTable from "../Table/FiresTable";
 import FiresByStateTable from "../Table/FiresByStateTable";
 import FireModal from "../Modal/FireModal";
 import PieChart from "../Charts/PieChart";
+import ScatterPlot from "../Charts/ScatterPlot";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 
@@ -138,6 +139,14 @@ export default class AnalyzerDash extends React.Component {
                     <div className="card-body">
                         <section className="fires-table">
                             <FiresTable fires={this.state.fires} />
+                        </section>
+                    </div>
+                </div>
+
+                <div className="card col-xs-12">
+                    <div className="card-body">
+                        <section className="fires-line-chart">
+                            <ScatterPlot />
                         </section>
                     </div>
                 </div>
