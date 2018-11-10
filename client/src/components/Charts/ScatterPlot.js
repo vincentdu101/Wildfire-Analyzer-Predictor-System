@@ -1,25 +1,17 @@
-// inspiration:
-// https://beta.observablehq.com/@mbostock/d3-pie-chart
-
 import * as React from "react";
 import * as d3 from "d3";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./ScatterPlot.css";
-import * as JulianDate from "julian-date";
 
 export default class ScatterPlot extends React.Component {
     
-    julian = new JulianDate();
     width = 960;
     height = 600;
     margin = {
         top: 20, right: 30, bottom: 30, left: 40
     };
 
-    data = [
-        {name: "Mazda RX4", x: 2453403.5, y: 110},
-        {name: "Mazda RX4", x: 2453137.5, y: 180}
-    ];
+    data = [];
+
     x = d3.scaleLinear()
         .domain(d3.extent(this.data, d => d.x)).nice()
         .range([this.margin.left, this.width - this.margin.right]);
@@ -28,36 +20,22 @@ export default class ScatterPlot extends React.Component {
         .domain(d3.extent(this.data, d => d.y)).nice()
         .range([this.height - this.margin.bottom, this.margin.top]);
 
-    convertDate(x) {
-        new JulianDate().julian(this.data.x);
-    }
-
     xAxis = (g) => g
         .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-        .call(d3.axisBottom(this.x))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.append("text")
-            .attr("x", this.width - this.margin.right)
-            .attr("y", -4)
-            .attr("fill", "#000")
-            .attr("font-weight", "bold")
-            .attr("text-anchor", "end")
-            .text(this.data.x));
+        .call(d3.axisBottom(this.x).tickFormat(d => {
+            console.log(d);
+            return new Date(d).toLocaleDateString();
+        }))
+        .call(g => g.select(".domain").remove());
 
     yAxis = (g) => g
         .attr("transform", `translate(${this.margin.left},0)`)
         .call(d3.axisLeft(this.y))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.select(".tick:last-of-type text").clone()
-            .attr("x", 4)
-            .attr("text-anchor", "start")
-            .attr("font-weight", "bold")
-            .text(this.data.y));
+        .call(g => g.select(".domain").remove());
 
     constructor(props) {
         super(props);
-        window["julian"] = new JulianDate();
-        window["julian"].julian(2453403.5).d;
+
         this.state = {
             points: [],
             tooltipActive: false,
@@ -66,7 +44,7 @@ export default class ScatterPlot extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ args: [], tooltipActive: false, tooltipText: "" });
+        this.setState({ points: [], tooltipActive: false, tooltipText: "" });
     }
     
 
@@ -118,19 +96,42 @@ export default class ScatterPlot extends React.Component {
 
     render() {
         const svg = d3.select(".scatter-plot");
+
+        this.data = this.state.points;
+
+        this.x = d3.scaleLinear()
+        .domain(d3.extent(this.data, d => d.x)).nice()
+        .range([this.margin.left, this.width - this.margin.right]);
+
+        this.y = d3.scaleLinear()
+            .domain(d3.extent(this.data, d => d.y)).nice()
+            .range([this.height - this.margin.bottom, this.margin.top]);
   
+        this.xAxis = (g) => g
+            .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
+            .call(d3.axisBottom(this.x).tickFormat(d => {
+                return new Date(d).toLocaleDateString();
+            }))
+            .call(g => g.select(".domain").remove());
+    
+        this.yAxis = (g) => g
+            .attr("transform", `translate(${this.margin.left},0)`)
+            .call(d3.axisLeft(this.y))
+            .call(g => g.select(".domain").remove());
+
         svg.append("g")
             .call(this.xAxis);
         
         svg.append("g")
             .call(this.yAxis);
         
+        // for circles 
         svg.append("g")
             .attr("stroke", "steelblue")
             .attr("stroke-width", 1.5)
             .attr("fill", "none")
           .selectAll("circle")
-          .data(this.data)
+          .data(this.state.points)
           .enter().append("circle")
             .attr("cx", d => this.x(d.x))
             .attr("cy", d => this.y(d.y))
@@ -140,7 +141,7 @@ export default class ScatterPlot extends React.Component {
             .attr("font-family", "sans-serif")
             .attr("font-size", 10)
           .selectAll("text")
-          .data(this.data)
+          .data(this.state.points)
           .enter().append("text")
             .attr("x", d => this.x(d.x))
             .attr("y", d => this.y(d.y))
@@ -148,7 +149,10 @@ export default class ScatterPlot extends React.Component {
             .call(this.dodge);
 
         return (
-            <svg className="scatter-plot" width={this.width} height={this.height}></svg>
+            <svg    className="scatter-plot" 
+                    width={this.width} 
+                    height={this.height}>
+            </svg>
         );
     }
 

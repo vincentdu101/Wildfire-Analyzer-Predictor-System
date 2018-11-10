@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Table } from "reactstrap";
+import { DateService } from "../../services/DateService/DateService";
  
 export default class FiresTable extends React.Component {
 
@@ -8,6 +9,7 @@ export default class FiresTable extends React.Component {
 
         this.outputFireRow = this.outputFireRow.bind(this);
         this.updateTableAndState = this.updateTableAndState.bind(this);
+        this.parseFireDate = this.parseFireDate.bind(this);
 
         this.state = {
             fires: []
@@ -32,6 +34,10 @@ export default class FiresTable extends React.Component {
         return attr + index + value;
     }
 
+    parseFireDate(date) {
+        return DateService.parseJulianDate(date).toLocaleString();
+    }
+
     outputFireRow(fires) {
         return fires.map((row, index) => {
             // let origDateTime = DateService.printFormattedTime(row.origDateTime);
@@ -44,8 +50,8 @@ export default class FiresTable extends React.Component {
                     <td key={this.generateColumnKey("county", index, row.COUNTY)}>{row.COUNTY}</td>
                     <td key={this.generateColumnKey("cause-code", index, row.STAT_CAUSE_CODE)}>{row.STAT_CAUSE_CODE}</td>
                     <td key={this.generateColumnKey("cause-desc", index, row.STAT_CAUSE_DESCR)}>{row.STAT_CAUSE_DESCR}</td>
-                    <td key={this.generateColumnKey("dis", index, row.DISCOVERY_DATE)}>{row.DISCOVERY_DATE}</td>
-                    <td key={this.generateColumnKey("con", index, row.CONT_DATE)}>{row.CONT_DATE}</td>
+                    <td key={this.generateColumnKey("dis", index, row.DISCOVERY_DATE)}>{this.parseFireDate(row.DISCOVERY_DATE)}</td>
+                    <td key={this.generateColumnKey("con", index, row.CONT_DATE)}>{this.parseFireDate(row.CONT_DATE)}</td>
                     <td key={this.generateColumnKey("fire-class", index, row.FIRE_SIZE_CLASS)}>{row.FIRE_SIZE_CLASS}</td>
                     <td key={this.generateColumnKey("fire-size", index, row.FIRE_SIZE)}>{row.FIRE_SIZE}</td>
                 </tr>

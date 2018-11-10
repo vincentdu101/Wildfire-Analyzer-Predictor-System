@@ -8,6 +8,7 @@ import PieChart from "../Charts/PieChart";
 import ScatterPlot from "../Charts/ScatterPlot";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
+import { DateService } from "../../services/DateService/DateService";
 
 export default class AnalyzerDash extends React.Component {
 
@@ -101,6 +102,25 @@ export default class AnalyzerDash extends React.Component {
         });
     }
 
+    parsedScatterPlotData(fires) {
+        if (!fires) {
+            return [];
+        }
+
+        return fires.map((fire) => {
+            let containedDate = DateService.parseJulianDate(fire.CONT_DATE);
+            let discoveredDate = DateService.parseJulianDate(fire.DISCOVERY_DATE);            
+            let minutes = 60 * 60 * 1000;
+
+            return {
+                name: fire.FIRE_CODE || fire.FIPS_NAME,
+                x: discoveredDate,
+                y: (containedDate - discoveredDate) / minutes,
+                z: fire.FIRE_SIZE_CLASS
+            };
+        });
+    }
+
     render() {
         return (
             <div className="no-gutters">
@@ -146,7 +166,7 @@ export default class AnalyzerDash extends React.Component {
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
-                            <ScatterPlot />
+                            <ScatterPlot points={this.parsedScatterPlotData(this.state.fires)} />
                         </section>
                     </div>
                 </div>
