@@ -89,7 +89,23 @@ def get_causes():
     fires = data_service.get_cause_of_fire()
     return jsonify({"causes": fires})
 
-    
+@app.route("/fires-by-years", methods=["GET"])
+def get_fires_by_years():
+    data = {"success": True}
+    fires = data_service.get_fires_by_years()
+    return jsonify({"years": fires})
+
+@app.route("/most-proned-counties", methods=["GET"])
+def get_most_proned_counties():
+    data = {"success": True}
+    counties = data_service.get_most_proned_counties()
+    return jsonify({"counties": counties})
+
+@app.route("/least-proned-counties", methods=["GET"])
+def get_least_proned_counties():
+    data = {"success": True}
+    counties = data_service.get_least_proned_counties()
+    return jsonify({"counties": counties})    
 
 if __name__ == '__main__':
     app.run()

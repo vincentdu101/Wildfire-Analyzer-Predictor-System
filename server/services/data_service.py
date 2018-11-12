@@ -25,6 +25,15 @@ class DataService:
     def get_cause_of_fire(self):
         return Fire.query.with_entities(func.count(Fire.STAT_CAUSE_DESCR), Fire.STAT_CAUSE_DESCR).group_by(Fire.STAT_CAUSE_DESCR).all()
 
+    def get_fires_by_years(self):
+        return Fire.query.with_entities(Fire.FIRE_YEAR, func.count(Fire.FIRE_YEAR)).group_by(Fire.FIRE_YEAR).all()
+
+    def get_most_proned_counties(self):
+        return Fire.query.with_entities(Fire.COUNTY, Fire.STATE, func.count(Fire.COUNTY)).group_by(Fire.COUNTY).order_by(func.count(Fire.COUNTY).desc()).limit(10).all()
+
+    def get_least_proned_counties(self):
+        return Fire.query.with_entities(Fire.COUNTY, Fire.STATE, func.count(Fire.COUNTY)).group_by(Fire.COUNTY).order_by(func.count(Fire.COUNTY).asc()).limit(10).all()
+
     def filter_by_year(self, year):
         return Fire.query.filter(Fire.FIRE_YEAR == year).order_by(desc(Fire.FIRE_YEAR))
 
