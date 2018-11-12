@@ -10,6 +10,7 @@ export default class PieChart extends React.Component {
 
     width = 480;
     height = 300;
+    defaultText = "Hover over an arc to see the detailed info here.";
 
     constructor(props) {
         super(props);
@@ -21,13 +22,13 @@ export default class PieChart extends React.Component {
 
         this.state = {
             arcs: [],
-            tooltipActive: false,
-            tooltipText: ""
+            tooltipActive: true,
+            tooltipText: this.defaultText
         };
     }
 
     componentDidMount() {
-        this.setState({ args: [], tooltipActive: false, tooltipText: "" });
+        this.setState({ args: [], tooltipActive: true, tooltipText: this.defaultText });
     }
     
 
@@ -87,7 +88,6 @@ export default class PieChart extends React.Component {
                                 stroke="#151616"
                                 strokeWidth={0.25}
                                 onMouseOver={() => this.onInteractionHandler(arc.data)}
-                                onMouseOut={() => this.setState({tooltipActive: false})}
                                 data-arc={arc.data}
                             >
                             </path>   

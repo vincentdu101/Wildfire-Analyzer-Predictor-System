@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as d3 from "d3";
 import "./ScatterPlot.css";
+import CircleTooltip from "../Tooltip/CircleTooltip";
 
 export default class ScatterPlot extends React.Component {
     
@@ -10,36 +11,24 @@ export default class ScatterPlot extends React.Component {
         top: 20, right: 30, bottom: 30, left: 40
     };
 
-    data = [];
-
-    x = d3.scaleLinear()
-        .domain(d3.extent(this.data, d => d.x)).nice()
-        .range([this.margin.left, this.width - this.margin.right]);
-
-    y = d3.scaleLinear()
-        .domain(d3.extent(this.data, d => d.y)).nice()
-        .range([this.height - this.margin.bottom, this.margin.top]);
-
-    xAxis = (g) => g
-        .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-        .call(d3.axisBottom(this.x).tickFormat(d => {
-            console.log(d);
-            return new Date(d).toLocaleDateString();
-        }))
-        .call(g => g.select(".domain").remove());
-
-    yAxis = (g) => g
-        .attr("transform", `translate(${this.margin.left},0)`)
-        .call(d3.axisLeft(this.y))
-        .call(g => g.select(".domain").remove());
-
     constructor(props) {
         super(props);
+
+        this.tooltipVisible = this.tooltipVisible.bind(this);
+        this.getXScaleLinear = this.getXScaleLinear.bind(this);
+        this.getYScaleLinear = this.getYScaleLinear.bind(this);
+        this.getRadiusByFireSize = this.getRadiusByFireSize.bind(this);
+        this.setupCircles = this.setupCircles.bind(this);
+        this.dodge = this.dodge.bind(this);
+        this.onInteractionHandler = this.onInteractionHandler.bind(this);
+        this.setupXGridlines = this.setupXGridlines.bind(this);
 
         this.state = {
             points: [],
             tooltipActive: false,
-            tooltipText: ""
+            tooltipText: "",
+            tooltipX: 0,
+            tooltipY: 0
         };
     }
 
@@ -54,14 +43,92 @@ export default class ScatterPlot extends React.Component {
         }
     }
 
-    onInteractionHandler(arc) {
-        let text = "Cause of Fire:      \n" + arc.name + " \n\n";
-        text +=    "Number of Fires:    \n" + arc.value + " \n";
-        this.setState({ tooltipActive: true, tooltipText: text });
+    getXScaleLinear() {
+        return d3.scaleLinear()
+                .domain(d3.extent(this.data, d => d.x)).nice()
+                .range([this.margin.left, this.width - this.margin.right]);
+    }
+
+    getYScaleLinear() {
+        return d3.scaleLinear()
+                .domain(d3.extent(this.data, d => d.y)).nice()
+                .range([this.height - this.margin.bottom, this.margin.top]);
+    }
+
+    getRadiusByFireSize(size) {
+        switch(size) {
+            case "A":
+                return 3;
+            case "B": 
+                return 4;
+            case "C":
+                return 5;
+            case "D":
+                return 6;
+            case "E": 
+                return 7;
+            case "F":
+                return 8;
+            default:
+                return 9;           
+        }
+    }
+
+    getXAxisHeight() {
+        return `translate(0,${this.height - this.margin.bottom})`;
+    }
+
+    onInteractionHandler(event) {
+        let text = "Fire Code or Name: \n " + event.name + " \n ";
+        text += "Discovered Date: \n " + event.x.toLocaleDateString() + " \n ";
+        text += "Hours Until Contained: \n " + event.y + " \n ";
+        text += "Fire Size Class: \n " + event.z;
+
+        this.setState({
+            tooltipActive: true,
+            tooltipText: text,
+            tooltipX: this.x(event.x),
+            tooltipY: this.y(event.y)
+        });
     }
 
     tooltipVisible() {
         return this.state.tooltipActive ? "active" : "";
+    }
+
+    setupCircles(svg) {
+        svg.append("g")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 1.5)
+            .attr("fill", "yellow")
+            .selectAll("circle")
+            .data(this.state.points)
+            .enter().append("circle")
+                .attr("cx", d => this.x(d.x))
+                .attr("cy", d => this.y(d.y))
+                .attr("r", d => this.getRadiusByFireSize(d.z))
+                .on("mouseover", (event) => {
+                    this.onInteractionHandler(event);
+                })
+                .on("mouseout", () => {
+                    this.setState({
+                        tooltipActive: false
+                    });
+                });
+    }
+
+    setupXGridlines(svg) {
+        svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", this.getXAxisHeight())
+            .call(d3.axisBottom(this.x).tickFormat(""));
+    }
+
+    setupYGridlines(svg) {
+        svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", `translate(${this.margin.left},0)`)
+            .call(d3.axisLeft(this.y).tickFormat(""));
     }
 
     dodge(text, iterations = 300) {
@@ -92,23 +159,17 @@ export default class ScatterPlot extends React.Component {
                   : a > -Math.PI * 3 / 4 && a <= Math.PI * 3 / 4 ? top
                   : right);
             });
-      }
+    }
 
     render() {
         const svg = d3.select(".scatter-plot");
 
         this.data = this.state.points;
-
-        this.x = d3.scaleLinear()
-        .domain(d3.extent(this.data, d => d.x)).nice()
-        .range([this.margin.left, this.width - this.margin.right]);
-
-        this.y = d3.scaleLinear()
-            .domain(d3.extent(this.data, d => d.y)).nice()
-            .range([this.height - this.margin.bottom, this.margin.top]);
+        this.x = this.getXScaleLinear();
+        this.y = this.getYScaleLinear();
   
         this.xAxis = (g) => g
-            .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
+            .attr("transform", this.getXAxisHeight())
             .call(d3.axisBottom(this.x).tickFormat(d => {
                 return new Date(d).toLocaleDateString();
             }))
@@ -119,40 +180,25 @@ export default class ScatterPlot extends React.Component {
             .call(d3.axisLeft(this.y))
             .call(g => g.select(".domain").remove());
 
-        svg.append("g")
-            .call(this.xAxis);
-        
-        svg.append("g")
-            .call(this.yAxis);
-        
-        // for circles 
-        svg.append("g")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
-            .attr("fill", "none")
-          .selectAll("circle")
-          .data(this.state.points)
-          .enter().append("circle")
-            .attr("cx", d => this.x(d.x))
-            .attr("cy", d => this.y(d.y))
-            .attr("r", 5);
-        
-        svg.append("g")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", 10)
-          .selectAll("text")
-          .data(this.state.points)
-          .enter().append("text")
-            .attr("x", d => this.x(d.x))
-            .attr("y", d => this.y(d.y))
-            .text(d => d.name)
-            .call(this.dodge);
+        svg.append("g").call(this.xAxis);
+        svg.append("g").call(this.yAxis);
+        this.setupCircles(svg);
+        this.setupXGridlines(svg);
+        this.setupYGridlines(svg);
 
         return (
-            <svg    className="scatter-plot" 
-                    width={this.width} 
-                    height={this.height}>
-            </svg>
+            <section className="scatter-plot-section">
+                <svg    className="scatter-plot" 
+                        width={this.width} 
+                        height={this.height}>
+                </svg>
+
+                <CircleTooltip  text={"test"} 
+                                x={this.state.tooltipX}
+                                y={this.state.tooltipY}
+                                active={this.state.tooltipActive}
+                                text={this.state.tooltipText} /> 
+            </section>
         );
     }
 

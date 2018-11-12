@@ -110,12 +110,12 @@ export default class AnalyzerDash extends React.Component {
         return fires.map((fire) => {
             let containedDate = DateService.parseJulianDate(fire.CONT_DATE);
             let discoveredDate = DateService.parseJulianDate(fire.DISCOVERY_DATE);            
-            let minutes = 60 * 60 * 1000;
+            let hours = 60 * 60 * 1000;
 
             return {
                 name: fire.FIRE_CODE || fire.FIPS_NAME,
                 x: discoveredDate,
-                y: (containedDate - discoveredDate) / minutes,
+                y: (containedDate - discoveredDate) / hours,
                 z: fire.FIRE_SIZE_CLASS
             };
         });

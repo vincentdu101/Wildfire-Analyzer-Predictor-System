@@ -1,18 +1,5 @@
-.scatter-tooltip {
-    max-width: 200px;
-    min-height: 100px;
-    min-width: 200px;
-    border: 1px solid black;
-    border-radius: 10px;
-    position: absolute;
-    display: none;
-    background: white;
-    white-space: pre-line;
-    text-align: left;
-    padding: 5px;
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
 }
-
-.scatter-tooltip.active {
-    display: block;
-}
-
