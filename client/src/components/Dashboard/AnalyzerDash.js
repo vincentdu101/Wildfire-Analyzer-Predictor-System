@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react';
 import CircleTooltip from "../Tooltip/CircleTooltip";
 import Map from "../Map/Map";
 import FiresTable from "../Table/FiresTable";
@@ -12,7 +12,7 @@ import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { DateService } from "../../services/DateService/DateService";
 
-export default class AnalyzerDash extends React.Component {
+export default class AnalyzerDash extends Component {
 
     constructor() {
         super();
@@ -61,12 +61,10 @@ export default class AnalyzerDash extends React.Component {
         });
 
         FireDataService.getMostPronedCounties().then((fireData) => {
-            console.log(fireData.data);
             this.setState({mostCounties: fireData.data.counties});
         });
 
         FireDataService.getLeastPronedCounties().then((fireData) => {
-            console.log(fireData.data);
             this.setState({leastCounties: fireData.data.counties});
         });
     }

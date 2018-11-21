@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Component } from 'react';
 import * as tf from "@tensorflow/tfjs";
 import Map from "../Map/Map";
 import { MapService } from "../../services/MapService/MapService";
 
-export default class PredictorDash extends React.Component {
+export default class PredictorDash extends Component {
 
     constructor() {
         super();
