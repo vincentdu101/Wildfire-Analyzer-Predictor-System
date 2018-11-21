@@ -20,4 +20,8 @@ export class FireDataService {
         return axios.get(FireDataService.server + "/wildfire-by-year");
     }
 
+    static getWildfireByYears() {
+        return axios.get(FireDataService.server + "/fires-by-years");
+    }
+
 }

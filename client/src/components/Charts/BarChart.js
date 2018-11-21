@@ -1,14 +1,10 @@
 import * as React from "react";
 import * as d3 from "d3";
 import "./BarChart.css";
-import { format } from "d3-format";
-
-// inspiration
-// https://beta.observablehq.com/@mbostock/d3-horizontal-bar-chart
 
 export default class BarChart extends React.Component {
 
-    width = 960;
+    width = 900;
     margin = {top: 30, right: 0, bottom: 10, left: 30};
 
     constructor(props) {
@@ -24,11 +20,11 @@ export default class BarChart extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({data: [{year: 1990, count: 1000}]});
+        this.setState({data: []});
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps) {
+        if (nextProps.data) {
             this.setState({ data: nextProps.data });
         }
     }
@@ -51,6 +47,17 @@ export default class BarChart extends React.Component {
                 .domain(this.data.map(d => d.year))
                 .range([this.margin.top, this.determineHeight() - this.margin.bottom])
                 .padding(0.1);
+    }
+
+    getXAxisHeight() {
+        return `translate(0,${this.determineHeight() - this.margin.bottom})`;
+    }
+
+    setupXGridlines(svg) {
+        svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", this.getXAxisHeight())
+            .call(d3.axisTop(this.x).tickFormat(""));
     }
 
     render() {
@@ -89,10 +96,11 @@ export default class BarChart extends React.Component {
                 .attr("x", d => this.x(d.count) - 4)
                 .attr("y", d => this.y(d.year) + this.y.bandwidth() / 2)
                 .attr("dy", "0.35em")
-                .text(d => format(d.count));    
+                .text(d => d.count);    
         
         svg.append("g").call(this.xAxis);
         svg.append("g").call(this.yAxis);
+        this.setupXGridlines(svg);
 
         return (
             <svg    className="bar-chart"

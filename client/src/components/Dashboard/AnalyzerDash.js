@@ -55,8 +55,8 @@ export default class AnalyzerDash extends React.Component {
             this.setState({causes: this.convertCausesData(fireData.data.causes)});
         });
 
-        FireDataService.getWildfireByYear().then((fireData) => {
-            this.setState({firesByYear: fireData.data.fires});
+        FireDataService.getWildfireByYears().then((fireData) => {
+            this.setState({firesByYears: this.convertFiresByYears(fireData.data.years)});
         });
     }
 
@@ -71,6 +71,12 @@ export default class AnalyzerDash extends React.Component {
     convertCausesData(causes) {
         return causes.map((cause) => {
             return {name: cause[1], value: cause[0]};
+        });
+    }
+
+    convertFiresByYears(years) {
+        return years.map((values) => {
+            return {year: values[0], count: values[1]};
         });
     }
 
@@ -175,7 +181,7 @@ export default class AnalyzerDash extends React.Component {
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
-                            <BarChart />
+                            <BarChart data={this.state.firesByYears} />
                         </section>
                     </div>
                 </div>
