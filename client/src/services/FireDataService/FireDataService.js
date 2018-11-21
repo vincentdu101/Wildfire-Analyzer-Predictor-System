@@ -24,4 +24,12 @@ export class FireDataService {
         return axios.get(FireDataService.server + "/fires-by-years");
     }
 
+    static getMostPronedCounties() {
+        return axios.get(FireDataService.server + "/most-proned-counties");
+    }
+
+    static getLeastPronedCounties() {
+        return axios.get(FireDataService.server + "/least-proned-counties");
+    }
+
 }

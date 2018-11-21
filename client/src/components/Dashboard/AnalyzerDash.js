@@ -7,6 +7,7 @@ import FireModal from "../Modal/FireModal";
 import PieChart from "../Charts/PieChart";
 import ScatterPlot from "../Charts/ScatterPlot";
 import BarChart from "../Charts/BarChart";
+import CountiesCountTable from "../Table/CountiesCountTable";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { DateService } from "../../services/DateService/DateService";
@@ -57,6 +58,16 @@ export default class AnalyzerDash extends React.Component {
 
         FireDataService.getWildfireByYears().then((fireData) => {
             this.setState({firesByYears: this.convertFiresByYears(fireData.data.years)});
+        });
+
+        FireDataService.getMostPronedCounties().then((fireData) => {
+            console.log(fireData.data);
+            this.setState({mostCounties: fireData.data.counties});
+        });
+
+        FireDataService.getLeastPronedCounties().then((fireData) => {
+            console.log(fireData.data);
+            this.setState({leastCounties: fireData.data.counties});
         });
     }
 
@@ -184,6 +195,18 @@ export default class AnalyzerDash extends React.Component {
                             <BarChart data={this.state.firesByYears} />
                         </section>
                     </div>
+                </div>
+
+                <div className="row col-xs-12">
+
+                    <div className="card col-xs-12 col-sm-6">
+                        <CountiesCountTable counties={this.state.mostCounties} />
+                    </div>
+
+                    <div className="card col-xs-12 col-sm-6">
+                        <CountiesCountTable counties={this.state.leastCounties} />
+                    </div>
+                
                 </div>
 
                 <FireModal  active={this.state.fireModal}
