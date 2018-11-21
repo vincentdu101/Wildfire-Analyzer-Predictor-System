@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import Map from "../Map/Map";
 import "./PredictorDash.css";
-import { MapService } from "../../services/MapService/MapService";
-import DatePicker from "react-bootstrap-date-picker/src/index"; 
+import DatePicker from "react-datepicker";
+import TimePicker from 'react-time-picker';
+import "react-datepicker/dist/react-datepicker.css";
+import { MapService } from "../../services/MapService/MapService"; 
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
+// another possibility for date time range
+// http://projects.wojtekmaj.pl/react-datetimerange-picker/
 
 export default class PredictorDash extends Component {
 
@@ -59,7 +64,22 @@ export default class PredictorDash extends Component {
 
                             <FormGroup row>
                                 <Label for="exampleSelect">Discovery Date</Label>
-                                <DatePicker id="example-datepicker" />
+                                <DatePicker />
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="exampleSelect">Discovery Time</Label>
+                                <TimePicker />
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="exampleSelect">Contained Date</Label>
+                                <DatePicker />
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="exampleSelect">Contained Time</Label>
+                                <TimePicker />
                             </FormGroup>
                         </Form>
                     </div>
