@@ -14,7 +14,7 @@ class EncoderService:
     def encode_wildfire_size_categories(self, params):
         # params = pd.DataFrame(data=params)
         X = self.data_service.get_wildfires_independent()
-        df2 = pd.DataFrame(data=params, columns=["STATE", "COUNTY", "LATITUDE", "LONGITUDE", "STAT_CAUSE_CODE", "DISCOVERY_DOY", "DISCOVERY_TIME", "CONT_DOY", "CONT_TIME"])
+        df2 = pd.DataFrame(data=params, columns=["STATE", "LATITUDE", "LONGITUDE", "STAT_CAUSE_CODE", "DISCOVERY_DOY", "DISCOVERY_TIME", "CONT_DOY", "CONT_TIME"])
         X.loc[0] = df2.loc[0]
         X = X.values
         X = self.encodeCategoricalData(X, 0)
