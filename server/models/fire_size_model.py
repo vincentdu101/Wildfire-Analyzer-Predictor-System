@@ -88,7 +88,6 @@ y = dataset.iloc[:, 29].values
 # pragma table_info(Fires);
 
 # 34|STATE|text(255)|0||0
-# 35|COUNTY|text(255)|0||0 -- Eliminate
 # 30|LATITUDE|float64|0||0
 # 31|LONGITUDE|float64|0||0
 # 23|STAT_CAUSE_CODE|float64|0||0
@@ -99,7 +98,7 @@ y = dataset.iloc[:, 29].values
 
 # 29|FIRE_SIZE_CLASS 
 
-# select STATE, COUNTY, LATITUDE, LONGITUDE, 
+# select STATE, LATITUDE, LONGITUDE, 
 # STAT_CAUSE_CODE, DISCOVERY_DOY, DISCOVERY_TIME, CONT_DOY, CONT_TIME,
 # FIRE_SIZE_CLASS
 # from FIRES limit 5
@@ -108,7 +107,6 @@ y = dataset.iloc[:, 29].values
 
 # {
 # 	"STATE": ["CA"],
-# 	"COUNTY": [63], --Eliminate 
 # 	"LATITUDE": [40.03694444],
 # 	"LONGITUDE": [-121.00583333],
 # 	"STAT_CAUSE_CODE": [9.0],
