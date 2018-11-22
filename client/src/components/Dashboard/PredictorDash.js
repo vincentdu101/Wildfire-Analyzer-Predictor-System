@@ -15,15 +15,26 @@ export default class PredictorDash extends Component {
     constructor() {
         super();
 
+        this.inputFieldChanged = this.inputFieldChanged.bind(this);
+        this.submitForm = this.submitForm.bind(this);
+        this.dateChanged = this.dateChanged.bind(this);
+
         this.state = {
             data: null,
-            maps: null
+            maps: null,
+            post: {
+                STATE: "CA",
+                STAT_CAUSE_CODE: "",
+                LONGITUDE: 1,
+                DISCOVERY_DOY: new Date(),
+                DISCOVERY_TIME: "00:00",
+                CONT_DOY: new Date(),
+                CONT_TIME: "00:00"
+            }
         };
     }
 
     componentDidMount() {
-        this.setState({discoveryDate: new Date().toISOString()});
-
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
         });
@@ -33,6 +44,20 @@ export default class PredictorDash extends Component {
 
     }
 
+    submitForm() {
+        console.log(this.state);
+    }
+
+    inputFieldChanged(key, value) {
+        let param = this.state.post;
+        param[key] = value;
+        this.setState({post: param});
+    }
+
+    dateChanged(key, value) {
+        console.log(value);
+    }
+ 
     render() {
         return (
             <div className="no-gutters">
@@ -41,8 +66,24 @@ export default class PredictorDash extends Component {
                     <div className="col-xs-12 col-sm-4 card">
                         <Form className="predictor-form">
                             <FormGroup row>
-                                <Label for="exampleSelect">State</Label>
-                                <Input type="select" name="select" id="exampleSelect">
+                                <Label for="state-select">State</Label>
+                                <Input  type="select" 
+                                        name="state" 
+                                        id="state-select" 
+                                        onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
+                                        value={this.state.post.STATE}>
+                                    <option value={"CA"}>CA</option>
+                                    <option value={"WA"}>WA</option>
+                                </Input>
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="cause-select">Cause of Fire</Label>
+                                <Input  type="select" 
+                                        name="cause" 
+                                        id="cause-select"
+                                        onChange={(event) => this.inputFieldChanged("STAT_CAUSE_CODE", event.target.value)}
+                                        value={this.state.post.STAT_CAUSE_CODE}>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -52,34 +93,33 @@ export default class PredictorDash extends Component {
                             </FormGroup>
 
                             <FormGroup row>
-                                <Label for="exampleSelect">Cause of Fire</Label>
-                                <Input type="select" name="select" id="exampleSelect">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-
-                            <FormGroup row>
-                                <Label for="exampleSelect">Discovery Date</Label>
-                                <DatePicker />
+                                <Label for="discovery-date">Discovery Date</Label>
+                                <DatePicker className="form-control"
+                                            name="discovery-date"
+                                            selected={this.state.post.DISCOVERY_DOY} 
+                                            onChange={(date) => this.inputFieldChanged("DISCOVERY_DOY", date)} />
                             </FormGroup>
 
                             <FormGroup row>
                                 <Label for="exampleSelect">Discovery Time</Label>
-                                <TimePicker />
+                                <TimePicker name="discovered-time"
+                                            value={this.state.post.DISCOVERY_TIME} 
+                                            onChange={(time) => this.inputFieldChanged("DISCOVERY_TIME", time)} />
                             </FormGroup>
 
                             <FormGroup row>
-                                <Label for="exampleSelect">Contained Date</Label>
-                                <DatePicker />
+                                <Label for="contained-date">Contained Date</Label>
+                                <DatePicker className="form-control"
+                                            name="contained-date"
+                                            selected={this.state.post.CONT_DOY} 
+                                            onChange={(date) => this.inputFieldChanged("CONT_DOY", date)} />
                             </FormGroup>
 
                             <FormGroup row>
                                 <Label for="exampleSelect">Contained Time</Label>
-                                <TimePicker />
+                                <TimePicker name="contained-time"
+                                            value={this.state.post.CONT_TIME} 
+                                            onChange={(time) => this.inputFieldChanged("CONT_TIME", time)} />
                             </FormGroup>
                         </Form>
                     </div>
@@ -92,7 +132,7 @@ export default class PredictorDash extends Component {
                 </div>
 
                 <div className="row col-xs-12 card align-items-center button-section">
-                    <Button>Submit</Button>
+                    <Button onClick={this.submitForm}>Submit</Button>
                 </div>
 
             </div>
