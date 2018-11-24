@@ -21,6 +21,8 @@ import keras
 import math
 import tensorflowjs as tfjs
 import pickle
+import julian as julian
+import datetime
 from keras.models import Sequential, model_from_yaml, load_model
 from keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
@@ -57,6 +59,11 @@ def defaultMinimumValues(values):
         values[index] = x
     return pd.DataFrame(values)
 
+def convertDateColumns(X, column):
+    X = X[:, column].apply(lambda row: julian.from_jd(row, fmt='mmddyyyy'))
+    print(X[:, column])
+    return X.values
+
 def encodeHotEncoder(X, categoryIndex):
     # meant to create dummy variables for each category data
     # you only use it for one column at a time, output will be the number of columns
@@ -80,7 +87,7 @@ conn = sqlite3.connect(sqlite_file)
 dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 
 # split dataset into train and test lists
-X = dataset.iloc[:, [34, 30, 31, 23, 21, 22, 26, 27]].values
+X = dataset.iloc[:, [34, 30, 31, 23, 20, 25]]
 y = dataset.iloc[:, 29].values
 
 # sqlite3 commands
@@ -129,75 +136,78 @@ y = dataset.iloc[:, 29].values
 # perhaps a chart showing the longest lasting fires
 
 # encode the categorical data
-X = encodeCategoricalData(X, 0)
-# X = encodeCategoricalData(X, 1)
+X = convertDateColumns(X, 4)
 
-X = encodeHotEncoder(X, 0)
-# X = encodeHotEncoder(X, 13)
-# X = encodeHotEncoder(X, 9)
-y = encodeOutputVariable(y)
 
-# split the dataset into the training and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+# X = encodeCategoricalData(X, 0)
+# # X = encodeCategoricalData(X, 1)
 
-# feature scaling - adjust for varying values in features
-# sc = StandardScaler()
-# X_train = sc.fit_transform(X_train)
-# X_test = sc.transform(X_test)
-# pickle.dump(sc, open("./scaler.sav", "wb"))
+# X = encodeHotEncoder(X, 0)
+# # X = encodeHotEncoder(X, 13)
+# # X = encodeHotEncoder(X, 9)
+# y = encodeOutputVariable(y)
 
-# create ANN
+# # split the dataset into the training and test set
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-# initialize the ann
-classifier = Sequential()
+# # feature scaling - adjust for varying values in features
+# # sc = StandardScaler()
+# # X_train = sc.fit_transform(X_train)
+# # X_test = sc.transform(X_test)
+# # pickle.dump(sc, open("./scaler.sav", "wb"))
 
-# adding the input layer and the first hidden layer
-classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 47))
+# # create ANN
 
-# adding the second hidden layer
-classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
+# # initialize the ann
+# classifier = Sequential()
 
-# adding the third hidden layer
-classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
+# # adding the input layer and the first hidden layer
+# classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 47))
 
-# adding the output layer 
-classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
+# # adding the second hidden layer
+# classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
 
-# compiling the ANN
-classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
+# # adding the third hidden layer
+# classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
 
-# fitting the ANN to the training set
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 200)
+# # adding the output layer 
+# classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
 
-# making predictions and evaluating the model
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+# # compiling the ANN
+# classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
 
-cm = confusion_matrix(y_test, y_pred)
+# # fitting the ANN to the training set
+# classifier.fit(X_train, y_train, batch_size = 10, epochs = 200)
 
-score = classifier.evaluate(X_test, y_test, verbose=0)
+# # making predictions and evaluating the model
+# y_pred = classifier.predict(X_test)
+# y_pred = (y_pred > 0.5)
 
-print("Before model save")
-print(y_pred)
-print(cm)
-print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
+# cm = confusion_matrix(y_test, y_pred)
 
-# save model
-classifier.save("model.h5")
-classifier.save("model_weights.h5")
+# score = classifier.evaluate(X_test, y_test, verbose=0)
 
-# load model
-loaded_model = load_model("model.h5")
-print("loaded model from disk")
+# print("Before model save")
+# print(y_pred)
+# print(cm)
+# print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
 
-# evaluate loaded model on test data
-score = loaded_model.evaluate(X_test, y_test, verbose=0)
-y_pred = loaded_model.predict(X_test)
-y_pred = (y_pred > 0.5)
-print("After model save")
-print(y_pred)
-print(cm)
-print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+# # save model
+# classifier.save("model.h5")
+# classifier.save("model_weights.h5")
 
-tfjs.converters.save_keras_model(loaded_model, "../")
+# # load model
+# loaded_model = load_model("model.h5")
+# print("loaded model from disk")
+
+# # evaluate loaded model on test data
+# score = loaded_model.evaluate(X_test, y_test, verbose=0)
+# y_pred = loaded_model.predict(X_test)
+# y_pred = (y_pred > 0.5)
+# print("After model save")
+# print(y_pred)
+# print(cm)
+# print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+
+# tfjs.converters.save_keras_model(loaded_model, "../")
 

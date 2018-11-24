@@ -11,11 +11,16 @@ import CountiesCountTable from "../Table/CountiesCountTable";
 import { MapService } from "../../services/MapService/MapService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { DateService } from "../../services/DateService/DateService";
+import * as JulianDate from "julian-date";
+import * as julianParse from "julian";
 
 export default class AnalyzerDash extends Component {
 
     constructor() {
         super();
+
+        window["julian"] = new JulianDate();
+        window["julianParse"] = julianParse;
 
         this.fireSelected = this.fireSelected.bind(this);
         this.fireHovered = this.fireHovered.bind(this);
@@ -71,6 +76,10 @@ export default class AnalyzerDash extends Component {
 
     componentDidUpdate() {
 
+    }
+
+    componentWillUnmount() {
+        this.setState({});
     }
 
     fireSelected(fire) {
@@ -162,8 +171,7 @@ export default class AnalyzerDash extends Component {
                                 circleOnHover={this.fireHovered}
                                 circleHoverExit={this.fireHoverExit} />
 
-                            <CircleTooltip  text={"test"} 
-                                            x={this.state.tooltipX}
+                            <CircleTooltip  x={this.state.tooltipX}
                                             y={this.state.tooltipY}
                                             active={this.state.tooltipActive}
                                             text={this.state.tooltipText} />                                

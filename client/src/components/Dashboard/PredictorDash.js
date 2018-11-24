@@ -6,6 +6,7 @@ import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import { MapService } from "../../services/MapService/MapService"; 
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { DateService } from "../../services/DateService/DateService";
 
 // another possibility for date time range
 // http://projects.wojtekmaj.pl/react-datetimerange-picker/
@@ -45,6 +46,7 @@ export default class PredictorDash extends Component {
     }
 
     submitForm() {
+        let discoveredTime = DateService.convertTimeToJuian(this.state.post.DISCOVERY_TIME);
         console.log(this.state);
     }
 
