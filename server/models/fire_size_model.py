@@ -5,6 +5,7 @@
 # install environment dependencies
 # python3 -m pip install --user virtualenv
 # python3 -m virtualenv env
+# conda install tensorflowjs
 # source env/bin/activate
 # python3 -m pip install numpy tensorflow tensorflowjs pandas keras pysqlite3 sklearn 
 
@@ -136,78 +137,78 @@ y = dataset.iloc[:, 29].values
 # perhaps a chart showing the longest lasting fires
 
 # encode the categorical data
-X = convertDateColumns(X, 4)
+# X = convertDateColumns(X, 4)
 
 
-# X = encodeCategoricalData(X, 0)
-# # X = encodeCategoricalData(X, 1)
+X = encodeCategoricalData(X, 0)
+# X = encodeCategoricalData(X, 1)
 
-# X = encodeHotEncoder(X, 0)
-# # X = encodeHotEncoder(X, 13)
-# # X = encodeHotEncoder(X, 9)
-# y = encodeOutputVariable(y)
+X = encodeHotEncoder(X, 0)
+# X = encodeHotEncoder(X, 13)
+# X = encodeHotEncoder(X, 9)
+y = encodeOutputVariable(y)
 
-# # split the dataset into the training and test set
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+# split the dataset into the training and test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-# # feature scaling - adjust for varying values in features
-# # sc = StandardScaler()
-# # X_train = sc.fit_transform(X_train)
-# # X_test = sc.transform(X_test)
-# # pickle.dump(sc, open("./scaler.sav", "wb"))
+# feature scaling - adjust for varying values in features
+# sc = StandardScaler()
+# X_train = sc.fit_transform(X_train)
+# X_test = sc.transform(X_test)
+# pickle.dump(sc, open("./scaler.sav", "wb"))
 
-# # create ANN
+# create ANN
 
-# # initialize the ann
-# classifier = Sequential()
+# initialize the ann
+classifier = Sequential()
 
-# # adding the input layer and the first hidden layer
-# classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 47))
+# adding the input layer and the first hidden layer
+classifier.add(Dense(50, kernel_initializer = "uniform", activation = "relu", input_dim = 47))
 
-# # adding the second hidden layer
-# classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
+# adding the second hidden layer
+classifier.add(Dense(25, kernel_initializer = "uniform", activation = "relu"))
 
-# # adding the third hidden layer
-# classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
+# adding the third hidden layer
+classifier.add(Dense(10, kernel_initializer = "uniform", activation = "relu"))
 
-# # adding the output layer 
-# classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
+# adding the output layer 
+classifier.add(Dense(1, kernel_initializer = "uniform", activation = "sigmoid"))
 
-# # compiling the ANN
-# classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
+# compiling the ANN
+classifier.compile(optimizer = "adam", loss = "mean_squared_error", metrics = ["accuracy"])
 
-# # fitting the ANN to the training set
-# classifier.fit(X_train, y_train, batch_size = 10, epochs = 200)
+# fitting the ANN to the training set
+classifier.fit(X_train, y_train, batch_size = 10, epochs = 200)
 
-# # making predictions and evaluating the model
-# y_pred = classifier.predict(X_test)
-# y_pred = (y_pred > 0.5)
+# making predictions and evaluating the model
+y_pred = classifier.predict(X_test)
+y_pred = (y_pred > 0.5)
 
-# cm = confusion_matrix(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
 
-# score = classifier.evaluate(X_test, y_test, verbose=0)
+score = classifier.evaluate(X_test, y_test, verbose=0)
 
-# print("Before model save")
-# print(y_pred)
-# print(cm)
-# print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
+print("Before model save")
+print(y_pred)
+print(cm)
+print("%s: %.2f%%" % (classifier.metrics_names[1], score[1]*100))
 
-# # save model
-# classifier.save("model.h5")
-# classifier.save("model_weights.h5")
+# save model
+classifier.save("model.h5")
+classifier.save("model_weights.h5")
 
-# # load model
-# loaded_model = load_model("model.h5")
-# print("loaded model from disk")
+# load model
+loaded_model = load_model("model.h5")
+print("loaded model from disk")
 
-# # evaluate loaded model on test data
-# score = loaded_model.evaluate(X_test, y_test, verbose=0)
-# y_pred = loaded_model.predict(X_test)
-# y_pred = (y_pred > 0.5)
-# print("After model save")
-# print(y_pred)
-# print(cm)
-# print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+# evaluate loaded model on test data
+score = loaded_model.evaluate(X_test, y_test, verbose=0)
+y_pred = loaded_model.predict(X_test)
+y_pred = (y_pred > 0.5)
+print("After model save")
+print(y_pred)
+print(cm)
+print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
-# tfjs.converters.save_keras_model(loaded_model, "../")
+tfjs.converters.save_keras_model(loaded_model, "../")
 
