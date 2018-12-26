@@ -88,7 +88,7 @@ conn = sqlite3.connect(sqlite_file)
 dataset = pd.read_sql_query("select * from Fires limit 50000;", conn)
 
 # split dataset into train and test lists
-X = dataset.iloc[:, [34, 30, 31, 23, 20, 25]]
+X = dataset.iloc[:, [34, 30, 31, 23, 20, 25]].values
 y = dataset.iloc[:, 29].values
 
 # sqlite3 commands

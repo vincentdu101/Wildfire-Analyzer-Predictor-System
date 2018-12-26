@@ -46,7 +46,11 @@ export default class PredictorDash extends Component {
     }
 
     submitForm() {
-        let discoveredTime = DateService.convertTimeToJuian(this.state.post.DISCOVERY_TIME);
+        let test = DateService.convertTimeToJulian(new Date());
+        debugger;
+        console.log(Date)
+        
+        // let discoveredTime = DateService.convertTimeToJuian(this.state.post.DISCOVERY_TIME);
         console.log(this.state);
     }
 

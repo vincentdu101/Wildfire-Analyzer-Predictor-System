@@ -14,8 +14,10 @@ export class DateService {
         return new Date(parsedDate);
     } 
 
-    static convertTimeToJuian(time) {
-        debugger;
+    static convertTimeToJulian(datetime) {
+        // Jan. 1, 1970 00:00:00 UTC
+        let epoch = 2440587.500000;                   
+        return datetime.getTime() / 86400000 + epoch;
     }
 
 
