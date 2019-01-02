@@ -61,7 +61,7 @@ def wildfire_size_predict():
     if (params != None):
         # load model
         keras.backend.clear_session()
-        X_test, y_test = encoder_service.get_wildfires_test_data()
+        X_test, y_test = encoder_service.get_wildfires_size_test_data()
         model = model_service.load_wildfire_size()
         params = encoder_service.encode_wildfire_size_categories(params)
         score = model.evaluate(X_test, y_test, verbose=0)
@@ -70,6 +70,60 @@ def wildfire_size_predict():
         data["prediction"] = encoder_service.decodeOutputVariable(predictions[0, :].item(0))
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
+
+@app.route("/ann-wildfire-cause-predict", methods=["POST"])
+def ann_wildfire_cause_predict(): 
+    data = {"success": False}
+
+    # if parameters are found, return a prediction
+    params = request.get_json()
+
+    if (params != None):
+        # load model
+        keras.backend.clear_session()
+        X_test, y_test = encoder_service.get_wildfires_cause_test_data()
+        model = model_service.load_ann_wildfire_cause()
+        params = encoder_service.encode_wildfire_cause_categories(params)
+        score = model.evaluate(X_test, y_test, verbose=0)
+        print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
+        predictions = model.predict_classes(np.array(params))
+        data["prediction"] = encoder_service.decodeOutputVariable(predictions[0, :].item(0))
+        data["success"] = True
+    return connection_service.setup_json_response(json.dumps(data)) 
+
+@app.route("/random-forest-wildfire-cause-predict", methods=["POST"])
+def random_forest_wildfire_cause_predict(): 
+    data = {"success": False}
+
+    # if parameters are found, return a prediction
+    params = request.get_json()
+
+    if (params != None):
+        # load model
+        X_test, y_test = encoder_service.get_wildfires_cause_test_data()
+        model = model_service.load_random_forest_wildfire_cause()
+        params = encoder_service.encode_wildfire_cause_categories(params)
+        predictions = model.predict(params)
+        data["prediction"] = predictions[0]
+        data["success"] = True
+    return connection_service.setup_json_response(json.dumps(data))   
+
+@app.route("/naive-bayes-wildfire-cause-predict", methods=["POST"])
+def naive_bayes_wildfire_cause_predict(): 
+    data = {"success": False}
+
+    # if parameters are found, return a prediction
+    params = request.get_json()
+
+    if (params != None):
+        # load model
+        X_test, y_test = encoder_service.get_wildfires_cause_test_data()
+        model = model_service.load_naive_bayes_wildfire_cause()
+        params = encoder_service.encode_wildfire_cause_categories(params)
+        predictions = model.predict(params)
+        data["prediction"] = predictions[0]
+        data["success"] = True
+    return connection_service.setup_json_response(json.dumps(data))            
 
 @app.route("/wildfire-by-year", methods=["GET"])
 def get_wildfire_by_year():

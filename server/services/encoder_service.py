@@ -10,25 +10,56 @@ class EncoderService:
     def __init__(self, app):
         self.data_service = DataService(app)
         self.scaler = pickle.load(open("./models/scaler.sav", "rb"))
+        self.define_model_params()
+
+    def define_model_params(self):
+        self.size_params = ["STATE", "LATITUDE", "LONGITUDE", "STAT_CAUSE_CODE", 
+        "DISCOVERY_DOY", "DISCOVERY_TIME", "CONT_DOY", "CONT_TIME"]
+
+        self.cause_params = ["STATE", "COUNTY", "LATITUDE", "LONGITUDE", "FIRE_SIZE_CLASS", 
+        "FIRE_SIZE", "FIRE_YEAR", "DISCOVERY_DATE", "DISCOVERY_TIME", "CONT_DATE", "CONT_TIME"]
 
     def encode_wildfire_size_categories(self, params):
         # params = pd.DataFrame(data=params)
-        X = self.data_service.get_wildfires_independent()
-        df2 = pd.DataFrame(data=params, columns=["STATE", "LATITUDE", "LONGITUDE", "STAT_CAUSE_CODE", "DISCOVERY_DOY", "DISCOVERY_TIME", "CONT_DOY", "CONT_TIME"])
+        X = self.data_service.get_wildfires_size_independent()
+        df2 = pd.DataFrame(data=params, columns=self.size_params)
         X.loc[0] = df2.loc[0]
         X = X.values
         X = self.encodeCategoricalData(X, 0)
         X = self.encodeHotEncoder(X, 0)
         return X
 
-    def get_wildfires_test_data(self):
-        X = self.data_service.get_wildfires_independent().values
-        y = self.data_service.get_wildfires_dependent().values
+    def encode_wildfire_cause_categories(self, params):
+        # params = pd.DataFrame(data=params)
+        X = self.data_service.get_wildfires_cause_independent()
+        df2 = pd.DataFrame(data=params, columns=self.cause_params)
+        X.loc[0] = df2.loc[0]
+        X = X.values
+        X = self.encodeCategoricalData(X, 0)
+        X = self.encodeCategoricalData(X, 4)
+        X = self.encodeHotEncoder(X, 0)
+        X = self.encodeHotEncoder(X, 4)
+        return X              
+
+    def get_wildfires_size_test_data(self):
+        X = self.data_service.get_wildfires_size_independent().values
+        y = self.data_service.get_wildfires_size_dependent().values
         X = self.encodeCategoricalData(X, 0)
         X = self.encodeHotEncoder(X, 0)
         y = self.encodeOutputVariable(y)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
         return X_test, y_test
+
+    def get_wildfires_cause_test_data(self):
+        X = self.data_service.get_wildfires_cause_independent().values
+        y = self.data_service.get_wildfires_cause_dependent().values
+        X = self.encodeCategoricalData(X, 0)
+        X = self.encodeCategoricalData(X, 4)
+        X = self.encodeHotEncoder(X, 0)
+        X = self.encodeHotEncoder(X, 4)
+        y = self.encodeOutputVariable(y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+        return X_test, y_test        
 
     def encodeOutputVariable(self, y):
         self.labelencoder_Y_Origin = LabelEncoder()
