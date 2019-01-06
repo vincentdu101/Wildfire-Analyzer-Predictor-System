@@ -7,9 +7,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MapService } from "../../services/MapService/MapService"; 
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { DateService } from "../../services/DateService/DateService";
+import InputRange from "react-input-range";
+import "react-input-range/lib/css/index.css";
+import * as _ from "lodash";
+import { FireDataService } from "../../services/FireDataService/FireDataService";
 
-// another possibility for date time range
-// http://projects.wojtekmaj.pl/react-datetimerange-picker/
+// range slider
+// https://github.com/davidchin/react-input-range
 
 export default class PredictorDash extends Component {
 
@@ -18,18 +22,31 @@ export default class PredictorDash extends Component {
 
         this.inputFieldChanged = this.inputFieldChanged.bind(this);
         this.submitForm = this.submitForm.bind(this);
-        this.dateChanged = this.dateChanged.bind(this);
+        this.determineFireSize = this.determineFireSize.bind(this);
+        this.isPredictionMade = this.isPredictionMade.bind(this);
+        this.determinePredictionModel = this.determinePredictionModel.bind(this);
 
         this.state = {
             data: null,
             maps: null,
+            prediction: null,
+            slider: {
+                step: 10,
+                max: 700000,
+                min: 0.1,
+            },
+            model: "ANN",
             post: {
                 STATE: "CA",
-                STAT_CAUSE_CODE: "",
-                LONGITUDE: 1,
-                DISCOVERY_DOY: new Date(),
+                COUNTY: "63",
+                FIRE_SIZE_CLASS: "A",
+                FIRE_SIZE: 0.1,
+                FIRE_YEAR: 2005,
+                LATITUDE: 40.03694444,
+                LONGITUDE: -121.00583333,
+                DISCOVERY_DATE: new Date(),
                 DISCOVERY_TIME: "00:00",
-                CONT_DOY: new Date(),
+                CONT_DATE: new Date(),
                 CONT_TIME: "00:00"
             }
         };
@@ -45,13 +62,51 @@ export default class PredictorDash extends Component {
 
     }
 
+    determineFireSize(classSize) {
+        switch (classSize) {
+            case "A": {
+                return 0.25;
+            } case "B": {
+                return 0.9;
+            } case "C": {
+                return 99.9;
+            } case "D": {
+                return 299.8;
+            } case "E": {
+                return 999.0;
+            } case "F": {
+                return 4994.0;
+            } case "G": {
+                return 700000;
+            } default: {
+                return 0.1;
+            }
+        }
+    }
+
+    determinePredictionModel(model, post) {
+        if (model === "ANN") {
+            return FireDataService.postANNCausePredictionModel(post);
+        } else if (model === "Random Forest") {
+            return FireDataService.postRandomForestCausePredictionModel(post);
+        } else if (model === "Naive Bayes") {
+            return FireDataService.postNaiveBayesCausePredictionModel(post)
+        }
+    }
+
     submitForm() {
-        let test = DateService.convertTimeToJulian(new Date());
-        debugger;
-        console.log(Date)
-        
-        // let discoveredTime = DateService.convertTimeToJuian(this.state.post.DISCOVERY_TIME);
-        console.log(this.state);
+        let post = _.clone(this.state.post);
+        post.CONT_DATE = DateService.convertTimeToJulian(this.state.post.CONT_DATE);
+        post.DISCOVERY_DATE = DateService.convertTimeToJulian(this.state.post.DISCOVERY_DATE);
+        post.CONT_TIME = this.state.post.CONT_TIME.replace(":", "");
+        post.DISCOVERY_TIME = this.state.post.DISCOVERY_TIME.replace(":", "");
+        post.FIRE_YEAR = this.state.post.CONT_DATE.getFullYear();
+        post.FIRE_SIZE = this.determineFireSize(this.state.post.FIRE_SIZE_CLASS);
+        delete post.DISCOVERY_DOY;
+        delete post.CONT_DOY;
+        this.determinePredictionModel(this.state.model, post).then(res => {
+            this.setState({prediction: res.data.prediction});
+        });
     }
 
     inputFieldChanged(key, value) {
@@ -60,10 +115,10 @@ export default class PredictorDash extends Component {
         this.setState({post: param});
     }
 
-    dateChanged(key, value) {
-        console.log(value);
+    isPredictionMade() {
+        return (!!this.state.prediction).toString();
     }
- 
+
     render() {
         return (
             <div className="no-gutters">
@@ -71,6 +126,19 @@ export default class PredictorDash extends Component {
                 <div className="row">
                     <div className="col-xs-12 col-sm-4 card">
                         <Form className="predictor-form">
+                            <FormGroup row>
+                                <Label for="state-select">Prediction Model</Label>
+                                <Input  type="select" 
+                                        name="model" 
+                                        id="model-select" 
+                                        onChange={(event) => this.setState({model: event.target.value})}
+                                        value={this.state.model}>
+                                    <option value={"ANN"}>Artificial Neural Network</option>
+                                    <option value={"Random Forest"}>Random Forest</option>
+                                    <option value={"Naive Bayes"}>Naive Bayes</option>
+                                </Input>
+                            </FormGroup>
+
                             <FormGroup row>
                                 <Label for="state-select">State</Label>
                                 <Input  type="select" 
@@ -84,17 +152,19 @@ export default class PredictorDash extends Component {
                             </FormGroup>
 
                             <FormGroup row>
-                                <Label for="cause-select">Cause of Fire</Label>
+                                <Label for="cause-select">Fire Size</Label>
                                 <Input  type="select" 
-                                        name="cause" 
-                                        id="cause-select"
-                                        onChange={(event) => this.inputFieldChanged("STAT_CAUSE_CODE", event.target.value)}
-                                        value={this.state.post.STAT_CAUSE_CODE}>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                        name="fire-size-class" 
+                                        id="fire-size-class-select" 
+                                        onChange={(event) => this.inputFieldChanged("FIRE_SIZE_CLASS", event.target.value)}
+                                        value={this.state.post.FIRE_SIZE_CLASS}>
+                                    <option value={"A"}>A</option>
+                                    <option value={"B"}>B</option>
+                                    <option value={"C"}>C</option>
+                                    <option value={"D"}>D</option>
+                                    <option value={"E"}>E</option>
+                                    <option value={"F"}>F</option>
+                                    <option value={"G"}>G</option>
                                 </Input>
                             </FormGroup>
 
@@ -135,6 +205,12 @@ export default class PredictorDash extends Component {
                             <Map maps={this.state.maps} />
                         </section>
                     </div>
+                </div>
+
+                <div className="row col-xs-12 card" if={this.isPredictionMade()}>
+
+                    {this.state.prediction}
+
                 </div>
 
                 <div className="row col-xs-12 card align-items-center button-section">
