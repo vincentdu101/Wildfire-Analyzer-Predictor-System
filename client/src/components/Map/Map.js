@@ -19,6 +19,7 @@ export default class Map extends React.Component {
         this.circleOnClick = this.circleOnClick.bind(this);
         this.circleOnHover = this.circleOnHover.bind(this);
         this.circleOnHoverExit = this.circleOnHoverExit.bind(this);
+        this.determineGPSLocation = this.determineGPSLocation.bind(this);
         
         this.state = {
             maps: null,
@@ -31,7 +32,10 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate() {
+    }
 
+    determineGPSLocation() {
+        console.log(d3.mouse(this));
     }
 
     circleOnClick(event) {
@@ -63,6 +67,14 @@ export default class Map extends React.Component {
     }
 
     generateMap(path) {
+        console.log(d3.select("svg"));
+        debugger;
+
+        d3.select("svg").append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .on("mousemove", this.determineGPSLocation);
+
         if (this.state.maps) {
             return this.generatePath(path, this.state.maps.features);
         } else {
