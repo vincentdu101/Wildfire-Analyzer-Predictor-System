@@ -67,14 +67,6 @@ export default class Map extends React.Component {
     }
 
     generateMap(path) {
-        console.log(d3.select("svg"));
-        debugger;
-
-        d3.select("svg").append("rect")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .on("mousemove", this.determineGPSLocation);
-
         if (this.state.maps) {
             return this.generatePath(path, this.state.maps.features);
         } else {

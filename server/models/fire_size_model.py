@@ -7,7 +7,7 @@
 # python3 -m virtualenv env
 # conda install tensorflowjs
 # source env/bin/activate
-# python3 -m pip install numpy tensorflow tensorflowjs pandas keras pysqlite3 sklearn 
+# python3 -m pip install numpy tensorflow flask_sqlalchemy tensorflowjs pandas keras pysqlite3 sklearn 
 
 # source environment library files for python
 # source ./env/bin/activate

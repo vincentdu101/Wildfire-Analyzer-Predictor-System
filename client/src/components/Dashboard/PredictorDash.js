@@ -7,10 +7,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MapService } from "../../services/MapService/MapService"; 
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { DateService } from "../../services/DateService/DateService";
-import InputRange from "react-input-range";
 import "react-input-range/lib/css/index.css";
 import * as _ from "lodash";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
+import { StateDataService } from "../../services/StateDataService/StateDataService";
 
 // range slider
 // https://github.com/davidchin/react-input-range
@@ -35,6 +35,7 @@ export default class PredictorDash extends Component {
                 max: 700000,
                 min: 0.1,
             },
+            stateData: null,
             model: "ANN",
             post: {
                 STATE: "CA",
@@ -53,6 +54,8 @@ export default class PredictorDash extends Component {
     }
 
     componentDidMount() {
+        this.setState({stateData: StateDataService.statesAndCounties});
+
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
         });

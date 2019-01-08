@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import './App.css';
 import Main from "./components/Main";
+import {StateDataService} from "./services/StateDataService/StateDataService"; 
 
 export default class App extends Component {
+
+    constructor() {
+        StateDataService.injectStateCountyInfo();
+        super();
+    }
+
     render() {
         return (
             <Router>
