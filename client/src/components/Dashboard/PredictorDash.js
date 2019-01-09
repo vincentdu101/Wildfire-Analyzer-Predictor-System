@@ -54,7 +54,10 @@ export default class PredictorDash extends Component {
     }
 
     componentDidMount() {
-        this.setState({stateData: StateDataService.statesAndCounties});
+        StateDataService.injectStateCountyInfo((data) => {
+            this.setState({stateData: data});
+            console.log(this.state.stateData);
+        });
 
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
@@ -62,7 +65,6 @@ export default class PredictorDash extends Component {
     }
 
     componentDidUpdate() {
-
     }
 
     determineFireSize(classSize) {
@@ -122,6 +124,28 @@ export default class PredictorDash extends Component {
         return (!!this.state.prediction).toString();
     }
 
+    outputStateSelect() {
+        if (this.state.stateData) {
+            debugger;
+            let states = Object.keys(this.state.stateData);
+            console.log(this.state.stateData);
+            console.log(states);
+            return (
+                <Input  type="select" 
+                        name="state" 
+                        id="state-select" 
+                        onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
+                        value={this.state.post.STATE}>
+                    
+                    <option value={"CA"}>CA</option>
+                    <option value={"WA"}>WA</option>
+                </Input>
+            );
+        } else {
+            return (<div>test</div>);
+        }
+    }
+
     render() {
         return (
             <div className="no-gutters">
@@ -144,14 +168,7 @@ export default class PredictorDash extends Component {
 
                             <FormGroup row>
                                 <Label for="state-select">State</Label>
-                                <Input  type="select" 
-                                        name="state" 
-                                        id="state-select" 
-                                        onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
-                                        value={this.state.post.STATE}>
-                                    <option value={"CA"}>CA</option>
-                                    <option value={"WA"}>WA</option>
-                                </Input>
+                                {this.outputStateSelect()}
                             </FormGroup>
 
                             <FormGroup row>

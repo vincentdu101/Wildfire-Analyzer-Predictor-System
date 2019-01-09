@@ -3,11 +3,12 @@
 # https://www.kaggle.com/rtatman/188-million-us-wildfires
 
 # install environment dependencies
-# python3 -m pip install --user virtualenv
-# python3 -m virtualenv env
+# install pyenv and use 3.6.6
+# pip install virtualenv
+# virtualenv env
 # conda install tensorflowjs
 # source env/bin/activate
-# python3 -m pip install numpy tensorflow flask_sqlalchemy tensorflowjs pandas keras pysqlite3 sklearn 
+# pip install numpy tensorflow flask_sqlalchemy tensorflowjs pandas keras pysqlite3 sklearn 
 
 # source environment library files for python
 # source ./env/bin/activate
