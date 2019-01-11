@@ -25,6 +25,11 @@ export default class PredictorDash extends Component {
         this.determineFireSize = this.determineFireSize.bind(this);
         this.isPredictionMade = this.isPredictionMade.bind(this);
         this.determinePredictionModel = this.determinePredictionModel.bind(this);
+        this.outputStateValues = this.outputStateValues.bind(this);
+        this.outputCountySelect = this.outputCountySelect.bind(this);
+        this.outputCountyValues = this.outputCountyValues.bind(this);
+        this.determineCountyCode = this.determineCountyCode.bind(this);
+        this.updateCountyStateInfo = this.updateCountyStateInfo.bind(this);
 
         this.state = {
             data: null,
@@ -35,11 +40,12 @@ export default class PredictorDash extends Component {
                 max: 700000,
                 min: 0.1,
             },
-            stateData: null,
+            stateData: StateDataService.statesAndCounties,
             model: "ANN",
             post: {
                 STATE: "CA",
-                COUNTY: "63",
+                FIPS_CODE: "063",
+                COUNTY: "Plumas",
                 FIRE_SIZE_CLASS: "A",
                 FIRE_SIZE: 0.1,
                 FIRE_YEAR: 2005,
@@ -53,18 +59,23 @@ export default class PredictorDash extends Component {
         };
     }
 
-    componentDidMount() {
-        StateDataService.injectStateCountyInfo((data) => {
+    componentWillMount() {
+        StateDataService.injectStateCountyInfo().then((data) => {
             this.setState({stateData: data});
-            console.log(this.state.stateData);
         });
+    }
 
+    componentDidMount() {
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
         });
     }
 
     componentDidUpdate() {
+    }
+
+    determineCountyCode(code) {
+        return code.toString().slice(2, code.length - 1);
     }
 
     determineFireSize(classSize) {
@@ -89,6 +100,37 @@ export default class PredictorDash extends Component {
         }
     }
 
+    updateCountyStateInfo(value) {
+        let param = this.state.post;
+        let stateAndCounty = this.state.stateData[param.STATE][value];
+        param.LATITUDE = stateAndCounty.lat
+        param.COUNTY = value;
+        param.LONGITUDE = stateAndCounty.lng;
+        this.setState({post: param});
+    }
+
+    outputStateValues() {
+        let states = Object.keys(this.state.stateData).sort();
+        return states.map((row, index) => {
+            if (Object.keys(this.state.stateData[row]).length > 0) {
+                return (
+                    <option value={row} key={row + index}>{row}</option>
+                );
+            }
+        });
+    }
+
+    outputCountyValues() {
+        if (this.state.post.STATE && Object.keys(this.state.stateData).length > 0) {
+            let counties = Object.keys(this.state.stateData[this.state.post.STATE]).sort();
+            return counties.map((row, index) => {
+                return (
+                    <option value={row} key={row + index}>{row}</option>
+                );
+            });
+        }
+    }
+
     determinePredictionModel(model, post) {
         if (model === "ANN") {
             return FireDataService.postANNCausePredictionModel(post);
@@ -101,14 +143,17 @@ export default class PredictorDash extends Component {
 
     submitForm() {
         let post = _.clone(this.state.post);
+        let stateAndCounty = this.state.stateData[post.STATE][post.COUNTY];
         post.CONT_DATE = DateService.convertTimeToJulian(this.state.post.CONT_DATE);
         post.DISCOVERY_DATE = DateService.convertTimeToJulian(this.state.post.DISCOVERY_DATE);
         post.CONT_TIME = this.state.post.CONT_TIME.replace(":", "");
         post.DISCOVERY_TIME = this.state.post.DISCOVERY_TIME.replace(":", "");
         post.FIRE_YEAR = this.state.post.CONT_DATE.getFullYear();
         post.FIRE_SIZE = this.determineFireSize(this.state.post.FIRE_SIZE_CLASS);
+        post.FIPS_CODE = this.determineCountyCode(stateAndCounty.fips_code);
         delete post.DISCOVERY_DOY;
         delete post.CONT_DOY;
+        delete post.COUNTY
         this.determinePredictionModel(this.state.model, post).then(res => {
             this.setState({prediction: res.data.prediction});
         });
@@ -125,25 +170,27 @@ export default class PredictorDash extends Component {
     }
 
     outputStateSelect() {
-        if (this.state.stateData) {
-            debugger;
-            let states = Object.keys(this.state.stateData);
-            console.log(this.state.stateData);
-            console.log(states);
-            return (
-                <Input  type="select" 
-                        name="state" 
-                        id="state-select" 
-                        onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
-                        value={this.state.post.STATE}>
-                    
-                    <option value={"CA"}>CA</option>
-                    <option value={"WA"}>WA</option>
-                </Input>
-            );
-        } else {
-            return (<div>test</div>);
-        }
+        return (
+            <Input  type="select" 
+                    name="state" 
+                    id="state-select" 
+                    onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
+                    value={this.state.post.STATE}>
+                {this.outputStateValues()}
+            </Input>
+        );
+    }
+
+    outputCountySelect() {
+        return (
+            <Input  type="select" 
+                    name="county" 
+                    id="county-select" 
+                    onChange={(event) => this.updateCountyStateInfo(event.target.value)}
+                    value={this.state.post.COUNTY}>
+                {this.outputCountyValues()}
+            </Input>
+        );
     }
 
     render() {
@@ -169,6 +216,11 @@ export default class PredictorDash extends Component {
                             <FormGroup row>
                                 <Label for="state-select">State</Label>
                                 {this.outputStateSelect()}
+                            </FormGroup>
+
+                            <FormGroup row>
+                                <Label for="state-select">Counties</Label>
+                                {this.outputCountySelect()}
                             </FormGroup>
 
                             <FormGroup row>
@@ -222,7 +274,7 @@ export default class PredictorDash extends Component {
 
                     <div className="col-xs-12 col-sm-8 card">
                         <section className="predictor-dash">
-                            <Map maps={this.state.maps} />
+                            <Map maps={this.state.maps} focusedPoint={[this.state.post.LATITUDE, this.state.post.LONGITUDE]} />
                         </section>
                     </div>
                 </div>

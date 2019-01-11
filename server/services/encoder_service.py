@@ -30,7 +30,6 @@ class EncoderService:
         return X
 
     def encode_wildfire_cause_categories(self, params):
-        # params = pd.DataFrame(data=params)
         X = self.data_service.get_wildfires_cause_independent()
         df2 = pd.DataFrame(data=params, columns=self.cause_params)
         X.loc[0] = df2.loc[0]

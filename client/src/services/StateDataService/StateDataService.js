@@ -19,7 +19,7 @@ export class StateDataService {
     
                     if (!this.statesAndCounties[stateId][county] && !!county) {
                         this.statesAndCounties[stateId][county] = {
-                            lat: entry.lat, lng: entry.lng
+                            lat: entry.lat, lng: entry.lng, fips_code: entry.county_fips
                         };
                     }
                 }

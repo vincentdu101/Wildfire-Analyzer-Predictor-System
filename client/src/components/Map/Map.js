@@ -14,6 +14,7 @@ export default class Map extends React.Component {
 
         this.generateMap = this.generateMap.bind(this);
         this.generateState = this.generateState.bind(this);
+        this.generateFocusedPoint = this.generateFocusedPoint.bind(this);
         this.generatePath = this.generatePath.bind(this);
         this.projection = this.projection.bind(this);
         this.circleOnClick = this.circleOnClick.bind(this);
@@ -23,12 +24,13 @@ export default class Map extends React.Component {
         
         this.state = {
             maps: null,
-            circles: []
+            circles: [],
+            focusedPoint: null
         };
     }
 
     componentDidMount() {
-        this.setState({maps: null});
+        this.setState({maps: null, focusedPoint: null});
     }
 
     componentDidUpdate() {
@@ -64,6 +66,10 @@ export default class Map extends React.Component {
         if (nextProps.circles) {
             this.setState({circles: nextProps.circles});
         }
+        
+        if (nextProps.focusedPoint) {
+            this.setState({focusedPoint: nextProps.focusedPoint});
+        }
     }
 
     generateMap(path) {
@@ -72,6 +78,49 @@ export default class Map extends React.Component {
         } else {
             return (<div>test</div>);
         }
+    }
+
+    generateFocusedPoint() {
+        if (this.state.maps && this.state.focusedPoint) {
+            // https://d3indepth.com/geographic/
+            // use invert method to reverse convert coordinates to gps locations
+
+            const fill = "steelblue";
+            const projection = this.projection();
+            const locations = projection([this.state.focusedPoint[1], this.state.focusedPoint[0]]);
+            console.log(this.state.focusedPoint);
+            console.log(locations);
+            return (
+                <CSSTransition
+                    key={"focused-1"}
+                    classNames={`focused-state-transition`}
+                    appear={true}
+                    timeout={5000}>
+
+
+                    <g className="circle-container">
+                        <circle
+                            className={`focused-states-circle raw focused-state-transition-circle-0`}
+                            r={5}
+                            data-index={"focused-states-1"}
+                            id={"focused-id"}
+                            fill={fill}
+                            stroke="#000000"
+                            strokeWidth={0.5}
+                            cx={locations[0]}
+                            cy={locations[1]}
+                            opacity={0.75}
+                            onClick={this.circleOnClick}
+                            onMouseOver={this.circleOnHover}
+                            onMouseOut={this.circleOnHoverExit}
+                        />
+                    </g>
+
+                </CSSTransition>
+            );
+        } else {
+            return (<div>test</div>);
+        }        
     }
 
     generateCircles() {
@@ -197,6 +246,7 @@ export default class Map extends React.Component {
                             >
                                 {this.generateMap(path)}
                                 {this.generateCircles()}
+                                {this.generateFocusedPoint()}
                             </svg>
                         </div>
                     </div>
