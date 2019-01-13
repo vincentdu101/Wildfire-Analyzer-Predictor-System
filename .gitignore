@@ -1,3 +1,2 @@
 **/*.sqlite
-env
 client/node_modules

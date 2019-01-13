@@ -30,6 +30,7 @@ export default class PredictorDash extends Component {
         this.outputCountyValues = this.outputCountyValues.bind(this);
         this.determineCountyCode = this.determineCountyCode.bind(this);
         this.updateCountyStateInfo = this.updateCountyStateInfo.bind(this);
+        this.outputPredictionSection = this.outputPredictionSection.bind(this);
 
         this.state = {
             data: null,
@@ -155,7 +156,7 @@ export default class PredictorDash extends Component {
         delete post.CONT_DOY;
         delete post.COUNTY
         this.determinePredictionModel(this.state.model, post).then(res => {
-            this.setState({prediction: res.data.prediction});
+            this.setState({prediction: FireDataService.causeOfFirePerCode(res.data.prediction)});
         });
     }
 
@@ -166,7 +167,7 @@ export default class PredictorDash extends Component {
     }
 
     isPredictionMade() {
-        return (!!this.state.prediction).toString();
+        return !!this.state.prediction ? true : false;
     }
 
     outputStateSelect() {
@@ -191,6 +192,33 @@ export default class PredictorDash extends Component {
                 {this.outputCountyValues()}
             </Input>
         );
+    }
+
+    outputPredictionSection() {
+        if (this.isPredictionMade()) {
+
+            return (
+                <div className="row col-xs-12 card" if={this.isPredictionMade()}>
+                    <div className="card-title">
+                        <h3>Prediction Results</h3>
+                    </div>
+
+                    <div className="card-body">
+                        <div className="row">
+                            <div className="col-xs-12 col-xs-4">
+                            
+                            </div>
+
+                            <div className="col-xs-12 col-xs-8">
+                                <h5></h5>
+                            </div>
+                        </div>
+                    </div>
+                    {this.state.prediction}
+
+                </div>
+            );
+        }
     }
 
     render() {
@@ -279,11 +307,7 @@ export default class PredictorDash extends Component {
                     </div>
                 </div>
 
-                <div className="row col-xs-12 card" if={this.isPredictionMade()}>
-
-                    {this.state.prediction}
-
-                </div>
+                {this.outputPredictionSection()}
 
                 <div className="row col-xs-12 card align-items-center button-section">
                     <Button onClick={this.submitForm}>Submit</Button>

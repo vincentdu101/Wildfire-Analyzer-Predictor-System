@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as _ from "lodash";
+import * as causes from "../../data/fire-causes.json";
 
 export class FireDataService {
 
@@ -54,6 +55,10 @@ export class FireDataService {
     static postNaiveBayesCausePredictionModel(post) {
         post = this.parsePostData(post);
         return axios.post("http://localhost:5000/naive-bayes-wildfire-cause-predict", post);
+    }
+
+    static causeOfFirePerCode(code) {
+        return causes[parseInt(code.toString())];
     }
 
 }
