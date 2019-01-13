@@ -1,79 +1,79 @@
 {
     "1": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Lightning",
+        "image": "/img/lightning.jpeg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "2": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Equipment Use",
+        "image": "/img/equipment.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "3": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Smoking",
+        "image": "/img/smoking.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "4": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Campfire",
+        "image": "/img/campfire.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "5": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Debris Burning",
+        "image": "/img/debris.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "6": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Railroad",
+        "image": "/img/railroad.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "7": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Arson",
+        "image": "/img/arson.jpeg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "8": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Children",
+        "image": "/img/children.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "9": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Miscellaneous",
+        "image": "/img/misc.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "10": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Fireworks",
+        "image": "/img/fireworks.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "11": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Powerline",
+        "image": "/img/powerline.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "12": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Structure",
+        "image": "/img/structures.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     },
     "13": {
-        "name": "Name of cause",
-        "image": "image",
+        "name": "Missing/Undefined",
+        "image": "/img/misc.jpg",
         "description": "This is a valid cause",
         "details": "Statistics about cause"
     }

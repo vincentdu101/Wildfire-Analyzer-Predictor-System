@@ -13,6 +13,14 @@ import { FireDataService } from "../../services/FireDataService/FireDataService"
 import { DateService } from "../../services/DateService/DateService";
 import * as JulianDate from "julian-date";
 import * as julianParse from "julian";
+import * as slideShow from "../../data/home-slideshow.json";
+import {
+    Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    CarouselCaption
+  } from 'reactstrap';
 
 export default class AnalyzerDash extends Component {
 
@@ -27,8 +35,17 @@ export default class AnalyzerDash extends Component {
         this.fireHoverExit = this.fireHoverExit.bind(this);
         this.outputFireText = this.outputFireText.bind(this);
         this.convertCausesData = this.convertCausesData.bind(this);
+        this.next = this.next.bind(this);
+        this.previous = this.previous.bind(this);
+        this.goToIndex = this.goToIndex.bind(this);
+        this.onExiting = this.onExiting.bind(this);
+        this.onExited = this.onExited.bind(this);
+        this.outputCarousel = this.outputCarousel.bind(this);
+        this.imgWidth = "600";
+        this.imgHeight = "400";
 
         this.state = {
+            activeIndex: 0,
             data: null,
             maps: null,
             fires: null,
@@ -146,9 +163,73 @@ export default class AnalyzerDash extends Component {
         });
     }
 
+    onExiting() {
+        this.animating = true;
+    }
+
+    onExited() {
+        this.animating = false;
+    }
+
+    next() {
+        if (this.animating) return;
+        const nextIndex = this.state.activeIndex === slideShow.length - 1 ? 0 : this.state.activeIndex + 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    previous() {
+        if (this.animating) return;
+        const nextIndex = this.state.activeIndex === 0 ? slideShow.length - 1 : this.state.activeIndex - 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    goToIndex(newIndex) {
+        if (this.animating) return;
+        this.setState({ activeIndex: newIndex });
+    }
+
+    outputCarousel() {
+        const { activeIndex } = this.state;
+
+        const slides = slideShow.map((item) => {
+          return (
+            <CarouselItem
+              onExiting={this.onExiting}
+              onExited={this.onExited}
+              key={item.src}
+            >
+              <img src={item.src} alt={item.altText} width={this.imgWidth} height={this.imgHeight} />
+              <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+            </CarouselItem>
+          );
+        });
+    
+        return (
+          <Carousel
+            activeIndex={activeIndex}
+            next={this.next}
+            previous={this.previous}
+          >
+            <CarouselIndicators items={slideShow} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+            {slides}
+            <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+          </Carousel>
+        );
+    }
+
     render() {
         return (
             <div className="no-gutters">
+
+                {this.outputCarousel()}
+
+                <div className="jumbotron jumbotron-fluid">
+                    <div className="container">
+                        <h1 className="display-4">Wildfire Analysis System</h1>
+                        <p className="lead">Various statistics to visualize the various aspects of wildfires.</p>
+                    </div>
+                </div>
 
                 <div className="row col-xs-12">
                 

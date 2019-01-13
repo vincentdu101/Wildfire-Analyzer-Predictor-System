@@ -1,0 +1,21 @@
+[
+    {
+      "src": "/img/wildfires.jpg",
+      "altText": "Wildfire Analysis System",
+      "caption": "Slide 1",
+      "header": "Slide 1 Header"
+    },
+    {
+      "src": "/img/government.png",
+      "altText": "Forest Service Research Data Archive",
+      "caption": "Slide 2",
+      "header": "Slide 2 Header"
+    },
+    {
+      "src": "/img/ai.jpeg",
+      "altText": "AI and Machine Learning Driven Prediction",
+      "caption": "Slide 3",
+      "header": "Slide 3 Header"
+    }
+]
+  

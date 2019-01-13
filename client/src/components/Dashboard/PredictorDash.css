@@ -5,3 +5,15 @@
 .button-section {
     padding: 25px;
 }
+
+.prediction-intro {
+    width: 500px;
+    margin-left: 25px;
+    padding: 10px;
+    overflow-y: scroll;
+    text-align: left;
+}
+
+.prediction-details {
+    padding: 10px;
+}

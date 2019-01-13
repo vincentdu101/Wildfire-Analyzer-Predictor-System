@@ -31,6 +31,8 @@ export default class PredictorDash extends Component {
         this.determineCountyCode = this.determineCountyCode.bind(this);
         this.updateCountyStateInfo = this.updateCountyStateInfo.bind(this);
         this.outputPredictionSection = this.outputPredictionSection.bind(this);
+        this.imgWidth = "400";
+        this.imgHeight = "300";
 
         this.state = {
             data: null,
@@ -196,34 +198,54 @@ export default class PredictorDash extends Component {
 
     outputPredictionSection() {
         if (this.isPredictionMade()) {
-
             return (
-                <div className="row col-xs-12 card" if={this.isPredictionMade()}>
+                <div className="row col-xs-12 card">
                     <div className="card-title">
                         <h3>Prediction Results</h3>
                     </div>
 
-                    <div className="card-body">
+                    <div className="card-body container">
                         <div className="row">
-                            <div className="col-xs-12 col-xs-4">
-                            
+                            <div className="col-xs-12 col-xs-4 align-items-left">
+                                <img    width={this.imgWidth}
+                                        height={this.imgHeight}
+                                        src={window.location.origin + this.state.prediction.image} 
+                                        className="img-fluid" />
                             </div>
 
-                            <div className="col-xs-12 col-xs-8">
-                                <h5></h5>
+                            <div className="col-xs-12 col-xs-8 prediction-intro card">
+                                <h5>{this.state.prediction.name}</h5>
+
+                                <div className="prediction-description">
+                                    {this.state.prediction.description}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-xs-12 prediction-details">
+                                {this.state.prediction.details}
                             </div>
                         </div>
                     </div>
-                    {this.state.prediction}
 
                 </div>
             );
+        } else {
+            return (<input type="hidden" ></input>);
         }
     }
 
     render() {
         return (
             <div className="no-gutters">
+
+                <div className="jumbotron jumbotron-fluid">
+                    <div className="container">
+                        <h1 className="display-4">Fire Cause Prediction Dashboard</h1>
+                        <p className="lead">Select the various options to predict the likely cause of a fire. Other details/statistics will also be provided.</p>
+                    </div>
+                </div>
 
                 <div className="row">
                     <div className="col-xs-12 col-sm-4 card">

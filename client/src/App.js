@@ -23,10 +23,10 @@ export default class App extends Component {
 
                         <div className="collapse navbar-collapse">
                             <ul className="navbar-nav mr-auto">
-                                <li className="nav-item active">
+                                <li className="nav-item nav-link active">
                                     <Link to="/">Analytic Dashboard</Link>
                                 </li>
-                                <li className="nav-item active">
+                                <li className="nav-item nav-link active">
                                     <Link to="/predictor/">Prediction Dashboard</Link>
                                 </li>
                             </ul>
