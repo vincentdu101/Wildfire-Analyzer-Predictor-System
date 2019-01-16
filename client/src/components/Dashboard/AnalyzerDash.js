@@ -14,6 +14,8 @@ import { DateService } from "../../services/DateService/DateService";
 import * as JulianDate from "julian-date";
 import * as julianParse from "julian";
 import * as slideShow from "../../data/home-slideshow.json";
+import "./AnalyzerDash.css";
+import { ListGroup, ListGroupItem } from "reactstrap";
 import {
     Carousel,
     CarouselItem,
@@ -233,15 +235,66 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
                 
-                    <div className="card col-xs-12 col-sm-6">
+                    <div className="card col-xs-12 col-sm-6 top-section-card">
                         <FiresByStateTable states={this.state.states} />
                     </div>
 
-                    <div className="card col-xs-12 col-sm-6">
+                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                        <h5 className="title-section">Fires By State</h5>
+
+                        <div className="card-body">
+                            This is a table showcasing the number of fires per state.
+
+                            <ListGroup className="note-section">
+                                <ListGroupItem>Cras justo odio</ListGroupItem>
+                                <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
+                                <ListGroupItem>Morbi leo risus</ListGroupItem>
+                                <ListGroupItem>Porta ac consectetur ac</ListGroupItem>
+                                <ListGroupItem>Vestibulum at eros</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="row col-xs-12">
+
+                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                        <h5 className="title-section">Fires By State</h5>
+
+                        <div className="card-body">
+                            This is a table showcasing the number of fires per state.
+
+                            <ListGroup className="note-section">
+                                <ListGroupItem>Cras justo odio</ListGroupItem>
+                                <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
+                                <ListGroupItem>Morbi leo risus</ListGroupItem>
+                                <ListGroupItem>Porta ac consectetur ac</ListGroupItem>
+                                <ListGroupItem>Vestibulum at eros</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                    </div>
+
+                    <div className="card col-xs-12 col-sm-6 top-section-card">
                         <PieChart arcs={this.state.causes} />
                     </div>
 
                 </div>
+
+                <div className="jumbotron jumbotron-fluid">
+                    <div className="container">
+                        <h1 className="display-4">Fire Mapping Search</h1>
+                        <p className="lead">Various statistics to visualize the various aspects of wildfires.</p>
+                    </div>
+                </div>         
+
+                <div className="row">
+                
+                    <div className="col-xs-12">
+                        
+                    </div>
+                
+                </div>       
 
                 <div className="card col-xs-12">
                     <div className="card-body">
@@ -266,7 +319,7 @@ export default class AnalyzerDash extends Component {
                             <FiresTable fires={this.state.fires} />
                         </section>
                     </div>
-                </div>
+                </div>     
 
                 <div className="card col-xs-12">
                     <div className="card-body">
@@ -276,6 +329,13 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
+                <div className="jumbotron jumbotron-fluid">
+                    <div className="container">
+                        <h1 className="display-4">Number of Fires Per Year</h1>
+                        <p className="lead">Various statistics to visualize the various aspects of wildfires.</p>
+                    </div>
+                </div>                 
+
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
@@ -283,6 +343,13 @@ export default class AnalyzerDash extends Component {
                         </section>
                     </div>
                 </div>
+
+                <div className="jumbotron jumbotron-fluid">
+                    <div className="container">
+                        <h1 className="display-4">Counties with Most/Least Fires</h1>
+                        <p className="lead">Various statistics to visualize the various aspects of wildfires.</p>
+                    </div>
+                </div> 
 
                 <div className="row col-xs-12">
 

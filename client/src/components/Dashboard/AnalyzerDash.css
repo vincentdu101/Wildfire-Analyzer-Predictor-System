@@ -1,0 +1,17 @@
+.top-section-card {
+    height: 450px;
+    padding: 10px;
+}
+
+.top-section-card.card {
+    border: none;
+}
+
+.note-section {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.title-section {
+    margin-top: 25px;
+}

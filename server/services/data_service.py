@@ -20,8 +20,22 @@ class DataService:
     def load_all_wildfires_cause_data(self):
         return pd.read_sql_query("select * from Fires limit 5000;", self.connection)        
 
-    def get_all_wildfires(self):
-        return Fire.query.paginate(1, 20, False).items
+    def get_all_wildfires(self, year = None, state = None, cause = None, size = None, limit = 20):
+        query = Fire.query
+
+        if (year is not None):
+            query = query.filter(Fire.FIRE_YEAR == year)
+
+        if (state is not None):
+            query = query.filter(Fire.STATE == state)
+
+        if (cause is not None):
+            query = query.filter(Fire.STAT_CAUSE_DESCR == cause)   
+
+        if (size is not None):
+            query = query.filter(Fire.FIRE_SIZE_CLASS == size)   
+
+        return query.paginate(1, limit, False).items
 
     def get_states_with_fire(self):
         return Fire.query.with_entities(func.count(Fire.STATE), Fire.STATE).group_by(Fire.STATE).all()
