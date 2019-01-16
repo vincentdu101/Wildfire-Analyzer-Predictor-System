@@ -14,8 +14,16 @@ export class FireDataService {
         return post;
     }
 
-    static getFiresData() {
-        return axios.get(FireDataService.server + "/fires");
+    static generateQueryParams(params) {
+        let query = "?";
+        for (let key in params) {
+            query += key + "=" + params[key] + "&";
+        }
+        return query.slice(0, query.length - 1);
+    }
+
+    static getFiresData(params = {}) {
+        return axios.get(FireDataService.server + "/fires" + this.generateQueryParams(params));
     }
 
     static getStatesCountData() {

@@ -39,7 +39,7 @@ def api_article(articleid):
 @app.route("/fires")
 def get_past_fires():
     data = {"success": True}
-    fires = data_service.get_all_wildfires(2005, "CA", "Lightning", "C")
+    fires = data_service.get_all_wildfires(request.args)
     return jsonify({"fires": [s.to_dict() for s in fires]})
 
 @app.route('/wildfire-size-model', methods = ["GET"])
