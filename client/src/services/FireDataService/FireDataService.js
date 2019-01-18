@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as _ from "lodash";
 import * as causes from "../../data/fire-causes.json";
+import { axisBottom } from "d3-axis";
 
 export class FireDataService {
 
@@ -67,6 +68,22 @@ export class FireDataService {
 
     static causeOfFirePerCode(code) {
         return causes[parseInt(code.toString())];
+    }
+
+    static getCausesList() {
+        return ["Arson",
+                "Campfire",
+                "Children",
+                "Debris Burning",
+                "Equipment Use",
+                "Fireworks",
+                "Lightning",
+                "Miscellaneous",
+                "Missing/Undefined",
+                "Powerline",
+                "Railroad",
+                "Smoking",
+                "Structure"]
     }
 
 }

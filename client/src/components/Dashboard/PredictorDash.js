@@ -112,17 +112,6 @@ export default class PredictorDash extends Component {
         this.setState({post: param});
     }
 
-    outputStateValues() {
-        let states = Object.keys(this.state.stateData).sort();
-        return states.map((row, index) => {
-            if (Object.keys(this.state.stateData[row]).length > 0) {
-                return (
-                    <option value={row} key={row + index}>{row}</option>
-                );
-            }
-        });
-    }
-
     outputCountyValues() {
         if (this.state.post.STATE && Object.keys(this.state.stateData).length > 0) {
             let counties = Object.keys(this.state.stateData[this.state.post.STATE]).sort();

@@ -9,13 +9,13 @@ import ScatterPlot from "../Charts/ScatterPlot";
 import BarChart from "../Charts/BarChart";
 import CountiesCountTable from "../Table/CountiesCountTable";
 import { MapService } from "../../services/MapService/MapService";
-import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { DateService } from "../../services/DateService/DateService";
+import { FireDataService } from "../../services/FireDataService/FireDataService";
 import * as JulianDate from "julian-date";
 import * as julianParse from "julian";
 import * as slideShow from "../../data/home-slideshow.json";
 import "./AnalyzerDash.css";
-import { ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup, ListGroupItem, Input } from "reactstrap";
 import {
     Carousel,
     CarouselItem,
@@ -23,6 +23,7 @@ import {
     CarouselIndicators,
     CarouselCaption
   } from 'reactstrap';
+import { StateDataService } from '../../services/StateDataService/StateDataService';
 
 export default class AnalyzerDash extends Component {
 
@@ -43,6 +44,9 @@ export default class AnalyzerDash extends Component {
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
         this.outputCarousel = this.outputCarousel.bind(this);
+        this.outputOptionInput = this.outputOptionInput.bind(this);
+        this.inputFieldChanged = this.inputFieldChanged.bind(this);
+        this.getFiresSearch = this.getFiresSearch.bind(this);
         this.imgWidth = "600";
         this.imgHeight = "400";
 
@@ -53,17 +57,24 @@ export default class AnalyzerDash extends Component {
             fires: null,
             states: null,
             causes: null,
+            causesList: [],
             firesByYear: null,
             fireModal: false,
             selectedFire: null,
             tooltipX: 0,
             tooltipY: 0,
             tooltipActive: false,
-            tooltipText: ""
+            tooltipText: "",
+            fireParams: {},
+            stateData: StateDataService.statesAndCounties
         };
     }
 
     componentDidMount() {
+        StateDataService.injectStateCountyInfo().then((data) => {
+            this.setState({stateData: data});
+        });
+
         MapService.getMapData().then((mapData) => {
             this.setState({maps: mapData});
         });
@@ -220,6 +231,30 @@ export default class AnalyzerDash extends Component {
         );
     }
 
+    outputOptionInput(list) {
+        return list.map((item, index) => {
+            return (
+                <option value={item} key={item+index}>{item}</option> 
+            );
+        });
+    }
+
+    inputFieldChanged(key, value) {
+        let param = this.state.fireParams;
+        if (value === "") { 
+            delete param[key];
+        } else {
+            param[key] = value;
+        }
+        this.setState({fireParams: param});
+    }
+
+    getFiresSearch() {
+        FireDataService.getFiresData(this.state.fireParams).then((fireData) => {
+            this.setState({fires: fireData.data.fires});
+        }); 
+    }
+
     render() {
         return (
             <div className="no-gutters">
@@ -288,10 +323,62 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>         
 
-                <div className="row">
+                <div className="container">
                 
-                    <div className="col-xs-12">
-                        
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-2">
+                            <Input  type="select" 
+                                    name="fire-size-class" 
+                                    id="fire-size-class-select" 
+                                    onChange={(event) => this.inputFieldChanged("year", event.target.value)}
+                                    value={this.state.fireParams.year}>
+                                <option value="">Select a Year</option>
+                                {this.outputOptionInput(DateService.getWildfireYears())}
+                            </Input>
+                        </div>
+
+                        <div className="col-xs-12 col-sm-2">
+                            <Input  type="select" 
+                                    name="fire-size-class" 
+                                    id="fire-size-class-select" 
+                                    onChange={(event) => this.inputFieldChanged("size", event.target.value)}
+                                    value={this.state.fireParams.size}>
+                                <option value="">Select a Size Class</option>
+                                <option value={"A"}>A</option>
+                                <option value={"B"}>B</option>
+                                <option value={"C"}>C</option>
+                                <option value={"D"}>D</option>
+                                <option value={"E"}>E</option>
+                                <option value={"F"}>F</option>
+                                <option value={"G"}>G</option>
+                            </Input>
+                        </div>
+
+                        <div className="col-xs-12 col-sm-2">
+                            <Input  type="select" 
+                                    name="fire-size-class" 
+                                    id="fire-size-class-select" 
+                                    onChange={(event) => this.inputFieldChanged("cause", event.target.value)}
+                                    value={this.state.fireParams.cause}>
+                                <option value="">Select a Fire Cause</option>
+                                {this.outputOptionInput(FireDataService.getCausesList())}
+                            </Input>
+                        </div>
+
+                        <div className="col-xs-12 col-sm-2">
+                            <Input  type="select" 
+                                    name="fire-size-class" 
+                                    id="fire-size-class-select" 
+                                    onChange={(event) => this.inputFieldChanged("state", event.target.value)}
+                                    value={this.state.fireParams.state}>
+                                <option value="">Select a State</option>
+                                {StateDataService.outputStateValues(this.state.stateData)}
+                            </Input>
+                        </div>
+
+                        <div className="col-xs-12 col-sm-2">
+                            <button className="btn-primary" onClick={() => this.getFiresSearch()}>Filter</button>
+                        </div>
                     </div>
                 
                 </div>       

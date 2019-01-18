@@ -20,5 +20,15 @@ export class DateService {
         return datetime.getTime() / 86400000 + epoch;
     }
 
+    static getWildfireYears() {
+        let startYear = 2005;
+        let endYear = 2015;
+        let years = [];
+        for (let i = 2005; i <= 2015; i++) {
+            years.push(i);
+        }
+        return years;
+    }
+
 
 }
