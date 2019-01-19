@@ -34,6 +34,10 @@ export default class App extends Component {
                     </nav>
 
                     <Main />
+
+                    <div className="container card">
+                        FOOTER
+                    </div>
                 </div>
             </Router>
         );

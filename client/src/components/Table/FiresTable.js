@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Table } from "reactstrap";
 import { DateService } from "../../services/DateService/DateService";
+import Loader from "react-loader-spinner";
  
 export default class FiresTable extends React.Component {
 
@@ -10,15 +11,21 @@ export default class FiresTable extends React.Component {
         this.outputFireRow = this.outputFireRow.bind(this);
         this.updateTableAndState = this.updateTableAndState.bind(this);
         this.parseFireDate = this.parseFireDate.bind(this);
+        this.outputTable = this.outputTable.bind(this);
 
         this.state = {
-            fires: []
+            fires: [],
+            loader: true
         };
     }
 
     updateTableAndState(props) {
+        if (props.loader) {
+            this.setState({loader: props.loader});
+        }
+
         if (props.fires) { 
-            this.setState({fires: props.fires});
+            this.setState({fires: props.fires, loader: false});
         }
     }
 
@@ -70,9 +77,13 @@ export default class FiresTable extends React.Component {
         return date;
     }
 
-    render() {
-        return (
-            <section className="fire-table">
+    outputTable() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
+            );
+        } else {
+            return (
                 <Table className="table-bordered">
                     <thead>
                         <tr>
@@ -92,6 +103,14 @@ export default class FiresTable extends React.Component {
                         {this.outputFireRow(this.state.fires)}
                     </tbody>
                 </Table>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <section className="fire-table">
+                {this.outputTable()}
             </section>
         );
     }

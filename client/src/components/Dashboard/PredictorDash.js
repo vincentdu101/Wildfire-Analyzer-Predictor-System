@@ -11,6 +11,7 @@ import "react-input-range/lib/css/index.css";
 import * as _ from "lodash";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { StateDataService } from "../../services/StateDataService/StateDataService";
+import Loader from "react-loader-spinner";
 
 // range slider
 // https://github.com/davidchin/react-input-range
@@ -25,7 +26,6 @@ export default class PredictorDash extends Component {
         this.determineFireSize = this.determineFireSize.bind(this);
         this.isPredictionMade = this.isPredictionMade.bind(this);
         this.determinePredictionModel = this.determinePredictionModel.bind(this);
-        this.outputStateValues = this.outputStateValues.bind(this);
         this.outputCountySelect = this.outputCountySelect.bind(this);
         this.outputCountyValues = this.outputCountyValues.bind(this);
         this.determineCountyCode = this.determineCountyCode.bind(this);
@@ -43,6 +43,7 @@ export default class PredictorDash extends Component {
                 max: 700000,
                 min: 0.1,
             },
+            loader: false,
             stateData: StateDataService.statesAndCounties,
             model: "ANN",
             post: {
@@ -146,8 +147,9 @@ export default class PredictorDash extends Component {
         delete post.DISCOVERY_DOY;
         delete post.CONT_DOY;
         delete post.COUNTY
+        this.setState({ loader: true });
         this.determinePredictionModel(this.state.model, post).then(res => {
-            this.setState({prediction: FireDataService.causeOfFirePerCode(res.data.prediction)});
+            this.setState({prediction: FireDataService.causeOfFirePerCode(res.data.prediction), loader: false});
         });
     }
 
@@ -168,7 +170,7 @@ export default class PredictorDash extends Component {
                     id="state-select" 
                     onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
                     value={this.state.post.STATE}>
-                {this.outputStateValues()}
+                {StateDataService.outputStateValues()}
             </Input>
         );
     }
@@ -185,44 +187,54 @@ export default class PredictorDash extends Component {
         );
     }
 
-    outputPredictionSection() {
-        if (this.isPredictionMade()) {
+    outputPrediction() {
+        if (this.state.loader) {
             return (
-                <div className="row col-xs-12 card">
-                    <div className="card-title">
-                        <h3>Prediction Results</h3>
-                    </div>
-
-                    <div className="card-body container">
-                        <div className="row">
-                            <div className="col-xs-12 col-xs-4 align-items-left">
-                                <img    width={this.imgWidth}
-                                        height={this.imgHeight}
-                                        src={window.location.origin + this.state.prediction.image} 
-                                        className="img-fluid" />
-                            </div>
-
-                            <div className="col-xs-12 col-xs-8 prediction-intro card">
-                                <h5>{this.state.prediction.name}</h5>
-
-                                <div className="prediction-description">
-                                    {this.state.prediction.description}
-                                </div>
-                            </div>
+                <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
+            )
+        } else if (this.isPredictionMade()) {
+            return (
+                <div className="card-body container">
+                    <div className="row">
+                        <div className="col-xs-12 col-xs-4 align-items-left">
+                            <img    width={this.imgWidth}
+                                    height={this.imgHeight}
+                                    src={window.location.origin + this.state.prediction.image} 
+                                    className="img-fluid" />
                         </div>
-
-                        <div className="row">
-                            <div className="col-xs-12 prediction-details">
-                                {this.state.prediction.details}
+    
+                        <div className="col-xs-12 col-xs-8 prediction-intro card">
+                            <h5>{this.state.prediction.name}</h5>
+    
+                            <div className="prediction-description">
+                                {this.state.prediction.description}
                             </div>
                         </div>
                     </div>
-
+    
+                    <div className="row">
+                        <div className="col-xs-12 prediction-details">
+                            {this.state.prediction.details}
+                        </div>
+                    </div>
                 </div>
             );
         } else {
-            return (<input type="hidden" ></input>);
+            return (<input type="hidden" />);
         }
+    }
+
+    outputPredictionSection() {
+        return (
+            <div className="row col-xs-12 card">
+                <div className="card-title">
+                    <h3>Prediction Results</h3>
+                </div>
+
+                {this.outputPrediction()}
+
+            </div>
+        );
     }
 
     render() {
@@ -254,7 +266,7 @@ export default class PredictorDash extends Component {
 
                             <FormGroup row>
                                 <Label for="state-select">State</Label>
-                                {this.outputStateSelect()}
+                                {this.outputStateSelect(this.state.stateData)}
                             </FormGroup>
 
                             <FormGroup row>
@@ -318,11 +330,11 @@ export default class PredictorDash extends Component {
                     </div>
                 </div>
 
-                {this.outputPredictionSection()}
-
                 <div className="row col-xs-12 card align-items-center button-section">
                     <Button onClick={this.submitForm}>Submit</Button>
                 </div>
+
+                {this.outputPredictionSection()}
 
             </div>
 

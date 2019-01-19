@@ -1,14 +1,18 @@
 import * as React from "react";
 import { Table } from "reactstrap";
 import "./FiresByStateTable.css";
+import Loader from "react-loader-spinner";
 
 export default class FiresByStateTable extends React.Component {
 
     constructor(props) {
         super(props);
 
+        this.outputTable = this.outputTable.bind(this);
+
         this.state = {
-            states: []
+            states: [],
+            loader: true
         };
     }
 
@@ -18,7 +22,7 @@ export default class FiresByStateTable extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.states) {
-            this.setState({states: nextProps.states});
+            this.setState({states: nextProps.states, loader: false});
         }
     }
 
@@ -35,9 +39,13 @@ export default class FiresByStateTable extends React.Component {
         });
     }
 
-    render() {
-        return (
-            <section className="fire-table">
+    outputTable() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="200" width="200" />
+            );
+        } else {
+            return (
                 <Table className="table-bordered">
                     <thead>
                         <tr>
@@ -49,6 +57,14 @@ export default class FiresByStateTable extends React.Component {
                         {this.outputStateRow(this.state.states)}
                     </tbody>
                 </Table>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <section className="fire-table">
+                {this.outputTable()}
             </section>
         );
     }

@@ -61,6 +61,7 @@ export default class AnalyzerDash extends Component {
             firesByYear: null,
             fireModal: false,
             selectedFire: null,
+            filterLoading: true,
             tooltipX: 0,
             tooltipY: 0,
             tooltipActive: false,
@@ -80,7 +81,7 @@ export default class AnalyzerDash extends Component {
         });
 
         FireDataService.getFiresData().then((fireData) => {
-            this.setState({fires: fireData.data.fires});
+            this.setState({fires: fireData.data.fires, filterLoading: false});
         });
 
         FireDataService.getStatesCountData().then((fireData) => {
@@ -159,7 +160,7 @@ export default class AnalyzerDash extends Component {
 
     parsedScatterPlotData(fires) {
         if (!fires) {
-            return [];
+            return undefined;
         }
 
         return fires.map((fire) => {
@@ -250,8 +251,9 @@ export default class AnalyzerDash extends Component {
     }
 
     getFiresSearch() {
+        this.setState({filterLoading: true});
         FireDataService.getFiresData(this.state.fireParams).then((fireData) => {
-            this.setState({fires: fireData.data.fires});
+            this.setState({fires: fireData.data.fires, filterLoading: false});
         }); 
     }
 
@@ -390,7 +392,8 @@ export default class AnalyzerDash extends Component {
                                 circles={this.state.fires}
                                 circleOnClick={this.fireSelected}
                                 circleOnHover={this.fireHovered}
-                                circleHoverExit={this.fireHoverExit} />
+                                circleHoverExit={this.fireHoverExit}
+                                loader={this.state.filterLoading} />
 
                             <CircleTooltip  x={this.state.tooltipX}
                                             y={this.state.tooltipY}
@@ -403,7 +406,8 @@ export default class AnalyzerDash extends Component {
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-table">
-                            <FiresTable fires={this.state.fires} />
+                            <FiresTable fires={this.state.fires}
+                                        loader={this.state.filterLoading} />
                         </section>
                     </div>
                 </div>     
@@ -411,7 +415,8 @@ export default class AnalyzerDash extends Component {
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
-                            <ScatterPlot points={this.parsedScatterPlotData(this.state.fires)} />
+                            <ScatterPlot    points={this.parsedScatterPlotData(this.state.fires)}
+                                            loader={this.state.filterLoading} />
                         </section>
                     </div>
                 </div>
@@ -426,7 +431,8 @@ export default class AnalyzerDash extends Component {
                 <div className="card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
-                            <BarChart data={this.state.firesByYears} />
+                            <BarChart   data={this.state.firesByYears} 
+                                        loader={this.state.filterLoading} />
                         </section>
                     </div>
                 </div>

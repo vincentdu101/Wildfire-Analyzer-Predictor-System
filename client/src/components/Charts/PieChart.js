@@ -5,6 +5,7 @@ import * as React from "react";
 import * as d3 from "d3";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "./PieChart.css";
+import Loader from "react-loader-spinner";
 
 export default class PieChart extends React.Component {
 
@@ -19,11 +20,13 @@ export default class PieChart extends React.Component {
         this.defineColorRange = this.defineColorRange.bind(this);
         this.generateArcs = this.generateArcs.bind(this);
         this.tooltipVisible = this.tooltipVisible.bind(this);
+        this.outputChart = this.outputChart.bind(this);
 
         this.state = {
             arcs: [],
             tooltipActive: true,
-            tooltipText: this.defaultText
+            tooltipText: this.defaultText,
+            loader: true
         };
     }
 
@@ -33,8 +36,12 @@ export default class PieChart extends React.Component {
     
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.loader) {
+            this.setState({loader: nextProps.loader});
+        }
+
         if (nextProps.arcs) {
-            this.setState({ arcs: nextProps.arcs });
+            this.setState({ arcs: nextProps.arcs, loader: false });
         }
     }
 
@@ -104,23 +111,37 @@ export default class PieChart extends React.Component {
         return this.state.tooltipActive ? "active" : "";
     }
 
+    outputChart() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="200" width="200" />
+            );
+        } else {
+            return (
+                <section className="pie-chart-section">
+                    <svg
+                        className={`map US`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="-250 -250 480 400"
+                        width={this.width}
+                        height={this.height}
+                    >
+                        {this.generateArcs()}
+                    </svg>
+
+                    <div className={"pie-tooltip " + this.tooltipVisible()}>
+                        {this.state.tooltipText}
+                    </div>
+                </section>
+            );
+        }
+    }
+
     render() {
         return (
-            <section className="pie-chart-section">
-                <svg
-                    className={`map US`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="-250 -250 480 400"
-                    width={this.width}
-                    height={this.height}
-                >
-                    {this.generateArcs()}
-                </svg>
-
-                <div className={"pie-tooltip " + this.tooltipVisible()}>
-                    {this.state.tooltipText}
-                </div>
-            </section>
+            <div className="pie-chart-view">
+                {this.outputChart()}
+            </div>
         );
     }
 

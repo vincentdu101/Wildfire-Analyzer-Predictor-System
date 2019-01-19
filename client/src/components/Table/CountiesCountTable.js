@@ -1,14 +1,18 @@
 import * as React from "react";
 import { Table } from "reactstrap";
 import "./FiresByStateTable.css";
+import Loader from "react-loader-spinner";
 
 export default class CountiesCountTable extends React.Component {
 
     constructor(props) {
         super(props);
 
+        this.outputTable = this.outputTable.bind(this);
+
         this.state = {
-            counties: []
+            counties: [],
+            loader: true
         };
     }
 
@@ -18,7 +22,7 @@ export default class CountiesCountTable extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.counties) {
-            this.setState({counties: nextProps.counties});
+            this.setState({counties: nextProps.counties, loader: false});
         }
     }
 
@@ -35,9 +39,13 @@ export default class CountiesCountTable extends React.Component {
         });
     }
 
-    render() {
-        return (
-            <section className="fire-table">
+    outputTable() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="100" width="100" />
+            );
+        } else {
+            return (
                 <Table className="table-bordered">
                     <thead>
                         <tr>
@@ -50,6 +58,14 @@ export default class CountiesCountTable extends React.Component {
                         {this.outputCountyRow(this.state.counties)}
                     </tbody>
                 </Table>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <section className="fire-table">
+                {this.outputTable()}
             </section>
         );
     }

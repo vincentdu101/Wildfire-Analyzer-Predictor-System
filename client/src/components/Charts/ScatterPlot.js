@@ -2,6 +2,7 @@ import * as React from "react";
 import * as d3 from "d3";
 import "./ScatterPlot.css";
 import CircleTooltip from "../Tooltip/CircleTooltip";
+import Loader from "react-loader-spinner";
 
 export default class ScatterPlot extends React.Component {
     
@@ -22,13 +23,16 @@ export default class ScatterPlot extends React.Component {
         this.dodge = this.dodge.bind(this);
         this.onInteractionHandler = this.onInteractionHandler.bind(this);
         this.setupXGridlines = this.setupXGridlines.bind(this);
+        this.createScatterPlot = this.createScatterPlot.bind(this);
+        this.outputPlot = this.outputPlot.bind(this);
 
         this.state = {
             points: [],
             tooltipActive: false,
             tooltipText: "",
             tooltipX: 0,
-            tooltipY: 0
+            tooltipY: 0,
+            loader: true
         };
     }
 
@@ -38,8 +42,12 @@ export default class ScatterPlot extends React.Component {
     
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.loader) {
+            this.setState({ loader: nextProps.loader });
+        }
+
         if (nextProps.points) {
-            this.setState({ points: nextProps.points });
+            this.setState({ points: nextProps.points, loader: false });
         }
     }
 
@@ -161,7 +169,7 @@ export default class ScatterPlot extends React.Component {
             });
     }
 
-    render() {
+    createScatterPlot() {
         const svg = d3.select(".scatter-plot");
 
         this.data = this.state.points;
@@ -199,6 +207,24 @@ export default class ScatterPlot extends React.Component {
                                 active={this.state.tooltipActive}
                                 text={this.state.tooltipText} /> 
             </section>
+        );
+    }
+
+    outputPlot() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
+            );
+        } else {
+            return this.createScatterPlot();
+        }
+    }
+
+    render() {
+        return (
+            <div className="scatter-plot-view">
+                {this.outputPlot()}
+            </div>
         );
     }
 

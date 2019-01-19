@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { State } from "./State";
 import "./Map.css";
+import Loader from "react-loader-spinner";
 
 export default class Map extends React.Component {
 
@@ -21,11 +22,13 @@ export default class Map extends React.Component {
         this.circleOnHover = this.circleOnHover.bind(this);
         this.circleOnHoverExit = this.circleOnHoverExit.bind(this);
         this.determineGPSLocation = this.determineGPSLocation.bind(this);
+        this.outputMap = this.outputMap.bind(this);
         
         this.state = {
             maps: null,
             circles: [],
-            focusedPoint: null
+            focusedPoint: null,
+            loader: true
         };
     }
 
@@ -59,16 +62,48 @@ export default class Map extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.loader) {
+            this.setState({loader: nextProps.loader});
+        }
+
         if (nextProps.maps) {
             this.setState({maps: nextProps.maps});
         }
 
         if (nextProps.circles) {
-            this.setState({circles: nextProps.circles});
+            this.setState({circles: nextProps.circles, loader: false});
         }
         
         if (nextProps.focusedPoint) {
-            this.setState({focusedPoint: nextProps.focusedPoint});
+            this.setState({focusedPoint: nextProps.focusedPoint, loader: false});
+        }
+    }
+
+    outputMap(path) {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
+            );
+        } else {
+            return (
+                <div className="row">
+                    <div className="col-xs-8">
+                        <div className="map-container">
+                            <svg
+                                className={`map US`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 960 600"
+                                width={this.width}
+                                height={this.height}
+                            >
+                                {this.generateMap(path)}
+                                {this.generateCircles()}
+                                {this.generateFocusedPoint()}
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            );
         }
     }
 
@@ -88,8 +123,7 @@ export default class Map extends React.Component {
             const fill = "steelblue";
             const projection = this.projection();
             const locations = projection([this.state.focusedPoint[1], this.state.focusedPoint[0]]);
-            console.log(this.state.focusedPoint);
-            console.log(locations);
+
             return (
                 <CSSTransition
                     key={"focused-1"}
@@ -234,23 +268,7 @@ export default class Map extends React.Component {
 
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-xs-8">
-                        <div className="map-container">
-                            <svg
-                                className={`map US`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 960 600"
-                                width={this.width}
-                                height={this.height}
-                            >
-                                {this.generateMap(path)}
-                                {this.generateCircles()}
-                                {this.generateFocusedPoint()}
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+                {this.outputMap(path)}
             </div>
         );
     }

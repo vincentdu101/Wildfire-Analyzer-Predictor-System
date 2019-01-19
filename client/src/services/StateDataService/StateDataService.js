@@ -30,14 +30,20 @@ export class StateDataService {
     }
 
     static outputStateValues(data) {
-        let states = Object.keys(data).sort();
-        return states.map((row, index) => {
-            if (Object.keys(data[row]).length > 0) {
-                return (
-                    <option value={row} key={row + index}>{row}</option>
-                );
-            }
-        });
+        if (!!data) {
+            let states = Object.keys(data).sort();
+            return states.map((row, index) => {
+                if (Object.keys(data[row]).length > 0) {
+                    return (
+                        <option value={row} key={row + index}>{row}</option>
+                    );
+                }
+            });
+        } else {
+            return (
+                <option key="">test</option>
+            );
+        }
     }
 
 }

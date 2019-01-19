@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as d3 from "d3";
 import "./BarChart.css";
+import Loader from "react-loader-spinner";
 
 export default class BarChart extends React.Component {
 
@@ -13,9 +14,11 @@ export default class BarChart extends React.Component {
         this.determineHeight = this.determineHeight.bind(this);
         this.getXScaleLinear = this.getXScaleLinear.bind(this);
         this.getYScaleLinear = this.getYScaleLinear.bind(this);
+        this.createBarChart = this.createBarChart.bind(this);
 
         this.state = {
-            data: []
+            data: [],
+            loader: true
         };
     }
 
@@ -24,8 +27,12 @@ export default class BarChart extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.loader) {
+            this.setState({ loader: nextProps.loader });
+        }
+
         if (nextProps.data) {
-            this.setState({ data: nextProps.data });
+            this.setState({ data: nextProps.data, loader: false });
         }
     }
 
@@ -60,7 +67,7 @@ export default class BarChart extends React.Component {
             .call(d3.axisTop(this.x).tickFormat(""));
     }
 
-    render() {
+    createBarChart() {
         const svg = d3.select(".bar-chart");
 
         this.data = this.state.data;
@@ -109,6 +116,24 @@ export default class BarChart extends React.Component {
 
             </svg>
         )
+    }
+
+    outputElements() {
+        if (this.state.loader) {
+            return (
+                <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
+            );
+        } else {
+            return this.createBarChart();
+        }
+    }
+
+    render() {
+        return (
+            <div className="bar-chart-view">
+                {this.outputElements()}
+            </div>
+        );
     }
  
 }
