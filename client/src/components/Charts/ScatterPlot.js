@@ -11,6 +11,7 @@ export default class ScatterPlot extends React.Component {
     margin = {
         top: 20, right: 30, bottom: 30, left: 40
     };
+    tooltipBuffer = 50;
 
     constructor(props) {
         super(props);
@@ -202,7 +203,7 @@ export default class ScatterPlot extends React.Component {
                 </svg>
 
                 <CircleTooltip  text={"test"} 
-                                x={this.state.tooltipX}
+                                x={this.state.tooltipX - this.tooltipBuffer}
                                 y={this.state.tooltipY}
                                 active={this.state.tooltipActive}
                                 text={this.state.tooltipText} /> 

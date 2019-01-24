@@ -122,7 +122,12 @@ export default class Map extends React.Component {
 
             const fill = "steelblue";
             const projection = this.projection();
-            const locations = projection([this.state.focusedPoint[1], this.state.focusedPoint[0]]);
+            let locations;
+            if (!this.state.focusedPoint[0] || !this.state.focusedPoint[1]) {
+                locations = [9999, 9999];
+            } else {
+                locations = projection([this.state.focusedPoint[1], this.state.focusedPoint[0]]);
+            }
 
             return (
                 <CSSTransition

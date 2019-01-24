@@ -17,3 +17,11 @@
 .prediction-details {
     padding: 10px;
 }
+
+.card-title {
+    padding-top: 20px;
+}
+
+.default-prediction-message {
+    margin-bottom: 25px;
+}

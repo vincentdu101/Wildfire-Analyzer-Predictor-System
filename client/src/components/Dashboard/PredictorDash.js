@@ -31,6 +31,7 @@ export default class PredictorDash extends Component {
         this.determineCountyCode = this.determineCountyCode.bind(this);
         this.updateCountyStateInfo = this.updateCountyStateInfo.bind(this);
         this.outputPredictionSection = this.outputPredictionSection.bind(this);
+        this.verifyPostObject = this.verifyPostObject.bind(this);
         this.imgWidth = "400";
         this.imgHeight = "300";
 
@@ -49,12 +50,12 @@ export default class PredictorDash extends Component {
             post: {
                 STATE: "CA",
                 FIPS_CODE: "063",
-                COUNTY: "Plumas",
+                COUNTY: "",
                 FIRE_SIZE_CLASS: "A",
                 FIRE_SIZE: 0.1,
                 FIRE_YEAR: 2005,
-                LATITUDE: 40.03694444,
-                LONGITUDE: -121.00583333,
+                LATITUDE: undefined,
+                LONGITUDE: undefined,
                 DISCOVERY_DATE: new Date(),
                 DISCOVERY_TIME: "00:00",
                 CONT_DATE: new Date(),
@@ -106,10 +107,16 @@ export default class PredictorDash extends Component {
 
     updateCountyStateInfo(value) {
         let param = this.state.post;
-        let stateAndCounty = this.state.stateData[param.STATE][value];
-        param.LATITUDE = stateAndCounty.lat
-        param.COUNTY = value;
-        param.LONGITUDE = stateAndCounty.lng;
+        if (!value || value === "") {
+            param.COUNTY = "";
+            param.LATITUDE = undefined;
+            param.LONGITUDE = undefined;
+        } else {
+            let stateAndCounty = this.state.stateData[param.STATE][value];
+            param.LATITUDE = stateAndCounty.lat
+            param.COUNTY = value;
+            param.LONGITUDE = stateAndCounty.lng;
+        }
         this.setState({post: param});
     }
 
@@ -134,29 +141,38 @@ export default class PredictorDash extends Component {
         }
     }
 
-    submitForm() {
-        let post = _.clone(this.state.post);
-        let stateAndCounty = this.state.stateData[post.STATE][post.COUNTY];
-        post.CONT_DATE = DateService.convertTimeToJulian(this.state.post.CONT_DATE);
-        post.DISCOVERY_DATE = DateService.convertTimeToJulian(this.state.post.DISCOVERY_DATE);
-        post.CONT_TIME = this.state.post.CONT_TIME.replace(":", "");
-        post.DISCOVERY_TIME = this.state.post.DISCOVERY_TIME.replace(":", "");
-        post.FIRE_YEAR = this.state.post.CONT_DATE.getFullYear();
-        post.FIRE_SIZE = this.determineFireSize(this.state.post.FIRE_SIZE_CLASS);
-        post.FIPS_CODE = this.determineCountyCode(stateAndCounty.fips_code);
-        delete post.DISCOVERY_DOY;
-        delete post.CONT_DOY;
-        delete post.COUNTY
-        this.setState({ loader: true });
-        this.determinePredictionModel(this.state.model, post).then(res => {
-            this.setState({prediction: FireDataService.causeOfFirePerCode(res.data.prediction), loader: false});
-        });
+    verifyPostObject(post) {
+        return !!post.COUNTY && !!post.STATE && !!post.FIRE_SIZE_CLASS; 
     }
 
-    inputFieldChanged(key, value) {
+    submitForm() {
+        let post = _.clone(this.state.post);
+        if (this.verifyPostObject(post)) {
+            let stateAndCounty = this.state.stateData[post.STATE][post.COUNTY];
+            post.CONT_DATE = DateService.convertTimeToJulian(this.state.post.CONT_DATE);
+            post.DISCOVERY_DATE = DateService.convertTimeToJulian(this.state.post.DISCOVERY_DATE);
+            post.CONT_TIME = this.state.post.CONT_TIME.replace(":", "");
+            post.DISCOVERY_TIME = this.state.post.DISCOVERY_TIME.replace(":", "");
+            post.FIRE_YEAR = this.state.post.CONT_DATE.getFullYear();
+            post.FIRE_SIZE = this.determineFireSize(this.state.post.FIRE_SIZE_CLASS);
+            post.FIPS_CODE = this.determineCountyCode(stateAndCounty.fips_code);
+            delete post.DISCOVERY_DOY;
+            delete post.CONT_DOY;
+            delete post.COUNTY
+            this.setState({ loader: true });
+            this.determinePredictionModel(this.state.model, post).then(res => {
+                this.setState({prediction: FireDataService.causeOfFirePerCode(res.data.prediction), loader: false});
+            });
+        }
+    }
+
+    inputFieldChanged(key, value, callback) {
         let param = this.state.post;
         param[key] = value;
         this.setState({post: param});
+        if (!!callback) {
+            callback();
+        }
     }
 
     isPredictionMade() {
@@ -168,9 +184,11 @@ export default class PredictorDash extends Component {
             <Input  type="select" 
                     name="state" 
                     id="state-select" 
-                    onChange={(event) => this.inputFieldChanged("STATE", event.target.value)}
+                    onChange={(event) => this.inputFieldChanged("STATE", event.target.value, () => {                        
+                        this.updateCountyStateInfo();
+                    })}
                     value={this.state.post.STATE}>
-                {StateDataService.outputStateValues()}
+                {StateDataService.outputStateValues(this.state.stateData)}
             </Input>
         );
     }
@@ -182,6 +200,7 @@ export default class PredictorDash extends Component {
                     id="county-select" 
                     onChange={(event) => this.updateCountyStateInfo(event.target.value)}
                     value={this.state.post.COUNTY}>
+                <option key="" value="">Select a County</option>
                 {this.outputCountyValues()}
             </Input>
         );
@@ -220,7 +239,11 @@ export default class PredictorDash extends Component {
                 </div>
             );
         } else {
-            return (<input type="hidden" />);
+            return (
+                <div className="container default-prediction-message">
+                    Adjust the parameters and hit submit to see the prediction results.
+                </div>
+            );
         }
     }
 

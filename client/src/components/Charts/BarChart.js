@@ -6,7 +6,7 @@ import Loader from "react-loader-spinner";
 export default class BarChart extends React.Component {
 
     width = 900;
-    margin = {top: 30, right: 0, bottom: 10, left: 30};
+    margin = {top: 30, right: 0, bottom: 10, left: 50};
 
     constructor(props) {
         super(props);
