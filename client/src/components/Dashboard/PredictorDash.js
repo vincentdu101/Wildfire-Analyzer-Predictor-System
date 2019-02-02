@@ -264,7 +264,7 @@ export default class PredictorDash extends Component {
         return (
             <div className="no-gutters">
 
-                <div className="jumbotron jumbotron-fluid">
+                <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Fire Cause Prediction Dashboard</h1>
                         <p className="lead">Select the various options to predict the likely cause of a fire. Other details/statistics will also be provided.</p>

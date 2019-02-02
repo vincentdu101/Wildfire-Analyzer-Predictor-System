@@ -30,10 +30,42 @@
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
-
-  > .col,
-  > [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0;
-  }
 }
+
+.no-gutters .col {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.body-theme {
+  background-color: #81aa47;
+}
+
+.jumbotron {
+  margin-top: 30px;
+}
+
+.footer {
+  margin-top: 30px;
+  color: white;
+  padding: 30px;
+  min-height: 300px;
+}
+
+.footer .list-group {
+  color: black;
+}
+
+.footer-profile {
+  width: 500px;
+  padding-right: 30px;
+}
+
+.footer-autobio {
+  text-align: left;
+}
+
+.footer-links-section {
+  min-height: 500px;
+}
+

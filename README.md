@@ -27,3 +27,12 @@ pip install -r requirements.txt
 
 start flask app
 FLASK_APP=app.py flask run
+
+Setting up Anaconda Environment for Jupyter Notebook
+
+- Open Anaconda Navigator > Environments 
+- Go to base and click the play button then Open Terminal
+- Go to the server directory in this project
+- Install packages via requirements.txt with sudo
+sudo pip install -r requirements.txt
+

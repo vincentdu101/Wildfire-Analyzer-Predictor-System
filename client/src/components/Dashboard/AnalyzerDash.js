@@ -263,7 +263,7 @@ export default class AnalyzerDash extends Component {
 
                 {this.outputCarousel()}
 
-                <div className="jumbotron jumbotron-fluid">
+                <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Wildfire Analysis System</h1>
                         <p className="lead"
@@ -274,11 +274,11 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
                 
-                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
                         <FiresByStateTable states={this.state.states} />
                     </div>
 
-                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
                         <h5 className="title-section">Fires By State</h5>
 
                         <div className="card-body">
@@ -296,7 +296,7 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
 
-                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
                         <h5 className="title-section">Cause of Fires</h5>
 
                         <div className="card-body">
@@ -311,13 +311,13 @@ export default class AnalyzerDash extends Component {
                         </div>
                     </div>
 
-                    <div className="card col-xs-12 col-sm-6 top-section-card">
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
                         <PieChart arcs={this.state.causes} />
                     </div>
 
                 </div>
 
-                <div className="jumbotron jumbotron-fluid">
+                <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Fire Mapping Search</h1>
                         <p className="lead">Filter based on the different categories to visualize the fires.</p>
@@ -384,7 +384,7 @@ export default class AnalyzerDash extends Component {
                 
                 </div>       
 
-                <div className="card col-xs-12">
+                <div className="bg-light card col-xs-12">
                     <div className="card-body">
                         <section className="map-area">
                             <Map maps={this.state.maps} 
@@ -402,7 +402,7 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="card col-xs-12">
+                <div className="bg-light card col-xs-12">
                     <div className="card-body">
                         <section className="fires-table">
                             <FiresTable fires={this.state.fires}
@@ -411,7 +411,7 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>     
 
-                <div className="card col-xs-12">
+                <div className="bg-light card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
                             <ScatterPlot    points={this.parsedScatterPlotData(this.state.fires)}
@@ -420,14 +420,14 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="jumbotron jumbotron-fluid">
+                <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Number of Fires Per Year</h1>
                         <p className="lead">Horizontal bar chart to showcase how many wildfires per each year.</p>
                     </div>
                 </div>                 
 
-                <div className="card col-xs-12">
+                <div className="bg-light card col-xs-12">
                     <div className="card-body">
                         <section className="fires-line-chart">
                             <BarChart   data={this.state.firesByYears} 
@@ -436,7 +436,7 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="jumbotron jumbotron-fluid">
+                <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Counties with Most/Least Fires</h1>
                         <p className="lead">Various statistics to visualize the various aspects of county wildfires.</p>
@@ -445,11 +445,11 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
 
-                    <div className="card col-xs-12 col-sm-6">
+                    <div className="bg-light card col-xs-12 col-sm-6">
                         <CountiesCountTable counties={this.state.mostCounties} />
                     </div>
 
-                    <div className="card col-xs-12 col-sm-6">
+                    <div className="bg-light card col-xs-12 col-sm-6">
                         <CountiesCountTable counties={this.state.leastCounties} />
                     </div>
                 
