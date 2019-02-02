@@ -7,14 +7,23 @@ https://simplemaps.com/data/us-cities
 
 Setting up Python3 Environment
 
-update pip for python3
-curl https://bootstrap.pypa.io/get-pip.py | python3
+Go into server directory
+cd server
 
 check pip version
 pip --version
 
-deactivate 
-rm -rf env
+setting up virtualenv
 virtualenv -p python3 env
+
+using newly made virtual env
 source ./env/bin/activate
+
+update pip for python3
+curl https://bootstrap.pypa.io/get-pip.py | python3
+
+install packages and their versions as dictated by requirements.txt
 pip install -r requirements.txt
+
+start flask app
+FLASK_APP=app.py flask run

@@ -213,7 +213,7 @@ export default class AnalyzerDash extends Component {
               key={item.src}
             >
               <img src={item.src} alt={item.altText} width={this.imgWidth} height={this.imgHeight} />
-              <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+              <CarouselCaption captionText={item.caption} captionHeader={item.header} />
             </CarouselItem>
           );
         });
