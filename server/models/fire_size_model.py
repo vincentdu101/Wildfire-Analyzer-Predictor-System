@@ -7,6 +7,7 @@
 # pip install virtualenv
 # virtualenv env
 # conda install tensorflowjs
+# conda install -c anaconda sqlalchemy
 # source env/bin/activate
 # pip install numpy tensorflow flask_sqlalchemy tensorflowjs pandas keras pysqlite3 sklearn 
 
@@ -15,6 +16,12 @@
 
 # run model file
 # python3 fire_size_model.py
+
+# setup flask environment
+# export FLASK_APP=flaskr.py
+# export FLASK_DEBUG=1
+# flask run
+# pip install -U Flask
 
 import sqlite3
 import numpy as np

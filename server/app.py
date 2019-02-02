@@ -12,7 +12,6 @@ import tensorflow as tf
 from keras.models import load_model
 import keras as keras
 
-
 app = Flask(__name__)
 app.config.from_object("services.config.BaseConfig")
 CORS(app, resources=r'/*')
