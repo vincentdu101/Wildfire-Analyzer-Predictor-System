@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
 import { StateDataService } from "../../services/StateDataService/StateDataService";
 import Loader from "react-loader-spinner";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
 // range slider
 // https://github.com/davidchin/react-input-range
@@ -32,6 +33,7 @@ export default class PredictorDash extends Component {
         this.updateCountyStateInfo = this.updateCountyStateInfo.bind(this);
         this.outputPredictionSection = this.outputPredictionSection.bind(this);
         this.verifyPostObject = this.verifyPostObject.bind(this);
+        this.outputCauseDetails = this.outputCauseDetails.bind(this);
         this.imgWidth = "400";
         this.imgHeight = "300";
 
@@ -206,6 +208,14 @@ export default class PredictorDash extends Component {
         );
     }
 
+    outputCauseDetails() {
+        return (
+            this.state.prediction.details.map((detail) => {
+                return (<ListGroupItem>{detail}</ListGroupItem>);
+            })
+        );
+    }
+
     outputPrediction() {
         if (this.state.loader) {
             return (
@@ -233,7 +243,9 @@ export default class PredictorDash extends Component {
     
                     <div className="row">
                         <div className="col-xs-12 prediction-details">
-                            {this.state.prediction.details}
+                            <ListGroup>
+                                {this.outputCauseDetails()}
+                            </ListGroup>
                         </div>
                     </div>
                 </div>
@@ -353,7 +365,7 @@ export default class PredictorDash extends Component {
                     </div>
                 </div>
 
-                <div className="row col-xs-12 card align-items-center button-section">
+                <div className="bg-warning row col-xs-12 card align-items-center button-section">
                     <Button onClick={this.submitForm}>Submit</Button>
                 </div>
 

@@ -2,79 +2,118 @@
     "1": {
         "name": "Lightning",
         "image": "/img/lightning.jpeg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Lightning caused fires are notable as they can be a double edge sword in terms of their benefits to the natural habitat and its unexpected occurrence. These fires can help clear unwanted foliage and can often be contained to a specific area by natural barriers. Lightning begins to form as a result of static charges in rain clouds. As winds reach a certain speed in the atmosphere it causes clouds that are inside it be chaotic and less controlled. The water droplets at the bottom of the cloud are then lifted to the top and freeze over because of the colder atmosphere. At this point electrons are stripped off due to the cloud now pushing the ice/hail from the top. This results in a polar balance of a cloud with a positively charged top and negatively charged bottom. When the fields become strong enough it causes the atmosphere to become an insulator to the point where it overpowers the atmosphere leading to a lightning being formed.",
+        "details": [
+            "Two types of lightning: Cold and Hot Lightning.",
+            "Difference between the two is the duration of the lightning and how intense the voltage.",
+            "Most lightning caused fires usually start due to longer lasting hot lightning bolts.",
+            "From 1975 to 2015, lightning caused 82% of the area burned in the Northwest Territories.",
+            "In Alaska of 2015, lightning caused 99% of the area burned."
+        ]
     },
     "2": {
         "name": "Equipment Use",
         "image": "/img/equipment.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "As defined by the state of California, the definition of equipment use caused fires consists of fires started by the use of electrical or mechanical equipment. This broad definition also includes equipment that is both stationary or portable.",
+        "details": [
+            "Equipment malfunction accounted for 72,701 acres burned in California in 2015 alone.",
+            "Usually occurs as a result of equipment getting old and its functions begins to be faulty."
+        ]
     },
     "3": {
         "name": "Smoking",
         "image": "/img/smoking.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Fires that occur as a result of smoking tobacco or other material like cigars and others. This includes matches as well as the other heat sources used in smoking.",
+        "details": [
+            "Since 1980, the number of smoking caused wildfires have gone down by 90%.",
+            "Reasons accounting for the decreased rate include national requirements for less fire-prone cigarettes, decline in number of smokers, and better overall understanding of the causes of wildfires.",
+            "Investigators have developed better ways to tell how a wildfire started.",
+            "Cumulative effect of this lower smoking caused wildfire rate is that across 12 different U.S. states, over $3.5 million in fire-fighting/rebuilding costs were avoided."
+        ]
     },
     "4": {
         "name": "Campfire",
         "image": "/img/campfire.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "These types of fires are generally caused by a campfire. This includes campfires and lanterns that are often used for cooking, warmth, lighting, or other purposes. They are primarily outdoors and not near a building, mobile home, or other vehicular dwelling.",
+        "details": [
+            "Campfire caused fires accounted for 1/3 of the 33,700 human caused wildfires from 2006 to 2015.",
+            "In the same decade, 73,110 were human caused wildfires",
+            "In 2016, the Roaring Lion Fire burned nearly 8,500 acres before being contained.",
+            "Often occurs when campfires are left unattended and it spreads via strong winds into nearby wooded areas."
+        ]
     },
     "5": {
         "name": "Debris Burning",
         "image": "/img/debris.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Fires caused by burning trash, refuse, slash, rights-of-war, or rangeland. It can also be debris that is permitted to be burned.",
+        "details": [
+            "Contributes to the statistics of wildfires caused by humans.",
+            "Starts the most human-caused fires with a rate of 29% of all human caused fires."
+        ]
     },
     "6": {
         "name": "Railroad",
         "image": "/img/railroad.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Fires occurring due to railroad related reasons like railroad rolling stock from a speeder, locomotive, or rail car.",
+        "details": [
+            "Sparks from railroads have been noted to cause wildfires.",
+            "From 1992 to 2015, 33,455 wildfires were caused by railroads."
+        ]
     },
     "7": {
         "name": "Arson",
         "image": "/img/arson.jpeg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Human caused fires that were deliberately, willfully, and maliciously started to burn or attempt to burn structures, forest land, or other property.",
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "8": {
         "name": "Children",
         "image": "/img/children.jpg",
         "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "9": {
         "name": "Miscellaneous",
         "image": "/img/misc.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "These type of fires were started by events/activities that cannot be categorized.",
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "10": {
         "name": "Fireworks",
         "image": "/img/fireworks.jpg",
         "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "11": {
         "name": "Powerline",
         "image": "/img/powerline.jpg",
         "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "12": {
         "name": "Structure",
         "image": "/img/structures.jpg",
         "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "details": [
+            "Statistics about cause"
+        ]
     },
     "13": {
         "name": "Missing/Undefined",
         "image": "/img/misc.jpg",
-        "description": "This is a valid cause",
-        "details": "Statistics about cause"
+        "description": "Missing reason on the cause of the fire.",
+        "details": [
+            "Statistics about cause"
+        ]
     }
 }
