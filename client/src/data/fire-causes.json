@@ -75,7 +75,9 @@
         "image": "/img/children.jpg",
         "description": "Fires caused by children usually due to the same reasons as other human caused fires.",
         "details": [
-            "Statistics about cause"
+            "Most fires caused by children happen as a result of them playing with fire.",
+            "From 2007 and 2011, annually 49,300 fires involved children playing with fire were reported.",
+            "This led to an average 80 deaths, 860 injuries, and $235 million in property damage."
         ]
     },
     "9": {
@@ -83,31 +85,34 @@
         "image": "/img/misc.jpg",
         "description": "These type of fires were started by events/activities that cannot be categorized.",
         "details": [
-            "Statistics about cause"
+            "From 1992 to 2015, this accounted for 323,805 fires."
         ]
     },
     "10": {
         "name": "Fireworks",
         "image": "/img/fireworks.jpg",
-        "description": "This is a valid cause",
+        "description": "Fires that are caused by adults/children playing with fireworks. This includes unintentional fires and playing with fire causing devices.",
         "details": [
-            "Statistics about cause"
+            "Highest rate occurs during the 4th of July holiday in the United States.",
+            "During this time, fireworks were the heat source in 30% of all non-trash outside or unclassified fires."
         ]
     },
     "11": {
         "name": "Powerline",
         "image": "/img/powerline.jpg",
-        "description": "This is a valid cause",
+        "description": "Fires that are caused by powerline hardwire, pole or tower, and conductors.",
         "details": [
-            "Statistics about cause"
+            "At least 17 major wildfires in Northern California in 2017 were caused by powerlines.",
+            "Some solutions are beginning to develop whereby powerlines would be dug underground in fire risk areas.",
+            "These are often destructive fires as powerlines tend to stretch in long distances often passing large areas of fire risk zones."
         ]
     },
     "12": {
         "name": "Structure",
         "image": "/img/structures.jpg",
-        "description": "This is a valid cause",
+        "description": "Fires that start in a building or residential home.",
         "details": [
-            "Statistics about cause"
+            "From 1992 to 2015, this accounted for 3796 fires, which is a lower number compared to other causes."
         ]
     },
     "13": {
@@ -115,7 +120,7 @@
         "image": "/img/misc.jpg",
         "description": "Missing reason on the cause of the fire.",
         "details": [
-            "Statistics about cause"
+            "From 1992 to 2015, this accounted for 166,723 fires."
         ]
     }
 }
