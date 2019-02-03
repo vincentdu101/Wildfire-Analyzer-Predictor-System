@@ -65,13 +65,15 @@
         "image": "/img/arson.jpeg",
         "description": "Human caused fires that were deliberately, willfully, and maliciously started to burn or attempt to burn structures, forest land, or other property.",
         "details": [
-            "Statistics about cause"
+            "In California, almost 95% of fires are started by people and 7% of those are arson.",
+            "Depending on the case, even those who mistakenly start a fire are held criminally liable.",
+            "Education is the key to lowering the rates of arson caused fires."
         ]
     },
     "8": {
         "name": "Children",
         "image": "/img/children.jpg",
-        "description": "This is a valid cause",
+        "description": "Fires caused by children usually due to the same reasons as other human caused fires.",
         "details": [
             "Statistics about cause"
         ]
