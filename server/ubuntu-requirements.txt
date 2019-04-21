@@ -1,0 +1,15 @@
+numpy==1.15.1
+tensorflow==1.12.0
+flask_sqlalchemy==2.3.2 
+tensorflowjs==0.8.0
+pandas==0.19.0
+keras==2.2.2
+pysqlite3==0.2.1 
+scikit-learn==0.19.2
+sqlalchemy==1.2.17
+keras-applications=1.0.4
+keras-preprocessing=1.0.2
+flask_cors==3.0.7
+julian
+jdcal
+six=1.11.0
