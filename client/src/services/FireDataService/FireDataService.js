@@ -1,11 +1,9 @@
 import axios from "axios";
 import * as _ from "lodash";
 import * as causes from "../../data/fire-causes.json";
-import { axisBottom } from "d3-axis";
+import Config from "../Config/config";
 
 export class FireDataService {
-
-    static server = "http://localhost:5000";
 
     static parsePostData(post) {
         let keys = Object.keys(post);
@@ -24,46 +22,46 @@ export class FireDataService {
     }
 
     static getFiresData(params = {}) {
-        return axios.get(FireDataService.server + "/fires" + this.generateQueryParams(params));
+        return axios.get(Config.serverUrl() + "/fires" + this.generateQueryParams(params));
     }
 
     static getStatesCountData() {
-        return axios.get(FireDataService.server + "/states");
+        return axios.get(Config.serverUrl() + "/states");
     }
 
     static getCausesCountData() {
-        return axios.get(FireDataService.server + "/cause");
+        return axios.get(Config.serverUrl() + "/cause");
     }
 
     static getWildfireByYear() {
-        return axios.get(FireDataService.server + "/wildfire-by-year");
+        return axios.get(Config.serverUrl() + "/wildfire-by-year");
     }
 
     static getWildfireByYears() {
-        return axios.get(FireDataService.server + "/fires-by-years");
+        return axios.get(Config.serverUrl() + "/fires-by-years");
     }
 
     static getMostPronedCounties() {
-        return axios.get(FireDataService.server + "/most-proned-counties");
+        return axios.get(Config.serverUrl() + "/most-proned-counties");
     }
 
     static getLeastPronedCounties() {
-        return axios.get(FireDataService.server + "/least-proned-counties");
+        return axios.get(Config.serverUrl() + "/least-proned-counties");
     }
 
     static postANNCausePredictionModel(post) {
         post = this.parsePostData(post);
-        return axios.post("http://localhost:5000/ann-wildfire-cause-predict", post);
+        return axios.post(Config.serverUrl() + "/ann-wildfire-cause-predict", post);
     }
 
     static postRandomForestCausePredictionModel(post) {
         post = this.parsePostData(post);
-        return axios.post("http://localhost:5000/random-forest-wildfire-cause-predict", post);
+        return axios.post(Config.serverUrl() + "/random-forest-wildfire-cause-predict", post);
     }
 
     static postNaiveBayesCausePredictionModel(post) {
         post = this.parsePostData(post);
-        return axios.post("http://localhost:5000/naive-bayes-wildfire-cause-predict", post);
+        return axios.post(Config.serverUrl() + "/naive-bayes-wildfire-cause-predict", post);
     }
 
     static causeOfFirePerCode(code) {

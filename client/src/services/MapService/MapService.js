@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as usStates from "../../data/us-states-features.json";
+import Config from "../Config/config";
 
 export class MapService {
 
@@ -8,7 +9,7 @@ export class MapService {
     }
 
     static getFiresData() {
-        return axios.get("http://localhost:5000/fires");
+        return axios.get(Config.serverUrl() + "/fires");
     }
 
 }
