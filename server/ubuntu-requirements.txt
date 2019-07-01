@@ -11,6 +11,5 @@ keras-applications
 keras-preprocessing
 flask_cors==3.0.7
 julian
-jdcal
 six==1.11.0
 cython==0.29.7
