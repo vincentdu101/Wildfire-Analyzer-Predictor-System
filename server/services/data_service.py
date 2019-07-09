@@ -10,15 +10,38 @@ class DataService:
     def __init__(self, app):
         sqlite_file = "./models/wildfires.sqlite"
         self.connection = sqlite3.connect(sqlite_file)
+        self.define_model_params()
         self.wildfires = self.load_all_wildfires()
         self.wildfires_cause = self.load_all_wildfires_cause_data()
         db.init_app(app)
 
+    def define_model_params(self):
+        self.size_params = ["STATE", "LATITUDE", "LONGITUDE", "STAT_CAUSE_CODE", 
+        "DISCOVERY_DOY", "DISCOVERY_TIME", "CONT_DOY", "CONT_TIME"]
+
+        self.cause_params = ["STATE", "COUNTY", "LATITUDE", "LONGITUDE", "FIRE_SIZE_CLASS", 
+        "FIRE_SIZE", "FIRE_YEAR", "DISCOVERY_DATE", "DISCOVERY_TIME", "CONT_DATE", "CONT_TIME"]
+
+    def defaultMinimumValues(self, values): 
+        output = []
+        for index, x in enumerate(values):
+            x = float(x) if x != None and float(x) > 0.0 else 0
+            output.append(x)
+        return output
+
+    def preprocessData(self, data):
+        data.FIPS_CODE = self.defaultMinimumValues(data.FIPS_CODE)
+        data.CONT_TIME = self.defaultMinimumValues(data.CONT_TIME)
+        data.DISCOVERY_TIME = self.defaultMinimumValues(data.DISCOVERY_TIME)
+        return data
+
     def load_all_wildfires(self):
-        return pd.read_sql_query("select * from Fires limit 50000;", self.connection)
+        data = pd.read_sql_query("select * from Fires limit 50000;", self.connection)
+        return self.preprocessData(data)
 
     def load_all_wildfires_cause_data(self):
-        return pd.read_sql_query("select * from Fires limit 5000;", self.connection)        
+        data = pd.read_sql_query("select * from Fires limit 50000;", self.connection)        
+        return self.preprocessData(data)
 
     def get_all_wildfires(self, args):
         query = Fire.query
@@ -57,16 +80,16 @@ class DataService:
         return Fire.query.filter(Fire.FIRE_YEAR == year).order_by(desc(Fire.FIRE_YEAR))
 
     def get_wildfires_size_independent(self):
-        return self.wildfires.iloc[:, [34, 30, 31, 23, 21, 22, 26, 27]]
+        return self.wildfires[self.size_params]
 
     def get_wildfires_size_dependent(self):
-        return self.wildfires.iloc[:, 29]
+        return self.wildfires["FIRE_SIZE_CLASS"]
 
     def get_wildfires_cause_independent(self):
-        return self.wildfires_cause.iloc[:, [34, 36, 30, 31, 29, 28, 19, 20, 22, 25, 27]]
+        return self.wildfires_cause[self.cause_params]
 
     def get_wildfires_cause_dependent(self):
-        return self.wildfires_cause.iloc[:, 23]
+        return self.wildfires_cause["STAT_CAUSE_CODE"]
 
-    def get_distinct_states(): 
+    def get_distinct_states(self): 
         return pd.read_sql_query("select distinct state from Fires limit 50000;", self.connection)
