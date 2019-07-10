@@ -22,8 +22,6 @@ class ModelService:
 
         # save it into the pipeline estimator model
         self.ann_wildfire_cause.steps.append(("estimator", ann_keras_model))
-        # self.ann_wildfire_cause.load_weights("./models/ann_cause_model_weights.h5")
-        # self.ann_wildfire_cause.compile(optimizer="adam", loss="mean_squared_error", metrics=["accuracy"])
         return self.ann_wildfire_cause        
 
     def load_random_forest_wildfire_cause(self):

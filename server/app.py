@@ -1,4 +1,5 @@
 import os
+import pdb
 from services.connection_service import ConnectionService
 from services.model_service import ModelService
 from services.encoder_service import EncoderService
@@ -80,14 +81,12 @@ def ann_wildfire_cause_predict():
     if (params != None):
         # load model
         keras.backend.clear_session()
-        X_test, y_test = encoder_service.get_wildfires_cause_test_data()
         model = model_service.load_ann_wildfire_cause()
         params = encoder_service.encode_wildfire_cause_categories(params)
-        # score = model.score(X_test, y_test)
-        # print("%.2f%%" % score * 100)
+        # sets breakpoint
+        # pdb.set_trace()
         predictions = model.predict(params)
-        print(predictions)
-        data["prediction"] = predictions[0][0]
+        data["prediction"] = int(predictions[0][0])
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data)) 
 
