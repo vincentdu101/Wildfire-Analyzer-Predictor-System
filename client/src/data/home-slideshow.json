@@ -1,18 +1,18 @@
 [
     {
-      "src": "/img/wildfires.jpg",
+      "src": "/wildfires.jpg",
       "altText": "Wildfire Analysis System",
       "caption": "Various data visualizations to visualize wildfires from 24 years",
       "header": "Wildfire Analysis/Predict Dashboard"
     },
     {
-      "src": "/img/government.png",
+      "src": "/government.png",
       "altText": "Forest Service Research Data Archive",
       "caption": "Data found at the US government department datasets",
       "header": "Forest Service Research Data Archive"
     },
     {
-      "src": "/img/ai.jpeg",
+      "src": "/ai.jpeg",
       "altText": "AI and Machine Learning Driven Prediction",
       "caption": "Prediction System built using AI and Machine Learning",
       "header": "AI and Machine Learning Driven"

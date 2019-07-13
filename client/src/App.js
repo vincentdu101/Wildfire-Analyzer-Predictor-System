@@ -16,14 +16,14 @@ export default class App extends Component {
         return (
             <Router>
                 <div className="App no-gutters">
-                    <nav className="bg-danger navbar navbar-expand-lg"
+                    <nav className="bg-danger navbar navbar-expand-sm fixed-top"
                         style={{color: "white"}}>
                         <a className="navbar-brand">Wildfire Analytic Dashboard</a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
 
-                        <div className="collapse navbar-collapse">
+                        <div className="navbar-collapse">
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item nav-link active">
                                     <Link style={{color: "white"}} to="/">Analytic Dashboard</Link>

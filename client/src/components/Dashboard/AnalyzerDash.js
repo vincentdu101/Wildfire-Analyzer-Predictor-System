@@ -8,6 +8,7 @@ import PieChart from "../Charts/PieChart";
 import ScatterPlot from "../Charts/ScatterPlot";
 import BarChart from "../Charts/BarChart";
 import CountiesCountTable from "../Table/CountiesCountTable";
+import Config from "../../services/Config/config";
 import { MapService } from "../../services/MapService/MapService";
 import { DateService } from "../../services/DateService/DateService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
@@ -212,7 +213,7 @@ export default class AnalyzerDash extends Component {
               onExited={this.onExited}
               key={item.src}
             >
-              <img src={item.src} alt={item.altText} width={this.imgWidth} height={this.imgHeight} />
+              <img src={Config.imageUrl() + item.src} alt={item.altText} width={this.imgWidth} height={this.imgHeight} />
               <CarouselCaption captionText={item.caption} captionHeader={item.header} />
             </CarouselItem>
           );

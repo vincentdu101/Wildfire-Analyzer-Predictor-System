@@ -1,7 +1,7 @@
 {
     "1": {
         "name": "Lightning",
-        "image": "/img/lightning.jpeg",
+        "image": "/lightning.jpeg",
         "description": "Lightning caused fires are notable as they can be a double edge sword in terms of their benefits to the natural habitat and its unexpected occurrence. These fires can help clear unwanted foliage and can often be contained to a specific area by natural barriers. Lightning begins to form as a result of static charges in rain clouds. As winds reach a certain speed in the atmosphere it causes clouds that are inside it be chaotic and less controlled. The water droplets at the bottom of the cloud are then lifted to the top and freeze over because of the colder atmosphere. At this point electrons are stripped off due to the cloud now pushing the ice/hail from the top. This results in a polar balance of a cloud with a positively charged top and negatively charged bottom. When the fields become strong enough it causes the atmosphere to become an insulator to the point where it overpowers the atmosphere leading to a lightning being formed.",
         "details": [
             "Two types of lightning: Cold and Hot Lightning.",
@@ -13,7 +13,7 @@
     },
     "2": {
         "name": "Equipment Use",
-        "image": "/img/equipment.jpg",
+        "image": "/equipment.jpg",
         "description": "As defined by the state of California, the definition of equipment use caused fires consists of fires started by the use of electrical or mechanical equipment. This broad definition also includes equipment that is both stationary or portable.",
         "details": [
             "Equipment malfunction accounted for 72,701 acres burned in California in 2015 alone.",
@@ -22,7 +22,7 @@
     },
     "3": {
         "name": "Smoking",
-        "image": "/img/smoking.jpg",
+        "image": "/smoking.jpg",
         "description": "Fires that occur as a result of smoking tobacco or other material like cigars and others. This includes matches as well as the other heat sources used in smoking.",
         "details": [
             "Since 1980, the number of smoking caused wildfires have gone down by 90%.",
@@ -33,7 +33,7 @@
     },
     "4": {
         "name": "Campfire",
-        "image": "/img/campfire.jpg",
+        "image": "/campfire.jpg",
         "description": "These types of fires are generally caused by a campfire. This includes campfires and lanterns that are often used for cooking, warmth, lighting, or other purposes. They are primarily outdoors and not near a building, mobile home, or other vehicular dwelling.",
         "details": [
             "Campfire caused fires accounted for 1/3 of the 33,700 human caused wildfires from 2006 to 2015.",
@@ -44,7 +44,7 @@
     },
     "5": {
         "name": "Debris Burning",
-        "image": "/img/debris.jpg",
+        "image": "/debris.jpg",
         "description": "Fires caused by burning trash, refuse, slash, rights-of-war, or rangeland. It can also be debris that is permitted to be burned.",
         "details": [
             "Contributes to the statistics of wildfires caused by humans.",
@@ -53,7 +53,7 @@
     },
     "6": {
         "name": "Railroad",
-        "image": "/img/railroad.jpg",
+        "image": "/railroad.jpg",
         "description": "Fires occurring due to railroad related reasons like railroad rolling stock from a speeder, locomotive, or rail car.",
         "details": [
             "Sparks from railroads have been noted to cause wildfires.",
@@ -62,7 +62,7 @@
     },
     "7": {
         "name": "Arson",
-        "image": "/img/arson.jpeg",
+        "image": "/arson.jpeg",
         "description": "Human caused fires that were deliberately, willfully, and maliciously started to burn or attempt to burn structures, forest land, or other property.",
         "details": [
             "In California, almost 95% of fires are started by people and 7% of those are arson.",
@@ -72,7 +72,7 @@
     },
     "8": {
         "name": "Children",
-        "image": "/img/children.jpg",
+        "image": "/children.jpg",
         "description": "Fires caused by children usually due to the same reasons as other human caused fires.",
         "details": [
             "Most fires caused by children happen as a result of them playing with fire.",
@@ -82,7 +82,7 @@
     },
     "9": {
         "name": "Miscellaneous",
-        "image": "/img/misc.jpg",
+        "image": "/misc.jpg",
         "description": "These type of fires were started by events/activities that cannot be categorized.",
         "details": [
             "From 1992 to 2015, this accounted for 323,805 fires."
@@ -90,7 +90,7 @@
     },
     "10": {
         "name": "Fireworks",
-        "image": "/img/fireworks.jpg",
+        "image": "/fireworks.jpg",
         "description": "Fires that are caused by adults/children playing with fireworks. This includes unintentional fires and playing with fire causing devices.",
         "details": [
             "Highest rate occurs during the 4th of July holiday in the United States.",
@@ -99,7 +99,7 @@
     },
     "11": {
         "name": "Powerline",
-        "image": "/img/powerline.jpg",
+        "image": "/powerline.jpg",
         "description": "Fires that are caused by powerline hardwire, pole or tower, and conductors.",
         "details": [
             "At least 17 major wildfires in Northern California in 2017 were caused by powerlines.",
@@ -109,7 +109,7 @@
     },
     "12": {
         "name": "Structure",
-        "image": "/img/structures.jpg",
+        "image": "/structures.jpg",
         "description": "Fires that start in a building or residential home.",
         "details": [
             "From 1992 to 2015, this accounted for 3796 fires, which is a lower number compared to other causes."
@@ -117,7 +117,7 @@
     },
     "13": {
         "name": "Missing/Undefined",
-        "image": "/img/misc.jpg",
+        "image": "/misc.jpg",
         "description": "Missing reason on the cause of the fire.",
         "details": [
             "From 1992 to 2015, this accounted for 166,723 fires."

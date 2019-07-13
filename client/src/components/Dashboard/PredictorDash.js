@@ -13,6 +13,7 @@ import { FireDataService } from "../../services/FireDataService/FireDataService"
 import { StateDataService } from "../../services/StateDataService/StateDataService";
 import Loader from "react-loader-spinner";
 import { ListGroup, ListGroupItem } from "reactstrap";
+import Config from "../../services/Config/config";
 
 // range slider
 // https://github.com/davidchin/react-input-range
@@ -228,7 +229,7 @@ export default class PredictorDash extends Component {
                         <div className="col-xs-12 col-xs-4 align-items-left">
                             <img    width={this.imgWidth}
                                     height={this.imgHeight}
-                                    src={window.location.origin + this.state.prediction.image} 
+                                    src={Config.imageUrl() + this.state.prediction.image} 
                                     className="img-fluid" />
                         </div>
     
