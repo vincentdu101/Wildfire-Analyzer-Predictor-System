@@ -44,16 +44,16 @@ export default class App extends Component {
 
                                 <div className="footer-profile">
 
-                                    <h2>Vincent Du</h2>
-                                    <h5>Senior Software Engineer</h5>
-
-                                    <div class="row">
+                                    <div class="row footer-profile-row">
 
                                         <div class="col-md-12 col-lg-4">
-                                            <img src="https://media.licdn.com/dms/image/C5603AQF_MXglOGJ2cA/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=YgOhFXXgt4xNYSo9cnOHAYBURAwJX6a-Y1CHqnalJ_o" />
+                                            <img    class="footer-profile-image"
+                                                    src="https://media.licdn.com/dms/image/C5603AQF_MXglOGJ2cA/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=YgOhFXXgt4xNYSo9cnOHAYBURAwJX6a-Y1CHqnalJ_o" />
                                         </div>
 
                                         <div class="col-md-12 col-lg-8">
+                                            <h2>Vincent Du</h2>
+                                            <h5>Senior Software Engineer</h5>
                                             <div className="footer-autobio">
                                                 Passionate engineer with full stack experience and looking to apply 
                                                 skills to develop new AI, machine learning, and full stack systems.

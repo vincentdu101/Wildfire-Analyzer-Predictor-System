@@ -70,9 +70,19 @@
 
 .footer-links-section {
   min-height: 500px;
+  padding-top: 15px;
 }
 
 .footer-tech-title {
   color: white;
+}
+
+.footer-profile-image {
+  border-radius: 100px;
+  border: 3px solid orange;
+}
+
+.footer-profile-row {
+  padding-top: 20px;
 }
 
