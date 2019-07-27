@@ -40,45 +40,53 @@ export default class App extends Component {
                     <div className="bg-danger footer">
                         
                         <div className="row">
-                            <div className="col-xs-12 col-lg-4">
+                            <div className="col-xs-12 col-lg-8 card">
 
                                 <div className="footer-profile">
 
                                     <h2>Vincent Du</h2>
                                     <h5>Senior Software Engineer</h5>
 
-                                    <div className="footer-autobio">
-                                        Passionate engineer with full stack experience and looking to apply 
-                                        skills to develop new AI, machine learning, and full stack systems.
+                                    <div class="row">
+
+                                        <div class="col-md-12 col-lg-4">
+                                            <img src="https://media.licdn.com/dms/image/C5603AQF_MXglOGJ2cA/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=YgOhFXXgt4xNYSo9cnOHAYBURAwJX6a-Y1CHqnalJ_o" />
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-8">
+                                            <div className="footer-autobio">
+                                                Passionate engineer with full stack experience and looking to apply 
+                                                skills to develop new AI, machine learning, and full stack systems.
+                                                Passionate engineer with full stack experience and looking to apply 
+                                                skills to develop new AI, machine learning, and full stack systems.
+                                                Passionate engineer with full stack experience and looking to apply 
+                                                skills to develop new AI, machine learning, and full stack systems.                                                                                
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="footer-btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-primary">LinkedIn</button>
+                                        <button type="button" class="btn btn-secondary">GitHub</button>
+                                        <button type="button" class="btn btn-success">Website</button>
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div className="bg-danger col-xs-12 col-lg-4">
-                                <h4>Technologies/Frameworks/Tools Used</h4>
+                            <div className="bg-danger footer-links-section col-xs-12 col-lg-4">
 
+                                <h6 class="footer-tech-title">Technologies/Frameworks/Tools Used</h6>
                                 <ListGroup>
                                     <ListGroupItem>Python</ListGroupItem>
                                     <ListGroupItem>Javascript</ListGroupItem>
                                     <ListGroupItem>Flask</ListGroupItem>
                                     <ListGroupItem>React</ListGroupItem>
                                     <ListGroupItem>Keras</ListGroupItem>
-                                    <ListGroupItem>SkiLearn</ListGroupItem>
+                                    <ListGroupItem>Scikit-Learn</ListGroupItem>
                                     <ListGroupItem>Tensorflow</ListGroupItem>
                                 </ListGroup>
-                            </div>
-
-                            <div className="bg-danger footer-links-section col-xs-12 col-lg-4">
-
-                                <h4>Portfolio and Profile</h4>
-
-                                <ListGroup>
-                                    <ListGroupItem>LinkedIn</ListGroupItem>
-                                    <ListGroupItem>Github</ListGroupItem>
-                                    <ListGroupItem>Website</ListGroupItem>
-                                </ListGroup>
-
                             </div>                            
                         </div>
 
