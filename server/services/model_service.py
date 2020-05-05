@@ -1,6 +1,7 @@
 from sklearn.externals import joblib
 from keras.models import load_model
 import pickle
+import tensorflow as tf
 
 class ModelService:
 
@@ -34,4 +35,9 @@ class ModelService:
         # self.naive_bayes_cause = pickle.load(open("./models/naive_bayes_cause_model.h5", "rb"))
         self.naive_bayes_cause = joblib.load("./models/naive_bayes_pipeline.pkl")
         print("Naive Bayes Model loaded successfully.")
-        return self.naive_bayes_cause        
+        return self.naive_bayes_cause    
+
+    def load_nn_tensorflow_keras_cause(self):
+        self.nn_tensor_keras = tf.keras.models.load_model("./models/tf_keras_nn.h5")
+        print("Neural Network Tensorflow Keras Model loaded successfully.")
+        return self.nn_tensor_keras    

@@ -36,3 +36,6 @@ Setting up Anaconda Environment for Jupyter Notebook
 - Install packages via requirements.txt with sudo
 sudo pip install -r requirements.txt
 
+if pandas breaks, pip install pandas separately to get the latest version
+- it seems to have problems with python3.7 and above
+

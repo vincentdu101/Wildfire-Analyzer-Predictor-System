@@ -162,7 +162,18 @@ def get_most_proned_counties():
 def get_least_proned_counties():
     data = {"success": True}
     counties = data_service.get_least_proned_counties()
-    return jsonify({"counties": counties})    
+    return jsonify({"counties": counties})   
+
+@app.route("/neural-network-tensorflow-keras-cause", methods=["POST"]) 
+def nn_tensorflow_keras_cause_predict():
+    data = {"success": False}
+
+    params = request.get_json()
+
+    if (params != None):
+        model = model_service.load_nn_tensorflow_keras_cause()
+        data["predictions"] = "1.0"
+        data["success"] = True
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
