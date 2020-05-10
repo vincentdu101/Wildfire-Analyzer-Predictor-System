@@ -172,8 +172,12 @@ def nn_tensorflow_keras_cause_predict():
 
     if (params != None):
         model = model_service.load_nn_tensorflow_keras_cause()
-        data["predictions"] = "1.0"
+        params = encoder_service.encode_wildfire_cause_nn_params(params)
+        # pdb.set_trace()
+        predictions = model.predict(params).flatten()
+        data["predictions"] = predictions[0]
         data["success"] = True
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

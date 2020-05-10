@@ -13,6 +13,7 @@ class DataService:
         self.define_model_params()
         self.wildfires = self.load_all_wildfires()
         self.wildfires_cause = self.load_all_wildfires_cause_data()
+        self.wildfires_nn_cause = self.load_sample_wildfires_cause_data()
         db.init_app(app)
 
     def define_model_params(self):
@@ -22,16 +23,31 @@ class DataService:
         self.cause_params = ["STATE", "COUNTY", "LATITUDE", "LONGITUDE", "FIRE_SIZE_CLASS", 
         "FIRE_SIZE", "FIRE_YEAR", "DISCOVERY_DATE", "DISCOVERY_TIME", "CONT_DATE", "CONT_TIME"]
 
+        self.cause_nn_params = ["STATE", "FIPS_CODE", "LATITUDE", "LONGITUDE", "FIRE_SIZE_CLASS", 
+        "FIRE_SIZE", "FIRE_YEAR", "DISCOVERY_DATE", "DISCOVERY_TIME", "CONT_DATE", "CONT_TIME"]
+
+        self.cause_nn_one_hot_columns = ['AK',
+        'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID',
+        'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS',
+        'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR',
+        'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI',
+        'WV', 'WY', 'A', 'B', 'C', 'D', 'E', 'F', 'G']
+
+
     def defaultMinimumValues(self, values): 
         output = []
         for index, x in enumerate(values):
-            x = float(x) if x != None and float(x) > 0.0 else 0
-            output.append(x)
+            try:
+                x = float(x) if x is not None and float(x) > 0.0 else 0
+                output.append(x)
+            except:
+                output.append(0)
         return output
 
     def preprocessData(self, data):
         data.FIPS_CODE = self.defaultMinimumValues(data.FIPS_CODE)
         data.CONT_TIME = self.defaultMinimumValues(data.CONT_TIME)
+        data.CONT_DATE = self.defaultMinimumValues(data.CONT_DATE)
         data.DISCOVERY_TIME = self.defaultMinimumValues(data.DISCOVERY_TIME)
         return data
 
@@ -41,6 +57,10 @@ class DataService:
 
     def load_all_wildfires_cause_data(self):
         data = pd.read_sql_query("select * from Fires limit 50000;", self.connection)        
+        return self.preprocessData(data)
+
+    def load_sample_wildfires_cause_data(self):
+        data = pd.read_sql_query("select * from Fires order by Random() limit 2500;", self.connection)
         return self.preprocessData(data)
 
     def get_all_wildfires(self, args):
@@ -88,8 +108,17 @@ class DataService:
     def get_wildfires_cause_independent(self):
         return self.wildfires_cause[self.cause_params]
 
+    def get_wildfires_cause_nn_independent(self):
+        return self.wildfires_nn_cause[self.cause_nn_params]        
+
     def get_wildfires_cause_dependent(self):
         return self.wildfires_cause["STAT_CAUSE_CODE"]
 
     def get_distinct_states(self): 
         return pd.read_sql_query("select distinct state from Fires limit 50000;", self.connection)
+    
+    def add_missing_one_hot_columns(self, dataset):
+        for index, column in enumerate(self.cause_nn_one_hot_columns):
+            if column not in dataset:
+                dataset[column] = 0
+        return dataset
