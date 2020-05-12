@@ -83,14 +83,20 @@ class EncoderService:
         return stats.transpose()
 
     def norm(self, x):
-        stats = self.determine_train_stats(x)
+        wildfires = self.data_service.get_wildfires_cause_nn_independent()
+        stats = self.determine_train_stats(wildfires)
         return (x - stats["mean"]) / stats["std"]
+
+    def check_columns_valid(self, x):
+        for index, col in enumerate(x.columns):
+            x[col] = self.data_service.defaultMinimumValues(x[col])
+        return x
 
     def encode_wildfire_cause_nn_params(self, params):
         dataset = pd.DataFrame(data=params, columns = self.data_service.cause_nn_params)
         dataset = self.data_service.preprocessData(dataset)
         dataset = self.one_hot_encode(dataset)
         dataset = self.data_service.add_missing_one_hot_columns(dataset)
-        pdb.set_trace()
         dataset = self.norm(dataset)
+        dataset = self.check_columns_valid(dataset)
         return dataset

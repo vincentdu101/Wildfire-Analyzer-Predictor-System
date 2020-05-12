@@ -167,17 +167,16 @@ def get_least_proned_counties():
 @app.route("/neural-network-tensorflow-keras-cause", methods=["POST"]) 
 def nn_tensorflow_keras_cause_predict():
     data = {"success": False}
-
     params = request.get_json()
 
     if (params != None):
         model = model_service.load_nn_tensorflow_keras_cause()
-        params = encoder_service.encode_wildfire_cause_nn_params(params)
-        # pdb.set_trace()
-        predictions = model.predict(params).flatten()
+        params = encoder_service.encode_wildfire_cause_nn_params(params)  
+        pdb.set_trace()      
+        predictions = model.predict(params, batch_size=1)
         data["predictions"] = predictions[0]
         data["success"] = True
-    return jsonify(data)
+    return connection_service.setup_json_response(json.dumps(data))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
