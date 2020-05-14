@@ -100,3 +100,12 @@ class EncoderService:
         dataset = self.norm(dataset)
         dataset = self.check_columns_valid(dataset)
         return dataset
+
+    def get_max_prediction(self, prediction):
+        index = 0
+        maxVal = 0
+        for cat, val in enumerate(prediction):
+            if maxVal < val:
+                index = cat
+                maxVal = val
+        return index + 1

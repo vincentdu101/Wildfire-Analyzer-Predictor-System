@@ -174,7 +174,7 @@ def nn_tensorflow_keras_cause_predict():
         params = encoder_service.encode_wildfire_cause_nn_params(params)  
         pdb.set_trace()      
         predictions = model.predict(params, batch_size=1)
-        data["predictions"] = predictions[0]
+        data["predictions"] = encoder_service.get_max_prediction(predictions[0])
         data["success"] = True
     return connection_service.setup_json_response(json.dumps(data))
 
