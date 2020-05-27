@@ -96,7 +96,12 @@ class EncoderService:
         dataset = pd.DataFrame(data=params, columns = self.data_service.cause_nn_params)
         dataset = self.data_service.preprocessData(dataset)
         dataset = self.one_hot_encode(dataset)
-        dataset = self.data_service.add_missing_one_hot_columns(dataset)
+        dataset = self.data_service.add_missing_one_hot_columns(
+            self.data_service.get_general_cols(), dataset
+        )
+        dataset = self.data_service.add_missing_one_hot_columns(
+            self.data_service.get_counties(), dataset
+        )
         dataset = self.norm(dataset)
         dataset = self.check_columns_valid(dataset)
         return dataset

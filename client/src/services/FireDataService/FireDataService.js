@@ -64,6 +64,11 @@ export class FireDataService {
         return axios.post(Config.serverUrl() + "/naive-bayes-wildfire-cause-predict", post);
     }
 
+    static postNeuralNetworkTensorflowKerasCause(post) {
+        post = this.parsePostData(post);
+        return axios.post(Config.serverUrl() + "/neural-network-tensorflow-keras-cause", post);
+    }
+
     static causeOfFirePerCode(code) {
         return causes[parseInt(code.toString())];
     }

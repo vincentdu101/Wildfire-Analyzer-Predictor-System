@@ -49,7 +49,7 @@ export default class PredictorDash extends Component {
             },
             loader: false,
             stateData: StateDataService.statesAndCounties,
-            model: "ANN",
+            model: "Tensorflow/Keras",
             post: {
                 STATE: "CA",
                 FIPS_CODE: "063",
@@ -141,6 +141,8 @@ export default class PredictorDash extends Component {
             return FireDataService.postRandomForestCausePredictionModel(post);
         } else if (model === "Naive Bayes") {
             return FireDataService.postNaiveBayesCausePredictionModel(post)
+        } else if (model === "Tensorflow/Keras") {
+            return FireDataService.postNeuralNetworkTensorflowKerasCause(post);
         }
     }
 
@@ -294,6 +296,7 @@ export default class PredictorDash extends Component {
                                         id="model-select" 
                                         onChange={(event) => this.setState({model: event.target.value})}
                                         value={this.state.model}>
+                                    <option value={"Tensorflow/Keras"}>Neural Network Tensorflow/Keras</option>
                                     <option value={"ANN"}>Artificial Neural Network</option>
                                     <option value={"Random Forest"}>Random Forest</option>
                                     <option value={"Naive Bayes"}>Naive Bayes</option>
