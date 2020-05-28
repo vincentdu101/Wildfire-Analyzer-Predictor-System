@@ -262,8 +262,6 @@ export default class AnalyzerDash extends Component {
         return (
             <div className="no-gutters">
 
-                {this.outputCarousel()}
-
                 <div className="bg-warning jumbotron jumbotron-fluid">
                     <div className="container">
                         <h1 className="display-4">Wildfire Analysis System</h1>
@@ -272,58 +270,6 @@ export default class AnalyzerDash extends Component {
                         </p>
                     </div>
                 </div>
-
-                <div className="row col-xs-12">
-                
-                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
-                        <FiresByStateTable states={this.state.states} />
-                    </div>
-
-                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
-                        <h5 className="title-section">Fires By State</h5>
-
-                        <div className="card-body">
-                            This is a table showcasing the number of fires per state.
-
-                            <ListGroup className="note-section">
-                                <ListGroupItem>California, Georgia, North Carolina, and Texas had the most wildfires.</ListGroupItem>
-                                <ListGroupItem>Washington DC, Delaware, Vermont, and Rhode Island had the lowest wildfires.</ListGroupItem>
-                                <ListGroupItem>California had the most wildfires of any state.</ListGroupItem>
-                            </ListGroup>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div className="row col-xs-12">
-
-                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
-                        <h5 className="title-section">Cause of Fires</h5>
-
-                        <div className="card-body">
-                            The pie chart showcases the different causes of fires and 
-                            their number count.
-
-                            <ListGroup className="note-section">
-                                <ListGroupItem>Debris Burning was the largest cause of wildfires.</ListGroupItem>
-                                <ListGroupItem>The structure burning accounted for the least cause.</ListGroupItem>
-                                <ListGroupItem>Over 160,000 fires are still unknown as to their cause.</ListGroupItem>
-                            </ListGroup>
-                        </div>
-                    </div>
-
-                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
-                        <PieChart arcs={this.state.causes} />
-                    </div>
-
-                </div>
-
-                <div className="bg-warning jumbotron jumbotron-fluid">
-                    <div className="container">
-                        <h1 className="display-4">Fire Mapping Search</h1>
-                        <p className="lead">Filter based on the different categories to visualize the fires.</p>
-                    </div>
-                </div>         
 
                 <div className="container fires-map-search-form">
                 
@@ -410,7 +356,52 @@ export default class AnalyzerDash extends Component {
                                         loader={this.state.filterLoading} />
                         </section>
                     </div>
-                </div>     
+                </div>                    
+
+                <div className="row col-xs-12">
+                
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
+                        <FiresByStateTable states={this.state.states} />
+                    </div>
+
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
+                        <h5 className="title-section">Fires By State</h5>
+
+                        <div className="card-body">
+                            This is a table showcasing the number of fires per state.
+
+                            <ListGroup className="note-section">
+                                <ListGroupItem>California, Georgia, North Carolina, and Texas had the most wildfires.</ListGroupItem>
+                                <ListGroupItem>Washington DC, Delaware, Vermont, and Rhode Island had the lowest wildfires.</ListGroupItem>
+                                <ListGroupItem>California had the most wildfires of any state.</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="row col-xs-12">
+
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
+                        <h5 className="title-section">Cause of Fires</h5>
+
+                        <div className="card-body">
+                            The pie chart showcases the different causes of fires and 
+                            their number count.
+
+                            <ListGroup className="note-section">
+                                <ListGroupItem>Debris Burning was the largest cause of wildfires.</ListGroupItem>
+                                <ListGroupItem>The structure burning accounted for the least cause.</ListGroupItem>
+                                <ListGroupItem>Over 160,000 fires are still unknown as to their cause.</ListGroupItem>
+                            </ListGroup>
+                        </div>
+                    </div>
+
+                    <div className="bg-light card col-xs-12 col-sm-6 top-section-card">
+                        <PieChart arcs={this.state.causes} />
+                    </div>
+
+                </div>        
 
                 <div className="bg-light card col-xs-12">
                     <div className="card-body">
@@ -421,7 +412,7 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="bg-warning jumbotron jumbotron-fluid">
+                <div className="bg-warning container-fluid">
                     <div className="container">
                         <h1 className="display-4">Number of Fires Per Year</h1>
                         <p className="lead">Horizontal bar chart to showcase how many wildfires per each year.</p>
@@ -437,7 +428,7 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="bg-warning jumbotron jumbotron-fluid">
+                <div className="bg-warning container-fluid">
                     <div className="container">
                         <h1 className="display-4">Counties with Most/Least Fires</h1>
                         <p className="lead">Various statistics to visualize the various aspects of county wildfires.</p>

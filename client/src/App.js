@@ -15,27 +15,27 @@ export default class App extends Component {
     render() {
         return (
             <Router>
-                <div className="App no-gutters">
-                    <nav className="bg-danger navbar navbar-expand-sm fixed-top"
-                        style={{color: "white"}}>
-                        <a className="navbar-brand">Wildfire Analytic Dashboard</a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
+                <div className="App no-gutters container-fluid">
+                    <div class="row">
+                        <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block sidebar collapse"
+                            style={{color: "white"}}>
+                                <div class="sidebar-sticky pt-3">
+                                    
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <Link style={{color: "white"}} to="/">Analytic Dashboard</Link>
+                                        </li>
+                                        <li class="nav-item">
+                                        <Link style={{color: "white"}} to="/predictor/">Prediction Dashboard</Link>
+                                        </li>
+                                    </ul>
 
-                        <div className="navbar-collapse">
-                            <ul className="navbar-nav mr-auto">
-                                <li className="nav-item nav-link active">
-                                    <Link style={{color: "white"}} to="/">Analytic Dashboard</Link>
-                                </li>
-                                <li className="nav-item nav-link active">
-                                    <Link style={{color: "white"}} to="/predictor/">Prediction Dashboard</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-
-                    <Main />
+                                </div>
+                        </nav>
+                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                            <Main />
+                        </main>
+                    </div>
 
                     <div className="bg-danger footer">
                         
