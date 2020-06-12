@@ -23,3 +23,24 @@
 .carousel {
     margin-top: 30px;
 }
+
+.title-theme {
+    background-color: #2C3531 !important;
+    color: white;
+}
+
+.interactive-theme {
+    background-color: #D9B08C !important;
+}
+
+.beige-theme {
+    background-color: #D1E8E2 !important;
+}
+
+.card-theme {
+    background-color: white !important;
+}
+
+.row {
+    margin-bottom: 20px;
+}
