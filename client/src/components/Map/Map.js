@@ -7,7 +7,7 @@ import Loader from "react-loader-spinner";
 
 export default class Map extends React.Component {
 
-    width = 960;
+    width = window.innerWidth / 2;
     height = 500;
 
     constructor(props) {
@@ -23,12 +23,14 @@ export default class Map extends React.Component {
         this.circleOnHoverExit = this.circleOnHoverExit.bind(this);
         this.determineGPSLocation = this.determineGPSLocation.bind(this);
         this.outputMap = this.outputMap.bind(this);
+        this.updateSelectedFire = this.updateSelectedFire.bind(this);
         
         this.state = {
             maps: null,
             circles: [],
             focusedPoint: null,
-            loader: true
+            loader: true,
+            selectedFire: null
         };
     }
 
@@ -37,6 +39,13 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate() {
+        this.updateSelectedFire();
+    }
+
+    updateSelectedFire() {
+        if (!!this.props.selectedFire) {
+            this.state.selectedFire = this.props.selectedFire;
+        }
     }
 
     determineGPSLocation() {
@@ -79,6 +88,26 @@ export default class Map extends React.Component {
         }
     }
 
+    outputSelectedFireTable() {
+        if (!!this.state.selectedFire) {
+            return (
+                <table className="table">
+                    <tbody>
+                        <tr><td>Fire Code: </td><td>{this.state.selectedFire.FIPS_CODE}</td></tr>
+                        <tr><td>Fire Class Size: </td><td>{this.state.selectedFire.FIRE_SIZE_CLASS}</td></tr>
+                        <tr><td>Fire Cause: </td><td>{this.state.selectedFire.STAT_CAUSE_DESCR}</td></tr>
+                        <tr><td>State: </td><td>{this.state.selectedFire.STATE}</td></tr>
+                        <tr><td>County: </td><td>{this.state.selectedFire.COUNTY}</td></tr>
+                    </tbody>
+                </table>
+            );
+        } else {
+            return (
+                <div>Test</div>
+            );
+        }
+    }
+
     outputMap(path) {
         if (this.state.loader) {
             return (
@@ -87,12 +116,12 @@ export default class Map extends React.Component {
         } else {
             return (
                 <div className="row">
-                    <div className="col-xs-8">
+                    <div className="col-xs-12 col-md-8">
                         <div className="map-container">
                             <svg
                                 className={`map US`}
                                 xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 960 600"
+                                viewBox={`0 0 ${this.width} 600`}
                                 width={this.width}
                                 height={this.height}
                             >
@@ -100,6 +129,11 @@ export default class Map extends React.Component {
                                 {this.generateCircles()}
                                 {this.generateFocusedPoint()}
                             </svg>
+                        </div>
+                    </div>
+                    <div className="col-xs-12 col-md-4">
+                        <div className="card">
+                            {this.outputSelectedFireTable()}
                         </div>
                     </div>
                 </div>
@@ -193,8 +227,6 @@ export default class Map extends React.Component {
                                 cy={locations[1]}
                                 opacity={0.75}
                                 onClick={this.circleOnClick}
-                                onMouseOver={this.circleOnHover}
-                                onMouseOut={this.circleOnHoverExit}
                             />
                         </g>
 
@@ -265,7 +297,7 @@ export default class Map extends React.Component {
     }
 
     projection() {
-        return d3.geoAlbersUsa().translate([ 960 / 2, 600 / 2 ]);
+        return d3.geoAlbersUsa().translate([ 300, 600 / 2 ]);
     }
 
     render() {

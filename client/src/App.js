@@ -16,80 +16,80 @@ export default class App extends Component {
         return (
             <Router>
                 <div className="App no-gutters container-fluid">
-                    <div class="row">
+                    <div className="row">
                         <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block sidebar collapse"
                             style={{color: "white"}}>
-                                <div class="sidebar-sticky pt-3">
+                                <div className="sidebar-sticky pt-3">
                                     
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
+                                    <ul className="nav flex-column">
+                                        <li className="nav-item">
                                             <Link style={{color: "white"}} to="/">Analytic Dashboard</Link>
                                         </li>
-                                        <li class="nav-item">
+                                        <li className="nav-item">
                                         <Link style={{color: "white"}} to="/predictor/">Prediction Dashboard</Link>
                                         </li>
                                     </ul>
 
                                 </div>
                         </nav>
-                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                             <Main />
                         </main>
-                    </div>
 
-                    <div className="bg-danger footer">
-                        
-                        <div className="row">
-                            <div className="col-xs-12 col-lg-8 card">
+                        <div className="col-md-9 ml-sm-auto col-lg-10 px-md-4 title-theme footer">
+                            
+                            <div className="row">
+                                <div className="col-xs-12 col-lg-8">
 
-                                <div className="footer-profile">
+                                    <div className="title-theme footer-profile">
 
-                                    <div class="row footer-profile-row">
+                                        <div className="row footer-profile-row">
 
-                                        <div class="col-md-12 col-lg-4">
-                                            <img    class="footer-profile-image"
-                                                    src="https://media.licdn.com/dms/image/C5603AQF_MXglOGJ2cA/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=YgOhFXXgt4xNYSo9cnOHAYBURAwJX6a-Y1CHqnalJ_o" />
-                                        </div>
-
-                                        <div class="col-md-12 col-lg-8">
-                                            <h2>Vincent Du</h2>
-                                            <h5>Senior Software Engineer</h5>
-                                            <div className="footer-autobio">
-                                                Passionate engineer with full stack experience and looking to apply 
-                                                skills to develop new AI, machine learning, and full stack systems.
-                                                Passionate engineer with full stack experience and looking to apply 
-                                                skills to develop new AI, machine learning, and full stack systems.
-                                                Passionate engineer with full stack experience and looking to apply 
-                                                skills to develop new AI, machine learning, and full stack systems.                                                                                
+                                            <div className="col-md-12 col-lg-4">
+                                                <img    className="footer-profile-image"
+                                                        src="https://media.licdn.com/dms/image/C5603AQF_MXglOGJ2cA/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=YgOhFXXgt4xNYSo9cnOHAYBURAwJX6a-Y1CHqnalJ_o" />
                                             </div>
+
+                                            <div className="col-md-12 col-lg-8">
+                                                <h2>Vincent Du</h2>
+                                                <h5>Senior Software Engineer</h5>
+                                                <div className="footer-autobio">
+                                                    Passionate engineer with full stack experience and looking to apply 
+                                                    skills to develop new AI, machine learning, and full stack systems.
+                                                    Passionate engineer with full stack experience and looking to apply 
+                                                    skills to develop new AI, machine learning, and full stack systems.
+                                                    Passionate engineer with full stack experience and looking to apply 
+                                                    skills to develop new AI, machine learning, and full stack systems.                                                                                
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div className="footer-btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" className="btn btn-primary">LinkedIn</button>
+                                            <button type="button" className="btn btn-secondary">GitHub</button>
+                                            <button type="button" className="btn btn-success">Website</button>
                                         </div>
 
                                     </div>
-
-                                    <div class="footer-btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-primary">LinkedIn</button>
-                                        <button type="button" class="btn btn-secondary">GitHub</button>
-                                        <button type="button" class="btn btn-success">Website</button>
-                                    </div>
-
                                 </div>
+
+                                <div className="title-theme footer-links-section col-xs-12 col-lg-4">
+
+                                    <h6 className="footer-tech-title">Technologies/Frameworks/Tools Used</h6>
+                                    <ListGroup>
+                                        <ListGroupItem>Python</ListGroupItem>
+                                        <ListGroupItem>Javascript</ListGroupItem>
+                                        <ListGroupItem>Flask</ListGroupItem>
+                                        <ListGroupItem>React</ListGroupItem>
+                                        <ListGroupItem>Keras</ListGroupItem>
+                                        <ListGroupItem>Scikit-Learn</ListGroupItem>
+                                        <ListGroupItem>Tensorflow</ListGroupItem>
+                                    </ListGroup>
+                                </div>                            
                             </div>
 
-                            <div className="bg-danger footer-links-section col-xs-12 col-lg-4">
-
-                                <h6 class="footer-tech-title">Technologies/Frameworks/Tools Used</h6>
-                                <ListGroup>
-                                    <ListGroupItem>Python</ListGroupItem>
-                                    <ListGroupItem>Javascript</ListGroupItem>
-                                    <ListGroupItem>Flask</ListGroupItem>
-                                    <ListGroupItem>React</ListGroupItem>
-                                    <ListGroupItem>Keras</ListGroupItem>
-                                    <ListGroupItem>Scikit-Learn</ListGroupItem>
-                                    <ListGroupItem>Tensorflow</ListGroupItem>
-                                </ListGroup>
-                            </div>                            
                         </div>
-
                     </div>
                 </div>
             </Router>

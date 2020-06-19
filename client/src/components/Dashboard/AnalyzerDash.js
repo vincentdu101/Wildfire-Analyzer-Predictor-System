@@ -337,9 +337,8 @@ export default class AnalyzerDash extends Component {
                             <Map maps={this.state.maps} 
                                 circles={this.state.fires}
                                 circleOnClick={this.fireSelected}
-                                circleOnHover={this.fireHovered}
-                                circleHoverExit={this.fireHoverExit}
-                                loader={this.state.filterLoading} />
+                                loader={this.state.filterLoading}
+                                selectedFire={this.state.selectedFire} />
 
                             <CircleTooltip  x={this.state.tooltipX}
                                             y={this.state.tooltipY}
@@ -447,8 +446,8 @@ export default class AnalyzerDash extends Component {
                 
                 </div>
 
-                <FireModal  active={this.state.fireModal}
-                            fire={this.state.selectedFire} />
+                {/* <FireModal  active={this.state.fireModal}
+                            fire={this.state.selectedFire} /> */}
 
             </div>
         );
