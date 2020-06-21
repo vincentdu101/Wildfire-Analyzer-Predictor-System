@@ -1,3 +1,7 @@
 .map-container {    
     min-height: 600px;
 }
+
+.table {
+    text-align: left;
+}

@@ -7,8 +7,16 @@ import Loader from "react-loader-spinner";
 
 export default class Map extends React.Component {
 
-    width = window.innerWidth / 2;
+    width = 100;
     height = 500;
+    focusedCircleColor = "red"
+    activeCircleColor = "steelblue";
+    mapLargeView = "col-lg-12 col-xl-8";
+    mapSmallView = "col-xs-12";
+    tableLargeView = "col-lg-12 col-xl-4";
+    tableSmallView = "col-xs-12";
+    currentMapView = this.mapLargeView;
+    currentTableView = this.tableLargeView;
 
     constructor(props) {
         super(props);
@@ -24,13 +32,35 @@ export default class Map extends React.Component {
         this.determineGPSLocation = this.determineGPSLocation.bind(this);
         this.outputMap = this.outputMap.bind(this);
         this.updateSelectedFire = this.updateSelectedFire.bind(this);
-        
+        this.updateMapSize = this.updateMapSize.bind(this);
+        this.updateLayoutSize = this.updateLayoutSize.bind(this);
+
         this.state = {
             maps: null,
             circles: [],
             focusedPoint: null,
             loader: true,
             selectedFire: null
+        };
+    }
+
+    updateMapSize() {
+        let container = document.getElementById("map-container");
+        this.width = container.offsetWidth;
+    }
+
+    update
+
+    updateLayoutSize() {
+        window.onresize = () => {
+            console.log("test");
+            if (window.innerWidth > 1435) {
+                this.currentMapView = this.mapSmallView;
+                this.currentTableView = this.tableSmallView;
+            } else {
+                this.currentMapView = this.mapLargeView;
+                this.currentTableView = this.tableLargeView;
+            }
         };
     }
 
@@ -58,16 +88,20 @@ export default class Map extends React.Component {
     }
 
     circleOnHover(event) {
-        let output = {
-            x: event.pageX,
-            y: event.pageY,
-            target: event.target
-        }
-        this.props.circleOnHover(output);
+        // let output = {
+        //     x: event.pageX,
+        //     y: event.pageY,
+        //     target: event.target
+        // }
+        // this.props.circleOnHover(output);
+        event.target.style.fill = this.focusedCircleColor;
+        let targetIndex = parseInt(event.target.dataset.index);
+        this.props.circleOnClick(this.props.circles[targetIndex]);
     }
 
-    circleOnHoverExit() {
-        this.props.circleHoverExit();
+    circleOnHoverExit(event) {
+        // this.props.circleHoverExit();
+        event.target.style.fill = this.activeCircleColor;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -90,9 +124,11 @@ export default class Map extends React.Component {
 
     outputSelectedFireTable() {
         if (!!this.state.selectedFire) {
+            console.log(this.state.selectedFire);
             return (
                 <table className="table">
                     <tbody>
+                        <tr><td>FPA_ID: </td><td>{this.state.selectedFire.FPA_ID}</td></tr>
                         <tr><td>Fire Code: </td><td>{this.state.selectedFire.FIPS_CODE}</td></tr>
                         <tr><td>Fire Class Size: </td><td>{this.state.selectedFire.FIRE_SIZE_CLASS}</td></tr>
                         <tr><td>Fire Cause: </td><td>{this.state.selectedFire.STAT_CAUSE_DESCR}</td></tr>
@@ -114,9 +150,11 @@ export default class Map extends React.Component {
                 <Loader type="ThreeDots" color="#00BFFF" height="500" width="500" />
             );
         } else {
+            this.updateMapSize();
+            this.updateLayoutSize();
             return (
                 <div className="row">
-                    <div className="col-xs-12 col-md-8">
+                    <div className={`${this.currentMapView}`}>
                         <div className="map-container">
                             <svg
                                 className={`map US`}
@@ -131,7 +169,7 @@ export default class Map extends React.Component {
                             </svg>
                         </div>
                     </div>
-                    <div className="col-xs-12 col-md-4">
+                    <div className={`${this.currentTableView}`}>
                         <div className="card">
                             {this.outputSelectedFireTable()}
                         </div>
@@ -154,7 +192,7 @@ export default class Map extends React.Component {
             // https://d3indepth.com/geographic/
             // use invert method to reverse convert coordinates to gps locations
 
-            const fill = "steelblue";
+            const fill = this.activeCircleColor;
             const projection = this.projection();
             let locations;
             if (!this.state.focusedPoint[0] || !this.state.focusedPoint[1]) {
@@ -202,7 +240,7 @@ export default class Map extends React.Component {
             // use invert method to reverse convert coordinates to gps locations
 
             return this.props.circles.map((feature, i) => {
-                const fill = "steelblue";
+                const fill = this.activeCircleColor;
                 const projection = this.projection();
                 const locations = projection([feature.LONGITUDE, feature.LATITUDE]);
                 
@@ -227,6 +265,8 @@ export default class Map extends React.Component {
                                 cy={locations[1]}
                                 opacity={0.75}
                                 onClick={this.circleOnClick}
+                                onMouseOver={this.circleOnHover}
+                                onMouseOut={this.circleOnHoverExit}
                             />
                         </g>
 
@@ -304,7 +344,7 @@ export default class Map extends React.Component {
         const path = d3.geoPath().projection(this.projection());
 
         return (
-            <div className="container">
+            <div id="map-container" className="container">
                 {this.outputMap(path)}
             </div>
         );

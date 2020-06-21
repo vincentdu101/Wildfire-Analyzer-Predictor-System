@@ -44,3 +44,7 @@
 .row {
     margin-bottom: 20px;
 }
+
+.states-circle {
+    cursor: pointer;
+}
