@@ -2,6 +2,7 @@ import * as React from "react";
 import { Table } from "reactstrap";
 import { DateService } from "../../services/DateService/DateService";
 import Loader from "react-loader-spinner";
+import "./FireTable.css";
  
 export default class FiresTable extends React.Component {
 
@@ -109,7 +110,7 @@ export default class FiresTable extends React.Component {
 
     render() {
         return (
-            <section className="fire-table">
+            <section class="fire-table">
                 {this.outputTable()}
             </section>
         );

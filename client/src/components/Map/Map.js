@@ -49,8 +49,6 @@ export default class Map extends React.Component {
         this.width = container.offsetWidth;
     }
 
-    update
-
     updateLayoutSize() {
         window.onresize = () => {
             console.log("test");

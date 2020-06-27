@@ -1,5 +1,10 @@
-.fire-table {
-    max-height: 450px;
-    overflow-y: scroll;
-    padding: 10px;
+tbody {
+    display:block;
+    height:350px;
+    overflow:auto;
+}
+thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
 }

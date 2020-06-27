@@ -46,7 +46,7 @@ export default class FiresByStateTable extends React.Component {
             );
         } else {
             return (
-                <Table className="table-bordered">
+                <Table className="table-bordered table-fixed">
                     <thead>
                         <tr>
                             <th scope="col">State</th>
@@ -63,7 +63,7 @@ export default class FiresByStateTable extends React.Component {
 
     render() {
         return (
-            <section className="fire-table">
+            <section>
                 {this.outputTable()}
             </section>
         );
