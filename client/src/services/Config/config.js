@@ -1,7 +1,7 @@
 export default class Config {
 
     static serverUrl() {
-        return "http://localhost:5000";
+        return "https://vincentdu101.com/wildfire-server";
     }
 
     static imageUrl() {

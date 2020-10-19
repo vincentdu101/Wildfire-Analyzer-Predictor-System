@@ -331,8 +331,8 @@ export default class AnalyzerDash extends Component {
                 
                 </div>       
 
-                <div className="row beige-theme card col-xs-12">
-                    <div className="card-body">
+                <div className="row beige-theme card-exp col-xs-12">
+                    <div className="card-body-z">
                         <section className="map-area">
                             <Map maps={this.state.maps} 
                                 circles={this.state.fires}
@@ -348,26 +348,24 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>
 
-                <div className="row card-theme card col-xs-12">
-                    <div className="card-body">
-                        <section className="fires-table">
+                <div className="row card-theme card-exp col-xs-12">
+                    <div className="card-body-z">
                             <FiresTable fires={this.state.fires}
                                         loader={this.state.filterLoading} />
-                        </section>
                     </div>
                 </div>                    
 
                 <div className="row col-xs-12">
                 
-                    <div className="card-theme card col-xs-12 col-sm-6 top-section-card">
+                    <div className="card-theme card-exp col-xs-12 col-sm-6 top-section-card">
                         <FiresByStateTable states={this.state.states} />
                     </div>
 
-                    <div className="card-theme card col-xs-12 col-sm-6 top-section-card">
+                    <div className="card-theme card-exp col-xs-12 col-sm-6 top-section-card">
                         <h5 className="title-section">Fires By State</h5>
 
-                        <div className="card-body">
-                            This is a table showcasing the number of fires per state.
+                        <div className="card-body-z">
+                            <h5>This is a table showcasing the number of fires per state.</h5>
 
                             <ListGroup className="note-section">
                                 <ListGroupItem>California, Georgia, North Carolina, and Texas had the most wildfires.</ListGroupItem>
@@ -381,10 +379,10 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
 
-                    <div className="card-theme card col-xs-12 col-sm-6 top-section-card">
+                    <div className="card-theme card-exp col-xs-12 col-sm-6 top-section-card">
                         <h5 className="title-section">Cause of Fires</h5>
 
-                        <div className="card-body">
+                        <div className="card-body-z">
                             The pie chart showcases the different causes of fires and 
                             their number count.
 
@@ -396,14 +394,14 @@ export default class AnalyzerDash extends Component {
                         </div>
                     </div>
 
-                    <div className="beige-theme card col-xs-12 col-sm-6 top-section-card">
+                    <div className="beige-theme card-exp col-xs-12 col-sm-6 top-section-card">
                         <PieChart arcs={this.state.causes} />
                     </div>
 
                 </div>        
 
-                <div className="row beige-theme card col-xs-12">
-                    <div className="card-body">
+                <div className="row beige-theme card-exp col-xs-12">
+                    <div className="card-body-z">
                         <section className="fires-line-chart">
                             <ScatterPlot    points={this.parsedScatterPlotData(this.state.fires)}
                                             loader={this.state.filterLoading} />
@@ -418,8 +416,8 @@ export default class AnalyzerDash extends Component {
                     </div>
                 </div>                 
 
-                <div className="row beige-theme card col-xs-12">
-                    <div className="card-body">
+                <div className="row beige-theme card-exp col-xs-12">
+                    <div className="card-body-z">
                         <section className="fires-line-chart">
                             <BarChart   data={this.state.firesByYears} 
                                         loader={this.state.filterLoading} />
@@ -436,11 +434,11 @@ export default class AnalyzerDash extends Component {
 
                 <div className="row col-xs-12">
 
-                    <div className="card-theme card col-xs-12 col-sm-6">
+                    <div className="card-theme card-exp col-xs-12 col-sm-6">
                         <CountiesCountTable counties={this.state.mostCounties} />
                     </div>
 
-                    <div className="card-theme card col-xs-12 col-sm-6">
+                    <div className="card-theme card-exp col-xs-12 col-sm-6">
                         <CountiesCountTable counties={this.state.leastCounties} />
                     </div>
                 

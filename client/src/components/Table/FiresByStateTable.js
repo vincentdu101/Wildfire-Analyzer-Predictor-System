@@ -47,7 +47,7 @@ export default class FiresByStateTable extends React.Component {
         } else {
             return (
                 <Table className="table-bordered table-fixed">
-                    <thead>
+                    <thead class>
                         <tr>
                             <th scope="col">State</th>
                             <th scope="col">Number of Fires</th>

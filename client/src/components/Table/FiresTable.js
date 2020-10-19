@@ -86,7 +86,7 @@ export default class FiresTable extends React.Component {
         } else {
             return (
                 <Table className="table-bordered">
-                    <thead>
+                    <thead className="white-background-theme">
                         <tr>
                             <th scope="col">Fire Code</th>
                             <th scope="col">Fire Name</th>
@@ -100,7 +100,7 @@ export default class FiresTable extends React.Component {
                             <th scope="col">Fire Size</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="transparent-theme">
                         {this.outputFireRow(this.state.fires)}
                     </tbody>
                 </Table>

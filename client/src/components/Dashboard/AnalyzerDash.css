@@ -1,3 +1,7 @@
+.card-body {
+    padding: 0px;
+}
+
 .top-section-card {
     height: 450px;
     padding: 10px;
@@ -14,6 +18,7 @@
 
 .title-section {
     margin-top: 25px;
+    color: white;
 }
 
 .fires-map-search-form {
@@ -37,8 +42,18 @@
     background-color: #D1E8E2 !important;
 }
 
-.card-theme {
-    background-color: white !important;
+.card-exp {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: none;
+    background-clip: border-box;
+    border: none;
+    border-radius: .25rem;
 }
 
 .row {
@@ -47,4 +62,12 @@
 
 .states-circle {
     cursor: pointer;
+}
+
+thead {
+    background: white;
+}
+
+tbody {
+    color: white;
 }
