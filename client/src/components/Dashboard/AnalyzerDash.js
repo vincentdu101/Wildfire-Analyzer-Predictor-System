@@ -12,6 +12,7 @@ import Config from "../../services/Config/config";
 import { MapService } from "../../services/MapService/MapService";
 import { DateService } from "../../services/DateService/DateService";
 import { FireDataService } from "../../services/FireDataService/FireDataService";
+import Select from "react-select";
 import * as JulianDate from "julian-date";
 import * as julianParse from "julian";
 import * as slideShow from "../../data/home-slideshow.json";
@@ -234,11 +235,11 @@ export default class AnalyzerDash extends Component {
     }
 
     outputOptionInput(list) {
-        return list.map((item, index) => {
-            return (
-                <option value={item} key={item+index}>{item}</option> 
-            );
+        let output = [];
+        list.forEach((item) => {
+            output.push({value: item, label: item});
         });
+        return output;
     }
 
     inputFieldChanged(key, value) {
@@ -249,6 +250,10 @@ export default class AnalyzerDash extends Component {
             param[key] = value;
         }
         this.setState({fireParams: param});
+    }
+
+    outputOptionValue(value) {
+        return {value: value, label: value};
     }
 
     getFiresSearch() {
@@ -275,18 +280,21 @@ export default class AnalyzerDash extends Component {
                 
                     <div className="row">
                         <div className="col-xs-12 col-sm-2">
-                            <Input  type="select" 
+                            {/* <Input  type="select" 
                                     name="fire-size-class" 
                                     id="fire-size-class-select" 
                                     onChange={(event) => this.inputFieldChanged("year", event.target.value)}
                                     value={this.state.fireParams.year}>
                                 <option value="">Select a Year</option>
                                 {this.outputOptionInput(DateService.getWildfireYears())}
-                            </Input>
+                            </Input> */}
+                            <Select options={this.outputOptionInput(DateService.getWildfireYears())} 
+                                    onChange={(event) => this.inputFieldChanged("year", event.value) }
+                                    value={this.outputOptionValue(this.state.fireParams.year)} />
                         </div>
 
                         <div className="col-xs-12 col-sm-2">
-                            <Input  type="select" 
+                            {/* <Input  type="select" 
                                     name="fire-size-class" 
                                     id="fire-size-class-select" 
                                     onChange={(event) => this.inputFieldChanged("size", event.target.value)}
@@ -298,30 +306,39 @@ export default class AnalyzerDash extends Component {
                                 <option value={"D"}>D</option>
                                 <option value={"E"}>E</option>
                                 <option value={"F"}>F</option>
-                                <option value={"G"}>G</option>
-                            </Input>
+                                <option value={"G"}>G</option> */}
+                                <Select options={FireDataService.firesSizeCategories()} 
+                                    onChange={(event) => this.inputFieldChanged("size", event.value)}
+                                    value={this.outputOptionValue(this.state.fireParams.size)} />
+                            {/* </Input> */}
                         </div>
 
                         <div className="col-xs-12 col-sm-2">
-                            <Input  type="select" 
+                            {/* <Input  type="select" 
                                     name="fire-size-class" 
                                     id="fire-size-class-select" 
                                     onChange={(event) => this.inputFieldChanged("cause", event.target.value)}
                                     value={this.state.fireParams.cause}>
                                 <option value="">Select a Fire Cause</option>
                                 {this.outputOptionInput(FireDataService.getCausesList())}
-                            </Input>
+                            </Input> */}
+                            <Select options={this.outputOptionInput(FireDataService.getCausesList())} 
+                                    onChange={(event) => this.inputFieldChanged("cause", event.value)}
+                                    value={this.outputOptionValue(this.state.fireParams.cause)} />                          
                         </div>
 
                         <div className="col-xs-12 col-sm-2">
-                            <Input  type="select" 
+                            {/* <Input  type="select" 
                                     name="fire-size-class" 
                                     id="fire-size-class-select" 
                                     onChange={(event) => this.inputFieldChanged("state", event.target.value)}
                                     value={this.state.fireParams.state}>
                                 <option value="">Select a State</option>
                                 {StateDataService.outputStateValues(this.state.stateData)}
-                            </Input>
+                            </Input> */}
+                            <Select options={StateDataService.outputStateValues(this.state.stateData)} 
+                                    onChange={(event) => this.inputFieldChanged("state", event.value)}
+                                    value={this.outputOptionValue(this.state.fireParams.state)} />                             
                         </div>
 
                         <div className="col-xs-12 col-sm-2">

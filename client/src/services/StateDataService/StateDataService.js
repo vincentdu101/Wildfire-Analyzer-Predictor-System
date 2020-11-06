@@ -32,17 +32,13 @@ export class StateDataService {
     static outputStateValues(data) {
         if (!!data) {
             let states = Object.keys(data).sort();
-            return states.map((row, index) => {
-                if (Object.keys(data[row]).length > 0) {
-                    return (
-                        <option value={row} key={row + index}>{row}</option>
-                    );
-                }
+            let output = [];
+            states.forEach((state) => {
+                output.push({value: state, label: state});
             });
+            return output;
         } else {
-            return (
-                <option key="">test</option>
-            );
+            return []
         }
     }
 

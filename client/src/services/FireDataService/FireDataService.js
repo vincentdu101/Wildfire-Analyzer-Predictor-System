@@ -21,6 +21,18 @@ export class FireDataService {
         return query.slice(0, query.length - 1);
     }
 
+    static firesSizeCategories() {
+        return [
+            {value: "A", label: "A"},
+            {value: "B", label: "B"},
+            {value: "C", label: "C"},
+            {value: "D", label: "D"},
+            {value: "E", label: "E"},
+            {value: "F", label: "F"},
+            {value: "G", label: "G"},
+        ]
+    }
+
     static getFiresData(params = {}) {
         return axios.get(Config.serverUrl() + "/fires" + this.generateQueryParams(params));
     }
